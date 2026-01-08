@@ -1,9 +1,7 @@
 export default function Home() {
   return (
     <div className="container">
-      <main>
-        AuthPage
-      </main>
+      <main>AuthPage</main>
     </div>
   );
 }
