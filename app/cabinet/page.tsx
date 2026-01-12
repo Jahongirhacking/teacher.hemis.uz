@@ -1,7 +1,12 @@
-import React from "react";
+import UnderDevelopment from "@/components/shared/UnderDevelopment";
 
 const Page = async () => {
-  return <div>Page</div>;
+  return (
+    <div>
+      Dashboard sahifasi
+      <UnderDevelopment />
+    </div>
+  );
 };
 
 export default Page;

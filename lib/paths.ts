@@ -1,8 +1,10 @@
+const privatePath = "/cabinet";
+
 export const paths = {
   base: "/",
   private: {
-    dashboard: "/cabinet",
-    subjects: "/subjects",
+    dashboard: `${privatePath}`,
+    subjects: `${privatePath}/subjects`,
   },
 };
 
