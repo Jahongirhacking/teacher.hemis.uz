@@ -1,17 +1,19 @@
-import React from "react";
-import Logo from "./_components/aside/Logo";
-import {} from "@heroicons/react/24/outline";
+import { CountBadge } from "@/components/shared/CountBadge";
+import { Button } from "@/components/ui/button";
 import {
   DarkThemeIcon,
   FolderRefreshIcon,
   MailIcon,
   NavbarSidePanelIcon,
 } from "@/public/icons";
-import { Button } from "@/components/ui/button";
-import { SearchInput } from "./_components/SearchInput";
-import { CountBadge } from "@/components/shared/CountBadge";
-import { SideNav } from "@/components/shared/SideNav";
+import {} from "@heroicons/react/24/outline";
+import { ChevronDown } from "lucide-react";
+import React from "react";
+import Logo from "./_components/aside/Logo";
 import Menu from "./_components/aside/Menu";
+import ProfileMenu from "./_components/header/ProfileMenu";
+import ProfileAvatar from "./_components/ProfileAvatar";
+import { SearchInput } from "./_components/SearchInput";
 
 const CabinetLayout = ({
   children,
@@ -31,17 +33,25 @@ const CabinetLayout = ({
         <header className="py-3 px-4 h-[64px] bg-[var(--header-primary)] border-b flex items-center justify-between">
           <SearchInput />
           <div className="flex gap-4">
-            <Button className="rounded-full" variant={"ghost"}>
+            <Button className="rounded-full h-[40px]" variant={"ghost"}>
               <DarkThemeIcon />
             </Button>
-            <Button className="rounded-full" variant={"ghost"}>
+            <Button className="rounded-full h-[40px]" variant={"ghost"}>
               <FolderRefreshIcon />
             </Button>
-            <Button className="rounded-full" variant={"ghost"}>
+            <Button className="rounded-full h-[40px]" variant={"ghost"}>
               <CountBadge count={3} size="small">
                 <MailIcon />
               </CountBadge>
             </Button>
+            <ProfileMenu>
+              <Button variant={"ghost"} className="h-[40px] p-1 rounded-full">
+                <div className="flex gap-1 items-center">
+                  <ProfileAvatar className="h-[32px] w-[32px]" />
+                  <ChevronDown />
+                </div>
+              </Button>
+            </ProfileMenu>
           </div>
         </header>
         <section className="flex-1 py-5 px-4 pb-7 max-h-[calc(100dvh-64px)] overflow-y-auto">

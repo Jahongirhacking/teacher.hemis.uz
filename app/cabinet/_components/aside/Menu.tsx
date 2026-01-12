@@ -4,9 +4,9 @@ import { SideNav } from "@/components/shared/SideNav";
 import useConst from "@/lib/hooks/useConst";
 
 const Menu = ({ className }: { className?: string }) => {
-  const { sideNavMenus } = useConst();
+  const { sideNavMenuItems } = useConst();
 
-  return <SideNav menu={sideNavMenus} {...{ className }} />;
+  return <SideNav menu={sideNavMenuItems} {...{ className }} />;
 };
 
 export default Menu;

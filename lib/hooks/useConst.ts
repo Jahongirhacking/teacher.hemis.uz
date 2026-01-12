@@ -1,6 +1,6 @@
+import { ProfileMenuIcons, SideNavIcons } from "@/public/icons";
 import { JSX } from "react";
 import paths from "../paths";
-import { SideNavIcons } from "@/public/icons";
 
 interface IMenu {
   label: string;
@@ -11,7 +11,7 @@ interface IMenu {
 }
 
 const useConst = () => {
-  const sideNavMenus: IMenu[] = [
+  const sideNavMenuItems: IMenu[] = [
     {
       label: "Dashboard",
       href: paths.private.dashboard,
@@ -54,8 +54,48 @@ const useConst = () => {
     },
   ];
 
+  const profileMenuItems: IMenu[] = [
+    {
+      label: "Profil",
+      icon: ProfileMenuIcons.ProfileIcon,
+    },
+    {
+      label: "Passport ma'lumotlari",
+      icon: ProfileMenuIcons.PassportInfoIcon,
+    },
+    {
+      label: "Mehnat ma'lumotlari",
+      icon: ProfileMenuIcons.ProfessionInfoIcon,
+    },
+    {
+      label: "Ilmiy ma'lumotlari",
+      icon: ProfileMenuIcons.AcademicInfoIcon,
+    },
+    {
+      label: "Shaxsiy ish reja",
+      icon: ProfileMenuIcons.PrivateWorkPlanIcon,
+    },
+    {
+      label: "Tanlov ma'lumotlari",
+      icon: ProfileMenuIcons.PrivateWorkPlanIcon,
+    },
+    {
+      label: "Malaka oshirish",
+      icon: ProfileMenuIcons.AdvancedTrainingIcon,
+    },
+    {
+      label: "Stajirovka",
+      icon: ProfileMenuIcons.InternshipIcon,
+    },
+    {
+      label: "Ilmiy metodik ishlar",
+      icon: ProfileMenuIcons.AcademicMethodicIcon,
+    },
+  ];
+
   return {
-    sideNavMenus,
+    sideNavMenuItems,
+    profileMenuItems,
   };
 };
 
