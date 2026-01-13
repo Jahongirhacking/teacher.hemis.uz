@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -23,8 +24,8 @@ export interface GroupedOption {
 }
 
 interface CustomSelectProps {
-  options?: Option[]; // flat options
-  groupedOptions?: GroupedOption[]; // optional grouped
+  options?: Option[];
+  groupedOptions?: GroupedOption[];
   value?: string | number;
   onValueChange?: (val: number | string | undefined) => void;
   placeholder?: string;
@@ -44,7 +45,7 @@ const CustomSelect = ({
   allowClear = false,
 }: CustomSelectProps) => {
   const handleClear = (e: React.MouseEvent) => {
-    e.stopPropagation(); // prevent opening the dropdown
+    e.stopPropagation(); // prevent opening dropdown
     onValueChange?.(undefined);
   };
 
@@ -54,7 +55,7 @@ const CustomSelect = ({
       onValueChange={onValueChange}
       disabled={disabled}
     >
-      <SelectTrigger className={className ?? "w-[180px]"}>
+      <SelectTrigger className={cn(className ?? "w-[180px]")}>
         <SelectValue placeholder={placeholder} />
         {allowClear && value !== undefined && !disabled && (
           <button
@@ -67,7 +68,12 @@ const CustomSelect = ({
         )}
       </SelectTrigger>
 
-      <SelectContent>
+      {/* Remove fixed bottom, let Radix handle positioning */}
+      <SelectContent
+        side="bottom" // preferred side
+        sideOffset={4} // spacing between trigger and dropdown
+        className="max-h-60 overflow-auto" // responsive height + scroll
+      >
         {groupedOptions
           ? groupedOptions.map((group) => (
               <SelectGroup key={group.label}>

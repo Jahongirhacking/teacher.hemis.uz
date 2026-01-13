@@ -24,7 +24,7 @@ const SelectActivity = () => {
       options={activities}
       placeholder="Mashg'ulotni tanlang"
       allowClear
-      className="w-[230px]"
+      className="w-[230px] bg-[var(--card)]"
     />
   );
 };
