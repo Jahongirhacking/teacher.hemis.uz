@@ -5,7 +5,7 @@ interface LoadingProps {
     size?: number;       // spinner size in rem
 }
 
-export const Loading = ({ text = "Yuklanmoqda...", size = 8 }: LoadingProps) => {
+export const Loading = ({ text = "Yuklanmoqda...", size = 5 }: LoadingProps) => {
     return (
         <div className="flex flex-col items-center justify-center w-full h-full gap-2 p-4">
             {/* Spinner */}
