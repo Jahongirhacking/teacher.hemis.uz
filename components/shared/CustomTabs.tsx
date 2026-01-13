@@ -1,5 +1,9 @@
+"use client";
+
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SearchParams } from "@/lib/const";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactElement } from "react";
 
 export interface TabsProps {
@@ -11,12 +15,26 @@ export interface TabsProps {
 const CustomTabs = ({
   items,
   render,
+  activeKeyParam = SearchParams.ActiveTab,
 }: {
   items: TabsProps[];
   render: () => ReactElement | ReactElement[];
+  activeKeyParam?: SearchParams;
 }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
   return (
-    <Tabs defaultValue="1" className="w-full">
+    <Tabs
+      className="w-full"
+      value={searchParams.get(activeKeyParam) || items?.[0]?.value}
+      onValueChange={(key) => {
+        const params = new URLSearchParams(searchParams);
+        params.set(SearchParams.ActiveTab, key);
+        router.replace(`${pathname}?${params.toString()}`);
+      }}
+    >
       <TabsList
         className={cn(
           "h-auto justify-start rounded-none border-b bg-transparent p-0",
@@ -28,11 +46,11 @@ const CustomTabs = ({
             value={item?.value}
             className={cn(
               "relative rounded-none px-4 py-2 text-sm font-normal",
-              "text-muted-foreground hover:text-foreground",
-              "data-[state=active]:text-foreground",
+              "text-muted-foreground hover:text-[var(--primary)]",
+              "data-[state=active]:text-[var(--primary)]",
               "after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-[2px]",
-              "after:scale-x-0 after:bg-primary after:transition-transform",
-              "data-[state=active]:after:scale-x-100",
+              "after:scale-x-0 after:bg-primary after:transition-transform after:duration-400",
+              "data-[state=active]:after:scale-x-100 font-medium cursor-pointer",
             )}
           >
             {item?.label}

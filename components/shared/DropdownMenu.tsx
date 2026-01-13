@@ -18,10 +18,12 @@ interface DropdownMenuProps {
 const CustomDropDownMenu = (props: DropdownMenuProps) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>{props?.triggerButton}</DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild className="select-none">
+        {props?.triggerButton}
+      </DropdownMenuTrigger>
       <DropdownMenuContent
         className={cn("min-w-[100px]", props?.className)}
-        align="start"
+        align="end"
       >
         <DropdownMenuGroup>{props?.itemsRender()}</DropdownMenuGroup>
         {props?.extraRender && (

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// components/common/DataTable/index.tsx
 "use client";
 
 import {
@@ -10,7 +9,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DataTableProps } from "./types";
+import { SearchParams } from "@/lib/const";
+import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
+import CustomPagination from "./CustomPagination";
+import Empty from "./Empty";
+import { DataTableProps, Pagination } from "./types";
+
+const DEFAULT_PAGINATION: Pagination = {
+  pageSize: 10,
+  current: 1,
+};
+
+export const TABLE_INDEX_NAME = "idx" as const;
 
 export function DataTable<T>({
   columns,
@@ -18,72 +29,99 @@ export function DataTable<T>({
   rowKey,
   pagination,
 }: DataTableProps<T>) {
+  const searchParams = useSearchParams();
   const getRowKey = (record: T, index: number) =>
-    typeof rowKey === "function"
-      ? rowKey(record)
-      : String(record[rowKey] ?? index);
+    (typeof rowKey === "function"
+      ? record?.[rowKey(record)]
+      : String(record?.[rowKey])) || index;
 
-  const pageSize = (pagination && pagination?.pageSize) || dataSource?.length;
-  const current = (pagination && pagination?.current) || 1;
+  const pageSize =
+    (pagination && pagination?.pageSize) ||
+    Number(
+      pagination === undefined && searchParams.get(SearchParams.PaginationSize),
+    ) ||
+    DEFAULT_PAGINATION?.pageSize ||
+    dataSource?.length;
+  const current =
+    (pagination && pagination?.current) ||
+    Number(
+      pagination === undefined && searchParams.get(SearchParams.PaginationPage),
+    ) ||
+    DEFAULT_PAGINATION?.current ||
+    1;
 
-  const paginatedData =
+  const paginatedData = (
     pagination === false
       ? dataSource
-      : dataSource.slice((current - 1) * pageSize, current * pageSize);
+      : dataSource.slice((current - 1) * pageSize, current * pageSize)
+  )?.map((d, idx) => ({
+    ...d,
+    [TABLE_INDEX_NAME]:
+      d?.[TABLE_INDEX_NAME] || (current - 1) * pageSize + 1 + idx,
+  }));
 
   return (
     <div className="space-y-4">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {columns.map((col, index) => (
-              <TableHead key={col.key ?? index} className={col.className}>
-                {col.title}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {paginatedData.map((record, rowIndex) => (
-            <TableRow key={getRowKey(record, rowIndex)}>
-              {columns.map((col, colIndex) => {
-                const value = col.dataIndex ? record[col.dataIndex] : undefined;
-
-                return (
-                  <TableCell key={col.key ?? colIndex}>
-                    {col.render
-                      ? col.render(value, record, rowIndex)
-                      : (value as any)}
-                  </TableCell>
-                );
-              })}
+      <div className="rounded-[8px] bg-[var(--card)] overflow-hidden border border-[var(--border)]">
+        <Table>
+          <TableHeader className="bg-[var(--card-header)]">
+            <TableRow>
+              {columns?.map((col, index) => (
+                <TableHead
+                  key={col?.key ?? index}
+                  className={cn(
+                    "text-[var(--secondary-foreground)]",
+                    col?.className,
+                  )}
+                >
+                  {col?.title}
+                </TableHead>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+
+          <TableBody>
+            {!paginatedData?.length ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns?.length}
+                  className="h-24 text-center text-muted-foreground"
+                >
+                  <Empty description="Hech narsa topilmadi" className="mt-10" />
+                </TableCell>
+              </TableRow>
+            ) : (
+              paginatedData?.map((record, rowIndex) => (
+                <TableRow
+                  key={getRowKey(record, rowIndex)}
+                  className="hover:bg-[var(--background)]"
+                >
+                  {columns?.map((col, colIndex) => {
+                    const value = col?.dataIndex
+                      ? record?.[col?.dataIndex]
+                      : undefined;
+
+                    return (
+                      <TableCell
+                        key={col?.key ?? colIndex}
+                        className="py-2 px-4"
+                      >
+                        {col.render
+                          ? col.render(value, record, rowIndex)
+                          : (value as any)}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       {/* Pagination (basic) */}
-      {pagination !== false && pagination && (
-        <div className="flex justify-end gap-2 text-sm">
-          <button
-            disabled={current === 1}
-            onClick={() => pagination.onChange?.(current - 1)}
-            className="px-2 py-1 border rounded disabled:opacity-50"
-          >
-            Prev
-          </button>
-
-          <span>Page {current}</span>
-
-          <button
-            disabled={current * pageSize >= dataSource.length}
-            onClick={() => pagination.onChange?.(current + 1)}
-            className="px-2 py-1 border rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+      {(pagination === undefined || pagination) && (
+        <CustomPagination total={dataSource?.length} />
       )}
     </div>
   );

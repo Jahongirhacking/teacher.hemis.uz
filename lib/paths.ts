@@ -3,7 +3,7 @@ const privatePath = "/cabinet";
 export const paths = {
   base: "/",
   private: {
-    dashboard: `${privatePath}`,
+    dashboard: `${privatePath}/dashboard`,
     subjects: `${privatePath}/subjects`,
   },
 };

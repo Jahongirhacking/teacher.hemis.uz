@@ -1,12 +1,8 @@
-import UnderDevelopment from "@/components/shared/UnderDevelopment";
+import paths from "@/lib/paths";
+import { redirect } from "next/navigation";
 
 const Page = async () => {
-  return (
-    <div>
-      Dashboard sahifasi
-      <UnderDevelopment />
-    </div>
-  );
+  redirect(paths.private.dashboard);
 };
 
 export default Page;

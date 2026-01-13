@@ -1,4 +1,5 @@
 import { CountBadge } from "@/components/shared/CountBadge";
+import { Loading } from "@/components/shared/Loading";
 import { Button } from "@/components/ui/button";
 import {
   DarkThemeIcon,
@@ -8,7 +9,7 @@ import {
 } from "@/public/icons";
 import {} from "@heroicons/react/24/outline";
 import { ChevronDown } from "lucide-react";
-import React from "react";
+import React, { Suspense } from "react";
 import Logo from "./_components/aside/Logo";
 import Menu from "./_components/aside/Menu";
 import ProfileMenu from "./_components/header/ProfileMenu";
@@ -55,7 +56,7 @@ const CabinetLayout = ({
           </div>
         </header>
         <section className="flex-1 py-5 px-4 pb-7 max-h-[calc(100dvh-64px)] overflow-y-auto">
-          {children}
+          <Suspense fallback={<Loading />}>{children}</Suspense>
         </section>
       </main>
     </div>

@@ -1,13 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { JSX, useState } from "react";
 
 export interface NavItemType {
@@ -40,7 +41,7 @@ const ItemLabel = ({ item }: { item: NavItemType }) => {
   return (
     <div className="flex gap-3 items-center">
       {item?.icon && item?.icon()} {/* call the function if it exists */}
-      <span>{item?.label}</span>
+      <span className="font-medium">{item?.label}</span>
     </div>
   );
 };
@@ -79,10 +80,18 @@ function SubMenu({ item }: { item: NavItemType }) {
 }
 
 function NavItem({ item }: { item: NavItemType }) {
+  const pathname = usePathname();
+
+  const isActive =
+    pathname === item.href || pathname.startsWith(item.href + "/");
+
   return (
     <Link
       href={item?.href || "#"}
-      className="block rounded-md px-3 py-2 text-sm hover:bg-accent transition-colors duration-200 ease-in-out"
+      className={cn(
+        "block rounded-md px-3 py-2 text-sm hover:bg-accent transition-colors duration-200 ease-in-out",
+        isActive && "bg-[var(--background)] text-primary",
+      )}
     >
       <ItemLabel {...{ item }} />
     </Link>
