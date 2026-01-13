@@ -1,12 +1,21 @@
 "use client";
 
-export const Loading = () => {
-  return (
-    <div className="flex items-center justify-center w-full h-full p-4">
-      <div className="w-8 h-8 border-4 border-t-primary border-gray-200 rounded-full animate-spin">
-        {" "}
-        Yuklanmoqda
-      </div>
-    </div>
-  );
+interface LoadingProps {
+    text?: string;       // optional text below the spinner
+    size?: number;       // spinner size in rem
+}
+
+export const Loading = ({ text = "Yuklanmoqda...", size = 8 }: LoadingProps) => {
+    return (
+        <div className="flex flex-col items-center justify-center w-full h-full gap-2 p-4">
+            {/* Spinner */}
+            <div
+                className="rounded-full border-4 border-gray-200 border-t-primary animate-spin"
+                style={{ width: `${size}rem`, height: `${size}rem` }}
+            ></div>
+
+            {/* Optional text */}
+            {text && <span className="text-sm text-muted-foreground">{text}</span>}
+        </div>
+    );
 };
