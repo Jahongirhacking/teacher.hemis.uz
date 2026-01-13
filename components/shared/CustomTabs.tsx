@@ -30,7 +30,7 @@ const CustomTabs = ({
       className="w-full"
       value={searchParams.get(activeKeyParam) || items?.[0]?.value}
       onValueChange={(key) => {
-        const params = new URLSearchParams(searchParams);
+        const params = new URLSearchParams();
         params.set(SearchParams.ActiveTab, key);
         router.replace(`${pathname}?${params.toString()}`);
       }}

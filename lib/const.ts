@@ -3,3 +3,7 @@ export enum SearchParams {
   PaginationPage = "page",
   PaginationSize = "size",
 }
+
+export enum FilterParams {
+  Activity = "activity-type",
+}

@@ -25,13 +25,20 @@ const SubjectInfo = () => {
           {
             title: "Fanlar",
             dataIndex: "subject",
+            render: (i) => (
+              <b className="text-[var(--primary)] font-medium">{i}</b>
+            ),
           },
           {
             title: "O'quv reja",
             render: () => (
               <div className="flex flex-col">
-                <b>{"Madaniy meroz_o'quv reja"}</b>
-                <span>{"IT-Park test"}</span>
+                <b className="text-[var(--card-foreground)] font-medium">
+                  {"Madaniy meroz_o'quv reja"}
+                </b>
+                <span className="text-[var(--secondary-foreground)]">
+                  {"IT-Park test"}
+                </span>
               </div>
             ),
           },
@@ -39,8 +46,12 @@ const SubjectInfo = () => {
             title: "Ta’lim turi",
             render: () => (
               <div className="flex flex-col">
-                <b>{"Bakalavr / Kunduzgi"}</b>
-                <span>{"Kredit baholash tizimi"}</span>
+                <b className="text-[var(--card-foreground)] font-medium">
+                  {"Bakalavr / Kunduzgi"}
+                </b>
+                <span className="text-[var(--secondary-foreground)]">
+                  {"Kredit baholash tizimi"}
+                </span>
               </div>
             ),
           },
@@ -48,15 +59,19 @@ const SubjectInfo = () => {
             title: "Semestr",
             render: () => (
               <div className="flex flex-col">
-                <b>{"1-semestr"}</b>
-                <span>{"2023-2024"}</span>
+                <b className="text-[var(--card-foreground)] font-medium">
+                  {"1-semestr"}
+                </b>
+                <span className="text-[var(--secondary-foreground)]">
+                  {"2023-2024"}
+                </span>
               </div>
             ),
           },
         ]}
         dataSource={Array.from({ length: 100 })?.map((_, id) => ({
           id,
-          subject: `Hello ${id + 1}`,
+          subject: `Fan ${id + 1}`,
         }))}
       />
     </div>

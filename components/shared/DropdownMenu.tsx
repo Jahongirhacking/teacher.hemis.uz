@@ -8,11 +8,12 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { JSX, ReactElement } from "react";
 
-interface DropdownMenuProps {
+export interface DropdownMenuProps {
   triggerButton: ReactElement;
   itemsRender: () => ReactElement | ReactElement[];
   extraRender?: () => ReactElement | ReactElement[];
   className?: string;
+  align?: "start" | "center" | "end";
 }
 
 const CustomDropDownMenu = (props: DropdownMenuProps) => {
@@ -23,7 +24,7 @@ const CustomDropDownMenu = (props: DropdownMenuProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className={cn("min-w-[100px]", props?.className)}
-        align="end"
+        align={props?.align || "end"}
       >
         <DropdownMenuGroup>{props?.itemsRender()}</DropdownMenuGroup>
         {props?.extraRender && (

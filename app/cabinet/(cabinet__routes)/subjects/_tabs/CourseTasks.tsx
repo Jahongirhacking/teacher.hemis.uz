@@ -1,5 +1,7 @@
+import UnderDevelopment from "@/components/shared/UnderDevelopment";
+
 const CourseTasks = () => {
-  return <div>CourseTasks</div>;
+  return <UnderDevelopment />;
 };
 
 export default CourseTasks;

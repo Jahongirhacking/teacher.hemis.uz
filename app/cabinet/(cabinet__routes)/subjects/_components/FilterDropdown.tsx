@@ -1,9 +1,16 @@
-import CustomDropDownMenu from "@/components/shared/DropdownMenu";
+import CustomDropDownMenu, {
+  DropdownMenuProps,
+} from "@/components/shared/DropdownMenu";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ReactElement } from "react";
 
-const FilterDropdown = ({ children }: { children: ReactElement }) => {
+const FilterDropdown = ({
+  children,
+}: {
+  children: ReactElement;
+  align?: DropdownMenuProps["align"];
+}) => {
   return (
     <CustomDropDownMenu
       itemsRender={() => (
