@@ -21,7 +21,7 @@ const CabinetLayout = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <div className="flex items-stretch min-h-[100dvh] max-h-[100dvh]">
+    <div className="flex items-stretch h-[100dvh]">
       <aside className="hidden md:block w-[243px] shrink-0 bg-[var(--sidebar-primary)] border-r">
         <div className="flex items-center justify-between h-[64px] w-full px-6 border-b">
           <Logo />
@@ -54,7 +54,10 @@ const CabinetLayout = ({
             </ProfileMenu>
           </div>
         </header>
-        <section className="flex-1 py-5 px-4 pb-7 max-h-[calc(100dvh-64px)] overflow-y-auto overflow-x-hidden">
+        <section
+          id="main-outlet"
+          className="flex-1 py-5 px-4 pb-7 overflow-y-auto overflow-x-hidden"
+        >
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </section>
         <footer className="block md:hidden">

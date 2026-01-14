@@ -1,4 +1,5 @@
 import { Loading } from "@/components/shared/Loading";
+import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
@@ -30,13 +31,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
       >
-        <ReduxProvider>
-          <ThemeProvider>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-          </ThemeProvider>
-        </ReduxProvider>
+        <div id="root" className="flex-1 flex flex-col">
+          <ReduxProvider>
+            <ThemeProvider>
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </ThemeProvider>
+          </ReduxProvider>
+          <Suspense>
+            <ScrollToTop />
+          </Suspense>
+        </div>
       </body>
     </html>
   );

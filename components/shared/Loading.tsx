@@ -10,7 +10,7 @@ export const Loading = ({
   size = 5,
 }: LoadingProps) => {
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full gap-2 p-4">
+    <div className="flex-1 flex flex-col items-center justify-center w-full h-full gap-2 p-4">
       {/* Spinner */}
       <div
         className="rounded-full border-4 border-gray-200 border-t-primary animate-spin"
