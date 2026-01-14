@@ -37,7 +37,7 @@ const CustomTabs = ({
     >
       <TabsList
         className={cn(
-          "h-auto justify-start rounded-none border-b bg-transparent p-0",
+          "h-auto justify-start rounded-none border-b bg-transparent p-0 pb-2 md:pb-0 max-w-full overflow-x-auto",
         )}
       >
         {items?.map((item) => (

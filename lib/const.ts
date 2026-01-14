@@ -7,3 +7,7 @@ export enum SearchParams {
 export enum FilterParams {
   Activity = "activity-type",
 }
+
+export enum LocalStorageKeys {
+  Theme = "theme",
+}

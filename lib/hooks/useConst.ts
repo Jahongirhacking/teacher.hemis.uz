@@ -2,13 +2,28 @@ import { ProfileMenuIcons, SideNavIcons } from "@/public/icons";
 import { JSX } from "react";
 import paths from "../paths";
 
-interface IMenu {
+export interface IMenu {
   label: string;
   href?: string;
   action?: () => void;
   icon?: () => JSX.Element;
   children?: IMenu[];
 }
+
+export const findMenuWithPath = (
+  path: IMenu["href"],
+  menus?: IMenu[],
+): IMenu | undefined => {
+  if (!menus || !menus?.length) return;
+  const found = menus?.find((m) => m?.href === path);
+  if (found) return found;
+  menus
+    ?.filter((m) => !!m?.children?.length)
+    ?.forEach((m) => {
+      const found = findMenuWithPath(path, m?.children);
+      if (found) return found;
+    });
+};
 
 const useConst = () => {
   const sideNavMenuItems: IMenu[] = [
@@ -50,7 +65,7 @@ const useConst = () => {
     {
       label: "Sozlamalar",
       icon: SideNavIcons.SettingsIcon,
-      children: [],
+      href: paths.private.settings,
     },
   ];
 
@@ -96,6 +111,7 @@ const useConst = () => {
   return {
     sideNavMenuItems,
     profileMenuItems,
+    findMenuWithPath,
   };
 };
 

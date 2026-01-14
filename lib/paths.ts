@@ -5,6 +5,7 @@ export const paths = {
   private: {
     dashboard: `${privatePath}/dashboard`,
     subjects: `${privatePath}/subjects`,
+    settings: `${privatePath}/settings`,
   },
 };
 

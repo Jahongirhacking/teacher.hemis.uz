@@ -1,8 +1,8 @@
 import { CountBadge } from "@/components/shared/CountBadge";
 import { Loading } from "@/components/shared/Loading";
+import { ThemeSwitchButton } from "@/components/shared/ThemeSwitch";
 import { Button } from "@/components/ui/button";
 import {
-  DarkThemeIcon,
   FolderRefreshIcon,
   MailIcon,
   NavbarSidePanelIcon,
@@ -12,6 +12,7 @@ import { ChevronDown } from "lucide-react";
 import React, { Suspense } from "react";
 import Logo from "./_components/aside/Logo";
 import Menu from "./_components/aside/Menu";
+import BottomNav from "./_components/footer/BottomNav";
 import ProfileMenu from "./_components/header/ProfileMenu";
 import ProfileAvatar from "./_components/ProfileAvatar";
 import { SearchInput } from "./_components/SearchInput";
@@ -21,7 +22,7 @@ const CabinetLayout = ({
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <div className="flex items-stretch min-h-[100dvh] max-h-[100dvh]">
-      <aside className="w-full !max-w-[243px] bg-[var(--sidebar-primary)] border-r">
+      <aside className="hidden md:block w-[243px] shrink-0 bg-[var(--sidebar-primary)] border-r">
         <div className="flex items-center justify-between h-[64px] w-full px-6 border-b">
           <Logo />
           <Button className="border-none" variant={"ghost"}>
@@ -30,13 +31,11 @@ const CabinetLayout = ({
         </div>
         <Menu className="mt-4 px-2" />
       </aside>
-      <main className="flex flex-col flex-1">
-        <header className="py-3 px-4 h-[64px] bg-[var(--header-primary)] border-b flex items-center justify-between">
+      <main className="flex flex-col flex-1 min-w-0">
+        <header className="py-3 px-4 h-[64px] bg-[var(--header-primary)] border-b flex gap-4 items-center justify-between [@media(max-width:400px)]:justify-evenly">
           <SearchInput />
           <div className="flex gap-4">
-            <Button className="rounded-full h-[40px]" variant={"ghost"}>
-              <DarkThemeIcon />
-            </Button>
+            <ThemeSwitchButton />
             <Button className="rounded-full h-[40px]" variant={"ghost"}>
               <FolderRefreshIcon />
             </Button>
@@ -55,9 +54,12 @@ const CabinetLayout = ({
             </ProfileMenu>
           </div>
         </header>
-        <section className="flex-1 py-5 px-4 pb-7 max-h-[calc(100dvh-64px)] overflow-y-auto">
+        <section className="flex-1 py-5 px-4 pb-7 max-h-[calc(100dvh-64px)] overflow-y-auto overflow-x-hidden">
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </section>
+        <footer className="block md:hidden">
+          <BottomNav />
+        </footer>
       </main>
     </div>
   );

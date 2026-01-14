@@ -1,6 +1,10 @@
+import { Loading } from "@/components/shared/Loading";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.scss";
+import ReduxProvider from "./ReduxProvider";
+import ThemeProvider from "./ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +32,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ReduxProvider>
+          <ThemeProvider>
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

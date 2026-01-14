@@ -39,7 +39,7 @@ export function SideNav({ menu, className }: SideNavProps) {
 
 const ItemLabel = ({ item }: { item: NavItemType }) => {
   return (
-    <div className="flex gap-3 items-center">
+    <div className="nav-item flex gap-3 items-center">
       {item?.icon && item?.icon()} {/* call the function if it exists */}
       <span className="font-medium">{item?.label}</span>
     </div>
