@@ -21,7 +21,7 @@ const CabinetLayout = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <div className="flex items-stretch h-[100dvh]">
+    <div className="flex items-stretch h-[100dvh] max-h-[100dvh]">
       <aside className="hidden md:block w-[243px] shrink-0 bg-[var(--sidebar-primary)] border-r">
         <div className="flex items-center justify-between h-[64px] w-full px-6 border-b">
           <Logo />
@@ -31,7 +31,7 @@ const CabinetLayout = ({
         </div>
         <Menu className="mt-4 px-2" />
       </aside>
-      <main className="flex flex-col flex-1 min-w-0">
+      <main className="flex flex-col flex-1 min-w-0 h-100dvh max-h-[100dvh] overflow-y-hidden">
         <header className="py-3 px-4 h-[64px] bg-[var(--header-primary)] border-b flex gap-4 items-center justify-between [@media(max-width:400px)]:justify-evenly">
           <SearchInput />
           <div className="flex gap-4">
@@ -56,7 +56,7 @@ const CabinetLayout = ({
         </header>
         <section
           id="main-outlet"
-          className="flex-1 py-5 px-4 pb-7 overflow-y-auto overflow-x-hidden"
+          className="flex-1 py-5 px-4 pb-15 overflow-y-auto overflow-x-hidden"
         >
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </section>
