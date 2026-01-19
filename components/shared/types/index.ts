@@ -25,3 +25,8 @@ export interface DataTableProps<T> {
   rowKey: keyof T | ((record: T) => string);
   pagination?: Pagination | false;
 }
+
+export enum ThemeColor {
+  Light = "light",
+  Dark = "dark",
+}

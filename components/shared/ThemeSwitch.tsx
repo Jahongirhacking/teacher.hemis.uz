@@ -2,18 +2,16 @@
 
 import { useIsMounted } from "@/lib/hooks/useDispatchActions";
 import { DarkThemeIcon, LightThemeIcon } from "@/public/icons";
-import { ThemeColor, toggleThemeColor } from "@/store/slices/themeSlice";
-import { RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
+import { ThemeColor } from "./types";
 
 export const ThemeSwitchButton = () => {
-  const themeColor = useSelector((store: RootState) => store?.theme?.color);
-  const dispatch = useDispatch();
   const { isMounted } = useIsMounted();
+  const { theme, setTheme } = useTheme();
 
   const handleChangeTheme = () => {
-    dispatch(toggleThemeColor());
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   return (
@@ -22,7 +20,7 @@ export const ThemeSwitchButton = () => {
       variant={"ghost"}
       onClick={handleChangeTheme}
     >
-      {isMounted && themeColor === ThemeColor.Dark ? (
+      {isMounted && theme === ThemeColor.Dark ? (
         <LightThemeIcon />
       ) : (
         <DarkThemeIcon />
