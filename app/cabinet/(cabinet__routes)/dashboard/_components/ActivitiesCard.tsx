@@ -4,8 +4,8 @@ import { Separator } from "@/components/ui/separator";
 
 const ActivitiesCard = () => {
   return (
-    <Card className="flex-1 gap-3">
-      <CardHeader className="flex justify-between items-center gap-2">
+    <Card className="flex-1 gap-3 py-4">
+      <CardHeader className="flex justify-between items-center gap-2 font-bold">
         <h3>Mashg’ulotga qatnashish</h3>
         <Button variant={"ghost"}>Batafsil</Button>
       </CardHeader>

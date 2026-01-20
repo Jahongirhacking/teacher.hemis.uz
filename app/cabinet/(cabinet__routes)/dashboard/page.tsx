@@ -1,10 +1,15 @@
+import { SearchParams } from "@/lib/const";
 import { DashboardCardIcons } from "@/public/icons";
+import moment from "moment";
 import ActivitiesCard from "./_components/ActivitiesCard";
+import CalendarCard from "./_components/CalendarCard";
 import StatisticsCard from "./_components/StatisticsCard";
 
 const DEFAULT_IMAGE_PATH = "/images/background";
 
-const Page = async () => {
+const Page = async ({ searchParams }) => {
+  const params = await searchParams;
+
   return (
     <div className="flex flex-col gap-5">
       <h2 className="font-bold text-[18px] text-[var(--header-primary-foreground)]">
@@ -46,6 +51,9 @@ const Page = async () => {
       </div>
       <div className="flex gap-4 flex-wrap">
         <ActivitiesCard />
+        <CalendarCard
+          activeDate={Number(params?.[SearchParams.Date]) || moment().unix()}
+        />
       </div>
     </div>
   );
