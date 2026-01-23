@@ -1,4 +1,5 @@
 import { CountBadge } from "@/components/shared/CountBadge";
+import HemisLogo from "@/components/shared/HemisLogo";
 import { Loading } from "@/components/shared/Loading";
 import { ThemeSwitchButton } from "@/components/shared/ThemeSwitch";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,6 @@ import {
 import {} from "@heroicons/react/24/outline";
 import { ChevronDown } from "lucide-react";
 import React, { Suspense } from "react";
-import Logo from "./_components/aside/Logo";
 import Menu from "./_components/aside/Menu";
 import BottomNav from "./_components/footer/BottomNav";
 import ProfileMenu from "./_components/header/ProfileMenu";
@@ -24,7 +24,7 @@ const CabinetLayout = ({
     <div className="flex items-stretch h-[100dvh] max-h-[100dvh]">
       <aside className="hidden md:block w-[243px] shrink-0 bg-[var(--sidebar-primary)] border-r">
         <div className="flex items-center justify-between h-[64px] w-full px-6 border-b">
-          <Logo />
+          <HemisLogo />
           <Button className="border-none" variant={"ghost"}>
             <NavbarSidePanelIcon />
           </Button>

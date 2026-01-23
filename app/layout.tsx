@@ -1,5 +1,6 @@
 import { Loading } from "@/components/shared/Loading";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -35,6 +36,7 @@ export default function RootLayout({
         <div id="root" className="flex-1 flex flex-col">
           <ThemeProvider attribute={"class"} defaultTheme="system" enableSystem>
             <Suspense fallback={<Loading />}>{children}</Suspense>
+            <Toaster position="top-center" richColors />
             <Suspense>
               <ScrollToTop />
             </Suspense>

@@ -12,3 +12,9 @@ export enum FilterParams {
 export enum LocalStorageKeys {
   Theme = "theme",
 }
+
+export enum CookieItems {
+  AccessToken = "access_token",
+  RefreshToken = "teacher-refresh-token",
+  ServerUrl = "server_url",
+}
