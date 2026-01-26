@@ -1,6 +1,6 @@
 import { fetcher } from "../api";
 import { IBaseDataRes } from "../type";
-import { LoginPayload, LoginResponse } from "./type";
+import { ITeacherInfo, LoginPayload, LoginResponse } from "./type";
 
 export const login = async (data: LoginPayload) => {
   return fetcher<IBaseDataRes<LoginResponse>>(`auth/login`, {
@@ -10,7 +10,7 @@ export const login = async (data: LoginPayload) => {
 };
 
 export const getProfile = async () => {
-  return fetcher<{ id: string; name: string }>(`auth/me`);
+  return fetcher<IBaseDataRes<{ teacher: ITeacherInfo }>>(`auth/me`);
 };
 
 export const logout = async () => {

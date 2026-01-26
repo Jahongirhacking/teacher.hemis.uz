@@ -2,6 +2,7 @@
 import { CookieItems } from "@/lib/const";
 import { forwardSetCookie } from "@/lib/services/forwardSetCookie";
 import { cookies } from "next/headers";
+import { getBaseUrl } from "../api";
 
 export async function refreshToken(): Promise<boolean> {
   const cookieStore = await cookies();
@@ -11,7 +12,7 @@ export async function refreshToken(): Promise<boolean> {
     return false;
   }
 
-  const serverUrl = cookieStore.get(CookieItems.ServerUrl);
+  const serverUrl = getBaseUrl();
 
   const res = await fetch(
     `${serverUrl || "https://api-univer.hemis.uz"}/api/v1/teacher/auth/refresh-token`,
@@ -26,5 +27,5 @@ export async function refreshToken(): Promise<boolean> {
   // API qaytargan Set-Cookie’ni browserga forward qilamiz
   forwardSetCookie(res.headers.get("set-cookie"));
 
-  return true;
+  return (await res?.json())?.data?.access_token;
 }

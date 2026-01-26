@@ -7,19 +7,23 @@ import { LogoutIcon } from "@/public/icons";
 import { useTransition } from "react";
 
 export function LogoutButton() {
-    const [pending, startTransition] = useTransition();
+  const [pending, startTransition] = useTransition();
 
-    return (
-        <Button
-            variant="secondary"
-            disabled={pending}
-            onClick={() => startTransition(logoutAction)}
-            className="border-none w-full [&>div]:mr-auto !bg-transparent p-0"
-        >
-            <CustomDropDownMenu.ItemLabel
-                label={<span className="text-[var(--destructive)]">{pending ? "Chiqilmoqda..." : "Chiqish"}</span>}
-                icon={LogoutIcon}
-            />
-        </Button>
-    );
+  return (
+    <Button
+      variant="secondary"
+      disabled={pending}
+      onClick={() => startTransition(logoutAction)}
+      className="border-none w-full [&>div]:mr-auto !bg-transparent p-0"
+    >
+      <CustomDropDownMenu.ItemLabel
+        label={
+          <span className="text-[var(--destructive)]">
+            {pending ? "Chiqilmoqda..." : "Chiqish"}
+          </span>
+        }
+        icon={LogoutIcon}
+      />
+    </Button>
+  );
 }

@@ -2,7 +2,7 @@
 
 import { CookieItems } from "@/lib/const";
 import paths from "@/lib/paths";
-import { logout } from "@/lib/services/auth";
+import { getProfile, logout } from "@/lib/services/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -17,5 +17,13 @@ export const logoutAction = async () => {
     cookieStore.delete({ name: CookieItems.RefreshToken, path: "/" });
     cookieStore.delete({ name: CookieItems.ServerUrl, path: "/" });
     redirect(paths.base);
+  }
+};
+
+export const getProfileAction = async () => {
+  try {
+    return await getProfile();
+  } catch (err) {
+    console.error(err);
   }
 };

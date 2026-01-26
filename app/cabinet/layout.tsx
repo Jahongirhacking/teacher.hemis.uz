@@ -3,6 +3,7 @@ import HemisLogo from "@/components/shared/HemisLogo";
 import { Loading } from "@/components/shared/Loading";
 import { ThemeSwitchButton } from "@/components/shared/ThemeSwitch";
 import { Button } from "@/components/ui/button";
+import { getProfile } from "@/lib/services/auth";
 import {
   FolderRefreshIcon,
   MailIcon,
@@ -17,9 +18,12 @@ import ProfileMenu from "./_components/header/ProfileMenu";
 import ProfileAvatar from "./_components/ProfileAvatar";
 import { SearchInput } from "./_components/SearchInput";
 
-const CabinetLayout = ({
+const CabinetLayout = async ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
+  const profile = await getProfile();
+  const teacher = profile?.data?.data?.teacher;
+
   return (
     <div className="flex items-stretch h-[100dvh] max-h-[100dvh]">
       <aside className="hidden md:block w-[243px] shrink-0 bg-[var(--sidebar-primary)] border-r">
@@ -47,7 +51,11 @@ const CabinetLayout = ({
             <ProfileMenu>
               <Button variant={"ghost"} className="h-[40px] p-1 rounded-full">
                 <div className="flex gap-1 items-center">
-                  <ProfileAvatar className="h-[32px] w-[32px]" />
+                  <ProfileAvatar
+                    src={teacher?.image || ""}
+                    name={teacher?.full_name}
+                    className="h-[32px] w-[32px]"
+                  />
                   <ChevronDown />
                 </div>
               </Button>

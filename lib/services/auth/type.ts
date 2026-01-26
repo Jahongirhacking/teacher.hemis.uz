@@ -40,3 +40,15 @@ export interface LoginResponse {
   message: string;
   teacher: Teacher;
 }
+
+export interface ITeacherInfo {
+  email: string;
+  employee: Employee;
+  full_name: string;
+  id: number;
+  image: string;
+  language: string;
+  login: string;
+  telephone: string;
+  university: string;
+}
