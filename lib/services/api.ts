@@ -12,21 +12,27 @@ export type FetchOptions = Omit<RequestInit, "body"> & {
 export const getBaseUrl = async () => {
   const cookieStore = await cookies();
   const serverUrl = cookieStore.get(CookieItems.ServerUrl);
-  return `${serverUrl || "https://api-univer.hemis.uz"}/api/v1/teacher`;
+  return `${decodeURIComponent(serverUrl?.value || "") || "https://api-univer.hemis.uz"}/api/v1/teacher`;
 };
 
 export async function fetcher<T>(
-  url: string,
+  path: string,
   options: FetchOptions = {},
 ): Promise<{ data: T; headers: Headers }> {
   // return headers too
   let token = options.token;
+  const baseUrl = await getBaseUrl();
+  const url = `${baseUrl}/${path}`;
 
   // On server: read token from cookies
   if (!token) {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get(CookieItems.AccessToken);
     token = accessToken?.value;
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    console.log(url, options, "debug");
   }
 
   const res = await fetch(url, {

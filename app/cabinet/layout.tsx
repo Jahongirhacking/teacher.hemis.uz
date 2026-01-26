@@ -60,7 +60,7 @@ const CabinetLayout = ({
         >
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </section>
-        <footer className="block md:hidden">
+        <footer className="block md:hidden border-t-[1px]">
           <BottomNav />
         </footer>
       </main>

@@ -26,7 +26,7 @@ export default function LoginForm() {
         toast.success("Muvaffaqiyatli kirildi!");
         router.replace(paths.private.dashboard);
       } else if (result?.error) {
-        toast.error(result.error);
+        toast.error(String(result?.error));
       }
     } catch (err) {
       console.error(err);

@@ -1,14 +1,13 @@
 "use client";
 
 import CustomDropDownMenu from "@/components/shared/DropdownMenu";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import useConst from "@/lib/hooks/useConst";
-import { LogoutIcon } from "@/public/icons";
 import Link from "next/link";
 import { ReactElement } from "react";
 import ProfileAvatar from "../ProfileAvatar";
+import { LogoutButton } from "./LogoutButton";
 
 interface DropdownMenuProps {
   children: ReactElement;
@@ -51,12 +50,7 @@ const ProfileMenu = ({ children }: DropdownMenuProps) => {
       )}
       extraRender={() => (
         <DropdownMenuItem>
-          <Button
-            variant={"ghost"}
-            className="border-none w-full p-0 text-left justify-start"
-          >
-            <CustomDropDownMenu.ItemLabel label={"Chiqish"} icon={LogoutIcon} />
-          </Button>
+          <LogoutButton />
         </DropdownMenuItem>
       )}
       className="py-2 px-4 w-[300px]"
