@@ -5,6 +5,7 @@ import paths from "@/lib/paths";
 import { getProfile, logout } from "@/lib/services/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { handlePrivateRequest } from ".";
 
 export const logoutAction = async () => {
   try {
@@ -22,7 +23,7 @@ export const logoutAction = async () => {
 
 export const getProfileAction = async () => {
   try {
-    return await getProfile();
+    return handlePrivateRequest(await getProfile());
   } catch (err) {
     console.error(err);
   }

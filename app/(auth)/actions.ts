@@ -1,7 +1,7 @@
 "use server";
 
 import { login } from "@/lib/services/auth";
-import { forwardSetCookie } from "@/lib/services/forwardSetCookie";
+import { forwardSetCookie } from "@/lib/services/cookieUtils";
 import { AuthLoginSchema } from "./schema";
 
 export const signInAction = async (formData: FormData) => {
@@ -17,20 +17,19 @@ export const signInAction = async (formData: FormData) => {
 
     const { login: loginValue, password } = parsed.data;
 
-    const { data: resData, headers } = await login({
+    const res = await login({
       login: loginValue,
       password,
     });
 
-    if (!resData?.success) {
+    if (!res?.success) {
       return {
         success: false,
-        error: resData?.message || "Tizimga kirishda xatolik",
+        error: res?.error?.message || "Tizimga kirishda xatolik",
       };
     }
 
-    forwardSetCookie(headers.get("set-cookie"));
-
+    forwardSetCookie(res?.headers?.get("set-cookie"));
     return { success: true };
   } catch (err) {
     return {

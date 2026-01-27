@@ -1,9 +1,11 @@
+"use client";
+
+import SelectActivity from "@/app/cabinet/(cabinet__routes)/subjects/_components/SelectActivity";
 import { DataTable } from "@/components/shared/DataTable";
 import { Button } from "@/components/ui/button";
 import { MoreVertical, PlusSquare } from "lucide-react";
-import SelectActivity from "../_components/SelectActivity";
 
-const SubjectTopics = () => {
+const SubjectTopicsPage = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2 justify-between">
@@ -72,4 +74,4 @@ const SubjectTopics = () => {
   );
 };
 
-export default SubjectTopics;
+export default SubjectTopicsPage;

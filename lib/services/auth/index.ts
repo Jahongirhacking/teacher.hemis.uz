@@ -10,7 +10,7 @@ export const login = async (data: LoginPayload) => {
 };
 
 export const getProfile = async () => {
-  return fetcher<IBaseDataRes<{ teacher: ITeacherInfo }>>(`auth/me`);
+  return fetcher<IBaseDataRes<{ teacher: ITeacherInfo }>>(`auth/me`, undefined);
 };
 
 export const logout = async () => {

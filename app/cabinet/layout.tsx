@@ -22,7 +22,8 @@ const CabinetLayout = async ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   const profile = await getProfile();
-  const teacher = profile?.data?.data?.teacher;
+  const teacher =
+    (profile?.success && profile?.data?.data?.teacher) || undefined;
 
   return (
     <div className="flex items-stretch h-[100dvh] max-h-[100dvh]">

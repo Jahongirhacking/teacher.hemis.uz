@@ -8,7 +8,7 @@ import useConst from "@/lib/hooks/useConst";
 import { ITeacherInfo } from "@/lib/services/auth/type";
 import Link from "next/link";
 import { ReactElement, useEffect, useState, useTransition } from "react";
-import { getProfileAction } from "../../_actions/profile.action";
+import { getProfileAction } from "../../../../lib/actions/profile.action";
 import ProfileAvatar from "../ProfileAvatar";
 import { LogoutButton } from "./LogoutButton";
 
@@ -24,7 +24,9 @@ const ProfileMenu = ({ children }: DropdownMenuProps) => {
   useEffect(() => {
     startTransition(async () => {
       const userProfile = await getProfileAction();
-      setProfile(userProfile?.data?.data?.teacher);
+      setProfile(
+        userProfile?.success ? userProfile?.data?.data?.teacher : undefined,
+      );
     });
   }, []);
 

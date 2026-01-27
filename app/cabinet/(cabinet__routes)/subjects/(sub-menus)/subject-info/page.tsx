@@ -1,12 +1,17 @@
+"use client";
+
 import { DataTable } from "@/components/shared/DataTable";
 import { Button } from "@/components/ui/button";
 import { ListFilterIcon } from "lucide-react";
-import FilterDropdown from "../_components/FilterDropdown";
+import FilterDropdown from "../../_components/FilterDropdown";
 
-const SubjectInfo = () => {
+const SubjectInfoPage = () => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 justify-end">
+      <div className="flex items-center gap-2 justify-between">
+        <h3 className="text-[var(--header-primary-foreground)] font-bold text-[18px]">
+          Fanlar ro’yxati
+        </h3>
         <FilterDropdown>
           <Button variant={"secondary"}>
             <ListFilterIcon /> Filter
@@ -78,4 +83,4 @@ const SubjectInfo = () => {
   );
 };
 
-export default SubjectInfo;
+export default SubjectInfoPage;

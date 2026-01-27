@@ -1,31 +1,26 @@
 // lib/auth/refreshToken.ts
 import { CookieItems } from "@/lib/const";
-import { forwardSetCookie } from "@/lib/services/forwardSetCookie";
 import { cookies } from "next/headers";
 import { getBaseUrl } from "../api";
 
-export async function refreshToken(): Promise<boolean> {
+export async function refreshToken(): Promise<string | null> {
   const cookieStore = await cookies();
+  const refresh = cookieStore.get(CookieItems.RefreshToken);
+  if (!refresh) return null;
 
-  // refresh_token bo‘lmasa — darhol fail
-  if (!cookieStore.get(CookieItems.RefreshToken)) {
-    return false;
-  }
+  const baseUrl = await getBaseUrl();
 
-  const serverUrl = getBaseUrl();
-
-  const res = await fetch(
-    `${serverUrl || "https://api-univer.hemis.uz"}/api/v1/teacher/auth/refresh-token`,
-    {
-      method: "POST",
-      credentials: "include",
+  const request = new Request(`${baseUrl}/auth/refresh-token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `${refresh.name}=${refresh.value}`,
     },
-  );
+  });
+  const res = await fetch(request);
 
-  if (!res.ok) return false;
+  if (!res.ok) return null;
 
-  // API qaytargan Set-Cookie’ni browserga forward qilamiz
-  forwardSetCookie(res.headers.get("set-cookie"));
-
-  return (await res?.json())?.data?.access_token;
+  const json = await res.json();
+  return json?.data?.access_token ?? null;
 }

@@ -8,6 +8,7 @@ export interface IMenu {
   action?: () => void;
   icon?: () => JSX.Element;
   children?: IMenu[];
+  code?: string;
 }
 
 export const findMenuWithPath = (
@@ -25,6 +26,10 @@ export const findMenuWithPath = (
     });
 };
 
+const navbarCodes = {
+  subjects: paths.private.subjects.base,
+};
+
 const useConst = () => {
   const sideNavMenuItems: IMenu[] = [
     {
@@ -38,9 +43,39 @@ const useConst = () => {
       children: [],
     },
     {
+      code: navbarCodes.subjects,
       label: "Fanlar",
-      href: paths.private.subjects,
       icon: SideNavIcons.SubjectsIcon,
+      children: [
+        {
+          label: "Fan ma'lumotlari",
+          href: paths.private.subjects.subjectInfo,
+        },
+        {
+          label: "Fan mavzulari",
+          href: paths.private.subjects.subjectTopics,
+        },
+        {
+          label: "Resurslar bazasi",
+          href: paths.private.subjects.resourcesBase,
+        },
+        {
+          label: "Fanlar resurslari",
+          href: paths.private.subjects.subjectResources,
+        },
+        {
+          label: "Topshiriqlar bazasi",
+          href: paths.private.subjects.tasksBase,
+        },
+        {
+          label: "Fan topshiriqlari",
+          href: paths.private.subjects.subjectTasks,
+        },
+        {
+          label: "Topshiriqlarni baholash",
+          href: paths.private.subjects.tasksAssessment,
+        },
+      ],
     },
     {
       label: "Mashg'ulotlar",
@@ -112,6 +147,7 @@ const useConst = () => {
     sideNavMenuItems,
     profileMenuItems,
     findMenuWithPath,
+    navbarCodes,
   };
 };
 

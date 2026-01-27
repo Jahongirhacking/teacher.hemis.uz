@@ -12,7 +12,11 @@ const BottomNav = () => {
 
   return (
     <div className="bottom-nav flex items-center gap-3 justify-evenly p-2 bg-[var(--footer-primary)] h-[70px] max-h-[70px] overflow-hidden">
-      {[paths.private.subjects, paths.private.dashboard, paths.private.settings]
+      {[
+        paths.private.subjects.subjectInfo,
+        paths.private.dashboard,
+        paths.private.settings,
+      ]
         ?.map((path) => findMenuWithPath(path, sideNavMenuItems))
         ?.filter((path) => !!path)
         ?.map((path, idx) => {

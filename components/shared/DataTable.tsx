@@ -87,7 +87,7 @@ export function DataTable<T>({
                   colSpan={columns?.length}
                   className="h-24 text-center text-muted-foreground"
                 >
-                  <Empty description="Hech narsa topilmadi" className="mt-10" />
+                  <Empty description="Hech narsa topilmadi" className="p-20" />
                 </TableCell>
               </TableRow>
             ) : (

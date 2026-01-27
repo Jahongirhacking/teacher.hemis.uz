@@ -1,3 +1,5 @@
+"use server";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cookies } from "next/headers";
 import { CookieItems } from "../const";
@@ -34,17 +36,17 @@ const getAccessToken = async (): Promise<string | undefined> => {
   return cookieStore.get(CookieItems.AccessToken)?.value;
 };
 
+export type FetchResult<T> =
+  | { success: true; data: T; headers: Headers; token?: string }
+  | { success: false; reason: "unauthorized" | "other"; error?: any };
+
 export async function fetcher<T>(
   path: string,
   options: FetchOptions = {},
-): Promise<{ data: T; headers: Headers }> {
+): Promise<FetchResult<T>> {
   const token = options.token || (await getAccessToken());
   const baseUrl = await getBaseUrl();
   const url = `${baseUrl}/${path}`;
-
-  if (process.env.NODE_ENV === "development") {
-    console.log(url, options, "debug");
-  }
 
   const actualFetch = async (tok?: string) => {
     const res = await fetch(url, {
@@ -71,39 +73,47 @@ export async function fetcher<T>(
   };
 
   try {
-    return await actualFetch(token);
+    const result = await actualFetch(token);
+    return { success: true, ...result };
   } catch (err: any) {
     if (err.status === 401) {
+      // token refresh flow
       if (!isRefreshing) {
         isRefreshing = true;
         try {
           const newToken = await refreshToken();
-          if (!newToken) throw new Error("Token topilmadi");
+          if (!newToken) return { success: false, reason: "unauthorized" };
           processQueue(null, String(newToken));
-          return actualFetch(String(newToken));
+          const result = await actualFetch(String(newToken));
+          return { success: true, token: newToken, ...result };
         } catch (refreshError) {
           processQueue(refreshError, null);
-          throw refreshError;
+          return {
+            success: false,
+            reason: "unauthorized",
+            error: refreshError,
+          };
         } finally {
           isRefreshing = false;
         }
       } else {
-        // Queue the request until refresh finishes
-        return new Promise((resolve, reject) => {
+        // queued requests wait for new token
+        return new Promise((resolve) => {
           failedQueue.push({
             resolve: async (tok: string) => {
               try {
+                if (!tok) return;
                 const result = await actualFetch(tok);
-                resolve(result);
+                resolve({ success: true, ...result });
               } catch (e) {
-                reject(e);
+                resolve({ success: false, reason: "other", error: e });
               }
             },
-            reject,
+            reject: () => resolve({ success: false, reason: "unauthorized" }),
           });
         });
       }
     }
-    throw err;
+    return { success: false, reason: "other", error: err };
   }
 }
