@@ -46,10 +46,10 @@ export type FetchResult<T> =
 
 export async function fetcher<T>(
   path: string,
-  options: FetchOptions & IServerSideOptions = {},
+  { server, isPrivate, ...options }: FetchOptions & IServerSideOptions = {},
 ): Promise<FetchResult<T>> {
   const token = options.token || (await getAccessToken());
-  const baseUrl = await getBaseUrl(options?.isPrivate);
+  const baseUrl = await getBaseUrl(isPrivate);
   if (!baseUrl)
     return {
       success: false,
@@ -87,7 +87,7 @@ export async function fetcher<T>(
     const result = await actualFetch(token);
     return { success: true, ...result };
   } catch (err: any) {
-    if (err.status === 401 && !options?.server) {
+    if (err.status === 401 && !server) {
       // token refresh flow
       if (!isRefreshing) {
         isRefreshing = true;

@@ -21,3 +21,8 @@ export const getLocalStorage = (key: string) => {
     return item;
   }
 };
+
+export const getSearchParamString = (params: object): string =>
+  new URLSearchParams(
+    Object.entries(params).map(([key, value]) => [key, String(value)]),
+  ).toString();
