@@ -67,19 +67,29 @@ function SubMenu({ item }: { item: NavItemType }) {
 
       <CollapsibleContent
         className={cn(
-          "ml-4 overflow-hidden transition-[max-height] duration-300 ease-in-out",
+          "aside__sub-menu ml-5 overflow-hidden transition-[max-height] duration-300 ease-in-out border-l overflow-visible",
           isOpen ? "max-h-96" : "max-h-0",
         )}
       >
         {item?.children?.map((child, idx) => (
-          <NavItem key={idx} item={child} />
+          <NavItem
+            key={idx}
+            item={child}
+            className="aside__sub-menu__item rounded-[0px] !rounded-tr-[4px] !rounded-br-[4px] text-[var(--secondary-text)]"
+          />
         ))}
       </CollapsibleContent>
     </Collapsible>
   );
 }
 
-function NavItem({ item }: { item: NavItemType }) {
+function NavItem({
+  item,
+  className,
+}: {
+  item: NavItemType;
+  className?: string;
+}) {
   const pathname = usePathname();
 
   const isActive =
@@ -90,7 +100,9 @@ function NavItem({ item }: { item: NavItemType }) {
       href={item?.href || "#"}
       className={cn(
         "block rounded-md px-3 py-2 text-sm hover:bg-accent transition-colors duration-200 ease-in-out",
-        isActive && "bg-[var(--background)] text-primary",
+        isActive &&
+          `bg-[var(--background)] text-primary relative active-item !text-[var(--primary)]`,
+        className,
       )}
     >
       <ItemLabel {...{ item }} />

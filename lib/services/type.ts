@@ -5,6 +5,17 @@ export interface IBaseDataRes<T> {
   errors?: Record<string, string[]>;
 }
 
+export interface IBaseDataWithMeta {
+  meta: {
+    current_page: number;
+    from: number;
+    last_page: number;
+    per_page: number;
+    to: number;
+    total: number;
+  };
+}
+
 export interface IServerSideOptions {
   server?: boolean;
   isPrivate?: boolean;

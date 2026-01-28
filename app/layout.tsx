@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
+import ReactQueryProvider from "./_providers/ReactQueryProvider";
 import "./globals.scss";
 
 const geistSans = Geist({
@@ -35,7 +36,9 @@ export default function RootLayout({
       >
         <div id="root" className="flex-1 flex flex-col">
           <ThemeProvider attribute={"class"} defaultTheme="system" enableSystem>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+            <ReactQueryProvider>
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </ReactQueryProvider>
             <Toaster position="top-center" richColors />
             <Suspense>
               <ScrollToTop />

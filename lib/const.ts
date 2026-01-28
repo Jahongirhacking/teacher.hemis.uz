@@ -18,3 +18,16 @@ export enum CookieItems {
   RefreshToken = "teacher-refresh-token",
   ServerUrl = "server_url",
 }
+
+export const cachedQueryKeys = {
+  subjectTopics: (semester?: string, subject_id?: string) => [
+    "subject-topics",
+    semester ?? null,
+    subject_id ?? null,
+  ],
+};
+
+export const DEFAULT_PAGINATION = {
+  page: 1,
+  size: 10,
+};

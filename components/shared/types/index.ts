@@ -21,9 +21,10 @@ export interface Pagination {
 
 export interface DataTableProps<T> {
   columns: ColumnType<T>[];
-  dataSource: T[];
+  dataSource?: T[];
   rowKey: keyof T | ((record: T) => string);
   pagination?: Pagination | false;
+  total?: number;
 }
 
 export enum ThemeColor {

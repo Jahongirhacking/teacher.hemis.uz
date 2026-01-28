@@ -179,3 +179,25 @@ aside {
   animation: shimmer 1.5s infinite;
   border-radius: 0.25rem; /* rounded-md */
 }
+
+.aside__sub-menu {
+  .aside__sub-menu__item {
+    position: relative; // parent should be relative if ::after is absolute
+
+    span {
+      font-weight: 400;
+    }
+
+    &.active-item::after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 10px;
+      width: 3px;
+      height: 16px;
+      border-radius: 8px !important;
+      background-color: var(--secondary-text);
+      transition: 0.4s ease; // combines transition-all + duration-300
+    }
+  }
+}

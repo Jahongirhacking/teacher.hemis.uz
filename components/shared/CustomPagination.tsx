@@ -9,7 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { SearchParams } from "@/lib/const";
+import { DEFAULT_PAGINATION, SearchParams } from "@/lib/const";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { PageSizeSelect } from "./PageSizeSelect";
 
@@ -23,7 +23,7 @@ interface CustomPaginationProps {
 
 const CustomPagination = ({
   total,
-  defaultPageSize = 10,
+  defaultPageSize = DEFAULT_PAGINATION.size,
   pageParam = SearchParams.PaginationPage,
   sizeParam = SearchParams.PaginationSize,
   pageSizeOptions = [10, 20, 50],
@@ -32,7 +32,7 @@ const CustomPagination = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const page = Number(searchParams.get(pageParam) ?? 1);
+  const page = Number(searchParams.get(pageParam) ?? DEFAULT_PAGINATION.page);
   const size = Number(searchParams.get(sizeParam) ?? defaultPageSize);
 
   const totalPages = Math.max(1, Math.ceil(total / size));

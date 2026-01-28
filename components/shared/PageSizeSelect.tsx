@@ -55,6 +55,11 @@ export const PageSizeSelect = ({
 
       {/* Dropdown */}
       <SelectContent>
+        {!pageSizeOptions.includes(currentSize) && (
+          <SelectItem value={String(currentSize)}>
+            {currentSize} / sahifa
+          </SelectItem>
+        )}
         {pageSizeOptions?.map((opt) => (
           <SelectItem key={opt} value={String(opt)}>
             {opt} / sahifa

@@ -24,9 +24,7 @@ const ProfileMenu = ({ children }: DropdownMenuProps) => {
   useEffect(() => {
     startTransition(async () => {
       const userProfile = await getProfileAction();
-      setProfile(
-        userProfile?.success ? userProfile?.data?.data?.teacher : undefined,
-      );
+      setProfile(userProfile?.success ? userProfile?.data?.teacher : undefined);
     });
   }, []);
 

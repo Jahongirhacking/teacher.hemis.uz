@@ -1,11 +1,19 @@
-"use client";
-
 import SelectActivity from "@/app/cabinet/(cabinet__routes)/subjects/_components/SelectActivity";
-import { DataTable } from "@/components/shared/DataTable";
 import { Button } from "@/components/ui/button";
-import { MoreVertical, PlusSquare } from "lucide-react";
+import { getSubjectTopicAction } from "@/lib/actions/subject.action";
+import { SearchParams } from "@/lib/const";
+import { PlusSquare } from "lucide-react";
+import SubjectTopicsTable from "../../_components/tables/SubjectTopicsTable";
 
-const SubjectTopicsPage = () => {
+const SubjectTopicsPage = async ({ searchParams }) => {
+  const params = await searchParams;
+  const topicsData = await getSubjectTopicAction({
+    params: {
+      page: Number(params?.[SearchParams.PaginationPage]),
+      per_page: Number(params?.[SearchParams.PaginationSize]),
+    },
+  });
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2 justify-between">
@@ -15,60 +23,9 @@ const SubjectTopicsPage = () => {
         </Button>
       </div>
 
-      <DataTable
-        rowKey={() => "id"}
-        columns={[
-          {
-            title: "",
-            dataIndex: "idx",
-            className: "w-[40px]",
-          },
-          {
-            title: "Nomi",
-            dataIndex: "topic",
-            render: (i) => (
-              <b className="text-[var(--primary)] font-medium">{i}</b>
-            ),
-          },
-          {
-            title: "Mashg’ulot",
-            dataIndex: "activity",
-            render: (i) => (
-              <b className="text-[var(--card-foreground)] font-medium">{i}</b>
-            ),
-          },
-          {
-            title: "Yuklama",
-            dataIndex: "acload",
-            render: (i) => (
-              <span className="text-[var(--secondary-foreground)]">{i}</span>
-            ),
-          },
-          {
-            title: "Semestr",
-            dataIndex: "semester",
-            render: (i) => (
-              <span className="text-[var(--secondary-foreground)]">{i}</span>
-            ),
-          },
-          {
-            title: "Amallar",
-            className: "w-[120px]",
-            render: (_, record) => (
-              <Button variant={"ghost"} onClick={() => console.log(record?.id)}>
-                <MoreVertical />
-              </Button>
-            ),
-          },
-        ]}
-        dataSource={Array.from({ length: 100 })?.map((_, id) => ({
-          id,
-          topic: `Mavzu ${id + 1}`,
-          activity: "Ma'ruza",
-          acload: 2,
-          semester: "1-semestr",
-          status: true,
-        }))}
+      <SubjectTopicsTable
+        dataSource={topicsData?.data}
+        total={topicsData?.meta?.total}
       />
     </div>
   );

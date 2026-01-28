@@ -25,9 +25,10 @@ export const TABLE_INDEX_NAME = "idx" as const;
 
 export function DataTable<T>({
   columns,
-  dataSource,
+  dataSource = [],
   rowKey,
   pagination,
+  total,
 }: DataTableProps<T>) {
   const searchParams = useSearchParams();
   const getRowKey = (record: T, index: number) =>
@@ -51,7 +52,7 @@ export function DataTable<T>({
     1;
 
   const paginatedData = (
-    pagination === false
+    pagination !== false
       ? dataSource
       : dataSource.slice((current - 1) * pageSize, current * pageSize)
   )?.map((d, idx) => ({
@@ -121,7 +122,7 @@ export function DataTable<T>({
 
       {/* Pagination (basic) */}
       {(pagination === undefined || pagination) && (
-        <CustomPagination total={dataSource?.length} />
+        <CustomPagination total={total || dataSource?.length} />
       )}
     </div>
   );

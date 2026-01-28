@@ -71,6 +71,10 @@ export async function fetcher<T>(
       credentials: "include",
     });
 
+    if (process.env.NODE_ENV === "development") {
+      console.log(url, options, "debug");
+    }
+
     if (!res.ok) {
       const error = await res.json().catch(() => ({ message: res.statusText }));
       const errMsg = error.message || res.statusText || "Fetch error";
