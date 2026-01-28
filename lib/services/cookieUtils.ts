@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { CookieItems } from "../const";
 
 /**
  * Forward Set-Cookie headers from upstream API to browser.
@@ -35,3 +36,18 @@ export const forwardSetCookie = async (setCookieHeader: string | null) => {
     });
   });
 };
+
+export function extractCookieValue(
+  setCookie: string | null,
+  name: CookieItems,
+): string | null {
+  if (!setCookie) return null;
+
+  // Escape special regex characters in the cookie name
+  const escapedName = name.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+
+  const regex = new RegExp(`${escapedName}=([^;]+)`);
+  const match = setCookie.match(regex);
+
+  return match ? match[1] : null;
+}

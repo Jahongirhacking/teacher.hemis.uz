@@ -6,9 +6,13 @@ import { redirect } from "next/navigation";
 import { CookieItems } from "../const";
 import paths from "../paths";
 import { FetchResult } from "../services/api";
+import { forwardSetCookie } from "../services/cookieUtils";
+import { IServerSideOptions } from "../services/type";
 
-export const handlePrivateRequest = async (result: FetchResult<any>) => {
-  console.log(result, "result");
+export const handlePrivateRequest = async (
+  cb: (props?: IServerSideOptions) => Promise<FetchResult<any>>,
+) => {
+  const result = await cb?.({ isPrivate: true });
   const cookieStore = await cookies();
   if (!result?.success) {
     if (result?.reason === "unauthorized") {
@@ -17,16 +21,8 @@ export const handlePrivateRequest = async (result: FetchResult<any>) => {
       cookieStore.delete({ name: CookieItems.ServerUrl, path: "/" });
       redirect(paths.base);
     }
-  }
-  if (result?.success && result?.token) {
-    console.log(result?.token, "token-1");
-    cookieStore.set({
-      name: CookieItems.AccessToken,
-      value: result?.token,
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-    });
+  } else if (result?.credentials) {
+    forwardSetCookie(result?.credentials);
   }
   return result;
 };

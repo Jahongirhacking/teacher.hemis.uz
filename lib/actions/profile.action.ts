@@ -23,7 +23,7 @@ export const logoutAction = async () => {
 
 export const getProfileAction = async () => {
   try {
-    return handlePrivateRequest(await getProfile());
+    return handlePrivateRequest(getProfile);
   } catch (err) {
     console.error(err);
   }

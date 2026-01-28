@@ -4,6 +4,8 @@
 import { cookies } from "next/headers";
 import { CookieItems } from "../const";
 import { refreshToken } from "./auth/refreshToken";
+import { extractCookieValue } from "./cookieUtils";
+import { IServerSideOptions } from "./type";
 
 export type FetchOptions = Omit<RequestInit, "body"> & {
   body?: any;
@@ -22,13 +24,15 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
-export const getBaseUrl = async () => {
+export const getBaseUrl = async (isPrivate: boolean = false) => {
+  const postfix = "api/v1/teacher";
   const cookieStore = await cookies();
   const serverUrl = cookieStore.get(CookieItems.ServerUrl);
-  return (
-    (decodeURIComponent(serverUrl?.value || "") ||
-      "https://api-univer.hemis.uz") + "/api/v1/teacher"
-  );
+  if (!serverUrl?.value) {
+    if (isPrivate) return "";
+    return `https://api-univer.hemis.uz/${postfix}`;
+  }
+  return `${decodeURIComponent(serverUrl?.value)}/${postfix}`;
 };
 
 const getAccessToken = async (): Promise<string | undefined> => {
@@ -37,15 +41,22 @@ const getAccessToken = async (): Promise<string | undefined> => {
 };
 
 export type FetchResult<T> =
-  | { success: true; data: T; headers: Headers; token?: string }
+  | { success: true; data: T; headers: Headers; credentials?: string }
   | { success: false; reason: "unauthorized" | "other"; error?: any };
 
 export async function fetcher<T>(
   path: string,
-  options: FetchOptions = {},
+  options: FetchOptions & IServerSideOptions = {},
 ): Promise<FetchResult<T>> {
   const token = options.token || (await getAccessToken());
-  const baseUrl = await getBaseUrl();
+  const baseUrl = await getBaseUrl(options?.isPrivate);
+  if (!baseUrl)
+    return {
+      success: false,
+      reason: "unauthorized",
+      error: "Muassasa topilmadi",
+    };
+
   const url = `${baseUrl}/${path}`;
 
   const actualFetch = async (tok?: string) => {
@@ -76,16 +87,19 @@ export async function fetcher<T>(
     const result = await actualFetch(token);
     return { success: true, ...result };
   } catch (err: any) {
-    if (err.status === 401) {
+    if (err.status === 401 && !options?.server) {
       // token refresh flow
       if (!isRefreshing) {
         isRefreshing = true;
         try {
-          const newToken = await refreshToken();
-          if (!newToken) return { success: false, reason: "unauthorized" };
-          processQueue(null, String(newToken));
-          const result = await actualFetch(String(newToken));
-          return { success: true, token: newToken, ...result };
+          const newCredentials = await refreshToken();
+          const newToken =
+            extractCookieValue(newCredentials, CookieItems.AccessToken) || "";
+          if (!newCredentials || !newToken)
+            return { success: false, reason: "unauthorized" };
+          processQueue(null, newToken);
+          const result = await actualFetch(newToken);
+          return { success: true, credentials: newCredentials, ...result };
         } catch (refreshError) {
           processQueue(refreshError, null);
           return {

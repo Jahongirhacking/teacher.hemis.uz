@@ -1,5 +1,7 @@
+import UnderDevelopment from "@/components/shared/UnderDevelopment";
+
 const TasksAssessmentPage = () => {
-  return <div>TasksAssessmentPage</div>;
+  return <UnderDevelopment />;
 };
 
 export default TasksAssessmentPage;

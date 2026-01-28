@@ -1,5 +1,7 @@
+import UnderDevelopment from "@/components/shared/UnderDevelopment";
+
 const SubjectTasksPage = () => {
-  return <div>SubjectTasksPage</div>;
+  return <UnderDevelopment />;
 };
 
 export default SubjectTasksPage;

@@ -1,5 +1,7 @@
+"use server";
+
 import { fetcher } from "../api";
-import { IBaseDataRes } from "../type";
+import { IBaseDataRes, IServerSideOptions } from "../type";
 import { ITeacherInfo, LoginPayload, LoginResponse } from "./type";
 
 export const login = async (data: LoginPayload) => {
@@ -9,8 +11,10 @@ export const login = async (data: LoginPayload) => {
   });
 };
 
-export const getProfile = async () => {
-  return fetcher<IBaseDataRes<{ teacher: ITeacherInfo }>>(`auth/me`, undefined);
+export const getProfile = async (options?: IServerSideOptions) => {
+  return fetcher<IBaseDataRes<{ teacher: ITeacherInfo }>>(`auth/me`, {
+    ...options,
+  });
 };
 
 export const logout = async () => {
