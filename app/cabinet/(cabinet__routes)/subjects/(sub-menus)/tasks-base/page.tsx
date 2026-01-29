@@ -18,7 +18,7 @@ const CourseTasksPage = async ({ searchParams }) => {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2 justify-between">
         <h3 className="text-[var(--header-primary-foreground)] font-bold text-[18px]">
-          Fanlar ro’yxati
+          Topshiriqlar ro’yxati
         </h3>
         <FilterDropdown>
           <Button variant={"secondary"}>
