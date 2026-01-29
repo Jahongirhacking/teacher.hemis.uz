@@ -13,7 +13,7 @@ export interface ITraining {
   training_type_name: string;
   academic_load: number;
   topic_load: number;
-  topic_count: number;
+  topic_count?: number;
   is_complete: boolean;
 }
 
@@ -30,4 +30,40 @@ export interface ISubjectTopic {
   topic_count: number;
   active_topic_count: number;
   trainings: ITraining[];
+}
+
+export interface IGroup {
+  id: number;
+  name: string;
+}
+
+export interface ICurriculum {
+  id: number;
+  name: string;
+}
+
+export interface ISubject {
+  id: number;
+  name: string;
+  code: string;
+}
+
+export interface ISemester {
+  code: string;
+  name: string;
+}
+
+export interface IEducationYear {
+  code: string;
+  name: string;
+}
+
+export interface ISubjectInfo {
+  curriculum: ICurriculum;
+  subject: ISubject;
+  semester: ISemester;
+  education_year: IEducationYear;
+  education_type: IEducationType;
+  trainings: ITraining[];
+  groups: IGroup[];
 }

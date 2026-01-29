@@ -1,7 +1,7 @@
 "use server";
 
 import { handlePrivateRequest } from ".";
-import { getSubjectTopic } from "../services/subject";
+import { getSubjectInfo, getSubjectTopic } from "../services/subject";
 
 export const getSubjectTopicAction = async (
   props: Parameters<typeof getSubjectTopic>[0],
@@ -9,6 +9,18 @@ export const getSubjectTopicAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getSubjectTopic({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getSubjectInfoAction = async (
+  props: Parameters<typeof getSubjectInfo>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSubjectInfo({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);

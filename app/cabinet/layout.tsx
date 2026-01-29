@@ -3,6 +3,8 @@ import HemisLogo from "@/components/shared/HemisLogo";
 import { Loading } from "@/components/shared/Loading";
 import { ThemeSwitchButton } from "@/components/shared/ThemeSwitch";
 import { Button } from "@/components/ui/button";
+import { CookieItems } from "@/lib/const";
+import paths from "@/lib/paths";
 import { getProfile } from "@/lib/services/auth";
 import {
   FolderRefreshIcon,
@@ -11,6 +13,8 @@ import {
 } from "@/public/icons";
 import {} from "@heroicons/react/24/outline";
 import { ChevronDown } from "lucide-react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import Menu from "./_components/aside/Menu";
 import BottomNav from "./_components/footer/BottomNav";
@@ -21,6 +25,15 @@ import { SearchInput } from "./_components/SearchInput";
 const CabinetLayout = async ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
+  const cookieStore = await cookies();
+  if (
+    !(
+      cookieStore.has(CookieItems.RefreshToken) ||
+      cookieStore.has(CookieItems.AccessToken)
+    )
+  ) {
+    redirect(paths.base);
+  }
   const profile = await getProfile({ server: true });
   const teacher =
     (profile?.success && profile?.data?.data?.teacher) || undefined;
