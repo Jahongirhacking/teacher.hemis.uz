@@ -17,7 +17,10 @@ import {
   ISemester,
   ISubject,
   ISubjectInfo,
+  ISubjectTask,
   ISubjectTopic,
+  ITaskType,
+  ITraining,
 } from "./type";
 
 export const getSubjectTopic = async ({
@@ -54,6 +57,29 @@ export const getSubjectInfo = async ({
   >) => {
   return fetcher<IBaseDataRes<ISubjectInfo[]> & IBaseDataWithMeta>(
     `subject-info?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getSubjectTasks = async ({
+  params: { page, per_page, ...params },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    IPaginationParams & {
+      curriculum_id?: ICurriculum["id"];
+      training_type?: ITraining["training_type"];
+      semester?: ISemester["code"];
+      subject_id?: ISubject["id"];
+      task_type?: ITaskType["code"];
+      status?: string;
+    }
+  >) => {
+  return fetcher<IBaseDataRes<ISubjectTask[]> & IBaseDataWithMeta>(
+    `subject-tasks/tasks?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
     {
       method: "GET",
       ...options,

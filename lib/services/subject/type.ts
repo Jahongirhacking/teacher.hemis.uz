@@ -67,3 +67,60 @@ export interface ISubjectInfo {
   trainings: ITraining[];
   groups: IGroup[];
 }
+
+export interface ITaskType {
+  code: string;
+  name: string;
+}
+
+export interface ILanguage {
+  code: string;
+  name: string;
+}
+
+export interface ITrainingType {
+  code: string;
+  name: string;
+}
+
+export interface IExamType {
+  code: string;
+  name: string;
+}
+
+export interface IStatus {
+  active: boolean;
+  label: string;
+}
+
+export interface ISubjectTask {
+  id: number;
+  name: string;
+  comment: string;
+  task_type: ITaskType;
+  subject: ISubject;
+  curriculum: ICurriculum;
+  language: ILanguage;
+  training_type: ITrainingType;
+  exam_type: IExamType;
+  semester: string;
+  education_year: string;
+  max_ball: number;
+  deadline: string;
+  attempt_count: number;
+  question_count: number;
+  test_duration: number;
+  file_count: number;
+  test_questions_count: number;
+  position: number | null;
+  random: boolean;
+  active: boolean;
+  status: IStatus;
+  is_test_task: boolean;
+  is_regular_task: boolean;
+  can_submit_task: boolean;
+  can_start_test: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
