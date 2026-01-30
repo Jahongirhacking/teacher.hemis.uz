@@ -203,7 +203,7 @@ function CalendarDayButton({
 
         // SELECTED
         modifiers.selected &&
-          "bg-primary text-primary-foreground hover:bg-primary",
+          "bg-primary !text-primary-foreground hover:bg-primary",
 
         // TODAY (selected bo‘lmasa)
         modifiers.today &&

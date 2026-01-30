@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const ActivitiesCard = () => {
   return (
-    <Card className="flex-1 gap-3 py-4 max-w-[520px]">
+    <Card className="flex-1 gap-3 py-4 max-w-full md:max-w-[520px] min-w-[250px]">
       <CardHeader className="flex justify-between items-center gap-2 font-bold">
         <h3>Mashg’ulotga qatnashish</h3>
         <Button variant={"ghost"}>Batafsil</Button>

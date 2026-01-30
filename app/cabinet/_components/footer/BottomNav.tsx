@@ -13,16 +13,17 @@ const BottomNav = () => {
   return (
     <div className="bottom-nav flex items-center gap-3 justify-evenly p-2 bg-[var(--footer-primary)] h-[70px] max-h-[70px] overflow-hidden">
       {[
-        paths.private.subjects.subjectInfo,
+        paths.private.subjects.base,
         paths.private.dashboard,
         paths.private.settings,
       ]
         ?.map((path) => findMenuWithPath(path, sideNavMenuItems))
         ?.filter((path) => !!path)
-        ?.map((path, idx) => {
-          const isActive = path?.href && pathname?.includes(path?.href);
+        ?.map((path) => {
+          const tempPath = path?.href || path?.code || paths.base;
+          const isActive = tempPath && pathname?.includes(tempPath);
           return (
-            <Link href={path?.href || "#"} key={path?.href || idx}>
+            <Link href={tempPath} key={tempPath}>
               <div
                 className={cn(
                   "flex flex-col items-center gap-1 duration-300",

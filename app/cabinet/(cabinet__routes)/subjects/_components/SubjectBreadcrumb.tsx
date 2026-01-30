@@ -12,7 +12,11 @@ const SubjectBreadcrumb = () => {
     <CustomBreadcrumb
       items={[
         { label: "Dashboard", href: paths.private.dashboard, isCurrent: false },
-        { label: "Fanlar", href: paths.private.dashboard, isCurrent: false },
+        {
+          label: "Fanlar",
+          href: paths.private.subjects?.base,
+          isCurrent: false,
+        },
         {
           label:
             sideNavMenuItems

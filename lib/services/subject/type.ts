@@ -124,3 +124,28 @@ export interface ISubjectTask {
   created_at: string;
   updated_at: string;
 }
+
+export interface IClass {
+  id: number;
+  subject: ISubject;
+  group: IGroup;
+  time: IClassTime;
+  training_type: string;
+  semester: number;
+  auditorium: number;
+}
+
+export interface IClassTime {
+  pair_number: number | null;
+  start: string;
+  end: string;
+  range: string;
+}
+
+export interface ISchedule {
+  date: string;
+  day: number;
+  day_name: string;
+  formatted_date: string;
+  classes: IClass[];
+}

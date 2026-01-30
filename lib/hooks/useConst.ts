@@ -16,7 +16,7 @@ export const findMenuWithPath = (
   menus?: IMenu[],
 ): IMenu | undefined => {
   if (!menus || !menus?.length) return;
-  const found = menus?.find((m) => m?.href === path);
+  const found = menus?.find((m) => m?.href === path || m?.code === path);
   if (found) return found;
   menus
     ?.filter((m) => !!m?.children?.length)

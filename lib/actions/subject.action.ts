@@ -2,6 +2,7 @@
 
 import { handlePrivateRequest } from ".";
 import {
+  getSchedulesByDate,
   getSubjectInfo,
   getSubjectTasks,
   getSubjectTopic,
@@ -37,6 +38,18 @@ export const getSubjectTasksAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getSubjectTasks({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getSchedulesByDateAction = async (
+  props: Parameters<typeof getSchedulesByDate>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSchedulesByDate({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);

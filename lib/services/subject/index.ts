@@ -14,6 +14,7 @@ import {
   ICurriculum,
   IEducationYear,
   IGroup,
+  ISchedule,
   ISemester,
   ISubject,
   ISubjectInfo,
@@ -85,4 +86,46 @@ export const getSubjectTasks = async ({
       ...options,
     },
   );
+};
+
+export const getSchedulesByRange = async ({
+  params,
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    start_date?: string;
+    end_date?: string;
+    semester?: ISemester["code"];
+    subject_id?: ISubject["id"];
+    education_year?: IEducationYear["code"];
+    group_id?: IGroup["id"];
+  }>) => {
+  return fetcher<IBaseDataRes<ISchedule[]>>(
+    `schedule?${getSearchParamString({ ...params })}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getSchedulesByDate = async ({
+  params,
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    date?: string;
+    semester?: ISemester["code"];
+    subject_id?: ISubject["id"];
+    education_year?: IEducationYear["code"];
+    group_id?: IGroup["id"];
+  }>) => {
+  return getSchedulesByRange({
+    params: {
+      ...params,
+      start_date: params?.date,
+      end_date: params?.date,
+    },
+    ...options,
+  });
 };
