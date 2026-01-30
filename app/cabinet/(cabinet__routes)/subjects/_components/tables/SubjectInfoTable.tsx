@@ -1,10 +1,14 @@
 "use client";
 
 import { DataTable } from "@/components/shared/DataTable";
+import { useQueryParams } from "@/components/shared/hooks/useQueryParams";
 import { DataTableProps } from "@/components/shared/types";
+import { SearchParams, SearchParamsKeys } from "@/lib/const";
 import { ISubjectInfo } from "@/lib/services/subject/type";
 
 const SubjectInfoTable = (props: Partial<DataTableProps<ISubjectInfo>>) => {
+  const { setMany } = useQueryParams();
+
   return (
     <DataTable
       rowKey={() => "id"}
@@ -18,7 +22,17 @@ const SubjectInfoTable = (props: Partial<DataTableProps<ISubjectInfo>>) => {
           title: "Fan nomi",
           dataIndex: "subject",
           render: (subject: ISubjectInfo["subject"]) => (
-            <b className="text-[var(--primary)] font-medium">{subject?.name}</b>
+            <button
+              className="border-none text-[var(--primary)] font-medium"
+              onClick={() =>
+                setMany({
+                  [SearchParams.Drawer]: SearchParamsKeys.SubjectInfo,
+                  [SearchParamsKeys.SubjectId]: subject?.id,
+                })
+              }
+            >
+              {subject?.name}
+            </button>
           ),
         },
         {

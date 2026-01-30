@@ -3,6 +3,13 @@ export enum SearchParams {
   PaginationPage = "page",
   PaginationSize = "size",
   Date = "date",
+  Drawer = "active-drawer",
+  Modal = "active-modal",
+}
+
+export enum SearchParamsKeys {
+  SubjectId = "subject-id",
+  SubjectInfo = "subject-info",
 }
 
 export enum FilterParams {
