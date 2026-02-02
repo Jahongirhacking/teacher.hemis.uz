@@ -33,7 +33,7 @@ const ScheduleCalendar = () => {
         <div className="flex flex-col gap-6 w-full">
           <div className="flex justify-between items-center flex-wrap gap-2">
             <h3 className="text-[var(--primay-text)] font-bold">
-              Fanlar kalendar rejasi
+              Dars jadvali
             </h3>
             <Button variant={"ghost"}>Batafsil</Button>
           </div>
@@ -55,7 +55,10 @@ const ScheduleCalendar = () => {
                 ))}
               </>
             ) : (
-              <Empty />
+              <Empty
+                className="[&>img]:max-w-[240px]"
+                description="Ushbu sanada darslar mavjud emas"
+              />
             )}
           </div>
         </div>

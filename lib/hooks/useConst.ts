@@ -1,4 +1,4 @@
-import { ProfileMenuIcons, SideNavIcons } from "@/public/icons";
+import { ProfileMenuIcons, SettingsIcon, SideNavIcons } from "@/public/icons";
 import { JSX } from "react";
 import paths from "../paths";
 
@@ -97,49 +97,23 @@ const useConst = () => {
       icon: SideNavIcons.AcademicWorksIcon,
       children: [],
     },
-    {
-      label: "Sozlamalar",
-      icon: SideNavIcons.SettingsIcon,
-      href: paths.private.settings,
-    },
   ];
 
   const profileMenuItems: IMenu[] = [
     {
       label: "Profil",
       icon: ProfileMenuIcons.ProfileIcon,
+      href: paths.private.profile.info,
     },
     {
-      label: "Passport ma'lumotlari",
-      icon: ProfileMenuIcons.PassportInfoIcon,
+      label: "O’qituvchi passporti",
+      icon: ProfileMenuIcons.TeacherPassportIcon,
+      href: paths.private.profile.passport,
     },
     {
-      label: "Mehnat ma'lumotlari",
-      icon: ProfileMenuIcons.ProfessionInfoIcon,
-    },
-    {
-      label: "Ilmiy ma'lumotlari",
-      icon: ProfileMenuIcons.AcademicInfoIcon,
-    },
-    {
-      label: "Shaxsiy ish reja",
-      icon: ProfileMenuIcons.PrivateWorkPlanIcon,
-    },
-    {
-      label: "Tanlov ma'lumotlari",
-      icon: ProfileMenuIcons.PrivateWorkPlanIcon,
-    },
-    {
-      label: "Malaka oshirish",
-      icon: ProfileMenuIcons.AdvancedTrainingIcon,
-    },
-    {
-      label: "Stajirovka",
-      icon: ProfileMenuIcons.InternshipIcon,
-    },
-    {
-      label: "Ilmiy metodik ishlar",
-      icon: ProfileMenuIcons.AcademicMethodicIcon,
+      label: "Sozlamalar",
+      icon: SettingsIcon,
+      href: paths.private.settings,
     },
   ];
 

@@ -16,6 +16,10 @@ export const paths = {
       tasksAssessment: `${privatePath}/subjects/tasks-assessment`,
     },
     settings: `${privatePath}/settings`,
+    profile: {
+      info: `${privatePath}/profile/info`,
+      passport: `${privatePath}/profile/passport`,
+    },
   },
 };
 

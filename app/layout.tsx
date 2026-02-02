@@ -6,7 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import ReactQueryProvider from "./_providers/ReactQueryProvider";
-import "./globals.scss";
+import "./_styles/globals.scss";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -67,10 +67,13 @@
   --primary: #243497;
   --primary-rgba: 36, 52, 151;
   --primary-foreground: #fff;
+  --primary-shadow: #e9eaf5;
   --secondary: #ffffff;
   --secondary-foreground: #616b7c;
   --muted: transparent;
   --muted-foreground: #616b7c;
+  --success: #2fa458;
+  --success-shadow: #f3faf6;
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: #e90b23;
@@ -99,10 +102,13 @@
   --primary: #7d8fff;
   --primary-rgba: 125, 143, 255;
   --primary-foreground: #fff;
+  --primary-shadow: #e9eaf515;
   --secondary: #333;
   --secondary-foreground: #d8d8d8;
   --muted: transparent;
   --muted-foreground: #616b7c;
+  --success: #4ac575;
+  --success-shadow: #7ef5b11f;
   --accent: #2b2b2b;
   --accent-foreground: oklch(88.224% 0.0001 271.152);
   --destructive: #88000e;
@@ -202,6 +208,23 @@ aside {
       height: 16px;
       border-radius: 8px !important;
       background-color: var(--secondary-text);
+    }
+  }
+}
+
+.job-info {
+  .job-info__job-item {
+    .job-item__badge {
+      &::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        border: 1px solid var(--card-foreground);
+        border-radius: 50%;
+      }
     }
   }
 }

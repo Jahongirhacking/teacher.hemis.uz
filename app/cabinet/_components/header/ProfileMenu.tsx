@@ -66,7 +66,7 @@ const ProfileMenu = ({ children }: DropdownMenuProps) => {
           </Card>
           {profileMenuItems?.map((item, idx) => (
             <DropdownMenuItem key={idx}>
-              <Link href={item?.href || "#"}>
+              <Link href={item?.href || "#"} className="w-full">
                 <CustomDropDownMenu.ItemLabel
                   label={item?.label}
                   icon={item?.icon}

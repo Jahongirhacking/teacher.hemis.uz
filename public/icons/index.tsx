@@ -190,7 +190,7 @@ const AcademicWorksIcon = () => (
   </svg>
 );
 
-const SettingsIcon = () => (
+export const SettingsIcon = () => (
   <svg
     width="20"
     height="20"
@@ -214,7 +214,6 @@ export const SideNavIcons = {
   ControlTasksIcon,
   SoloLessonsIcon,
   AcademicWorksIcon,
-  SettingsIcon,
 };
 
 export const LogoutIcon = () => (
@@ -377,6 +376,21 @@ const AcademicMethodicIcon = () => (
   </svg>
 );
 
+const TeacherPassportIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M3 5.5C3 4.11929 4.11929 3 5.5 3H12.5C13.8807 3 15 4.11929 15 5.5V8.20703C14.6777 8.11588 14.3434 8.05337 14 8.02242V5.5C14 4.67157 13.3284 4 12.5 4H5.5C4.67157 4 4 4.67157 4 5.5V12.5C4 13.3284 4.67157 14 5.5 14H8.02242C8.05337 14.3434 8.11588 14.6777 8.20703 15H5.5C4.11929 15 3 13.8807 3 12.5V5.5ZM7.25 9H10.3369C9.20516 9.79699 8.38756 11.0101 8.10661 12.4169C6.70768 12.1317 6.23773 11.1594 6.07986 10.2456C5.96234 9.5653 6.55964 9 7.25 9ZM9 8C9.82843 8 10.5 7.32843 10.5 6.5C10.5 5.67157 9.82843 5 9 5C8.17157 5 7.5 5.67157 7.5 6.5C7.5 7.32843 8.17157 8 9 8ZM18 13.5C18 15.9853 15.9853 18 13.5 18C11.0147 18 9 15.9853 9 13.5C9 11.0147 11.0147 9 13.5 9C15.9853 9 18 11.0147 18 13.5ZM15.8536 11.6464C15.6583 11.4512 15.3417 11.4512 15.1464 11.6464L12.5 14.2929L11.8536 13.6464C11.6583 13.4512 11.3417 13.4512 11.1464 13.6464C10.9512 13.8417 10.9512 14.1583 11.1464 14.3536L12.1464 15.3536C12.3417 15.5488 12.6583 15.5488 12.8536 15.3536L15.8536 12.3536C16.0488 12.1583 16.0488 11.8417 15.8536 11.6464Z"
+      fill="#616B7C"
+    />
+  </svg>
+);
+
 export const ProfileMenuIcons = {
   ProfileIcon,
   PassportInfoIcon,
@@ -387,6 +401,7 @@ export const ProfileMenuIcons = {
   AdvancedTrainingIcon,
   InternshipIcon,
   AcademicMethodicIcon,
+  TeacherPassportIcon,
 };
 
 const EduplanCalendar = () => (
