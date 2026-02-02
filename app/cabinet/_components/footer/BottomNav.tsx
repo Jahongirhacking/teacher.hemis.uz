@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const BottomNav = () => {
-  const { sideNavMenuItems, findMenuWithPath } = useConst();
+  const { sideNavMenuItems, findMenuWithPath, profileMenuItems } = useConst();
   const pathname = usePathname();
 
   return (
@@ -17,7 +17,9 @@ const BottomNav = () => {
         paths.private.dashboard,
         paths.private.settings,
       ]
-        ?.map((path) => findMenuWithPath(path, sideNavMenuItems))
+        ?.map((path) =>
+          findMenuWithPath(path, [...sideNavMenuItems, ...profileMenuItems]),
+        )
         ?.filter((path) => !!path)
         ?.map((path) => {
           const tempPath = path?.href || path?.code || paths.base;

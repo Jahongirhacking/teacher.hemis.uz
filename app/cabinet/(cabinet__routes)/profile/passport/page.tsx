@@ -36,17 +36,38 @@ const ProfilePassportPage = async () => {
         image={profile?.teacher?.image}
         id={profile?.teacher?.id}
       />
-      <div className="flex gap-4">
-        <Flex vertical gap={4} className="flex-1">
+      <div className="flex gap-4 w-full">
+        <Flex vertical gap={4} className="flex-1 w-full">
+          <div className="w-full [@media(max-width:1150px)]:block hidden">
+            <ProfilePassportInfo
+              birthDate={employee?.birth_date}
+              gender={employee?.gender}
+              nationality={employee?.nationality}
+              passportNumber={employee?.passport_number}
+              pinfl={employee?.passport_pin}
+            />
+          </div>
           <ProfileJobInfo />
           <ProfileLangCertificates />
+          <Flex
+            vertical
+            gap={4}
+            className="w-full [@media(max-width:1150px)]:flex hidden"
+          >
+            <ProfileAcademicInfo />
+            <ProfilePrivateWorkPlan />
+          </Flex>
           <ProfileChoice />
           <ProfileSkillImprovement />
           <ProfileInternshipInfo />
           <ProfileAcademicWorks />
         </Flex>
 
-        <Flex vertical gap={4} className="w-[336px]">
+        <Flex
+          vertical
+          gap={4}
+          className="w-[336px] [@media(max-width:1150px)]:hidden"
+        >
           <ProfilePassportInfo
             birthDate={employee?.birth_date}
             gender={employee?.gender}

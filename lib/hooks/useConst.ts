@@ -18,12 +18,13 @@ export const findMenuWithPath = (
   if (!menus || !menus?.length) return;
   const found = menus?.find((m) => m?.href === path || m?.code === path);
   if (found) return found;
-  menus
-    ?.filter((m) => !!m?.children?.length)
-    ?.forEach((m) => {
-      const found = findMenuWithPath(path, m?.children);
-      if (found) return found;
-    });
+
+  for (const menu of menus) {
+    if (menu?.children?.length) {
+      const childFound = findMenuWithPath(path, menu.children);
+      if (childFound) return childFound;
+    }
+  }
 };
 
 const navbarCodes = {

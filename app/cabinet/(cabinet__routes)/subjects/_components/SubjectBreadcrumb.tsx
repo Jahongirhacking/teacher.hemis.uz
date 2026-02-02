@@ -7,7 +7,9 @@ import { usePathname } from "next/navigation";
 
 const SubjectBreadcrumb = () => {
   const pathname = usePathname();
-  const { sideNavMenuItems, navbarCodes } = useConst();
+  const { sideNavMenuItems, findMenuWithPath } = useConst();
+  const target = findMenuWithPath(pathname, sideNavMenuItems);
+
   return (
     <CustomBreadcrumb
       items={[
@@ -17,14 +19,16 @@ const SubjectBreadcrumb = () => {
           href: paths.private.subjects?.base,
           isCurrent: false,
         },
-        {
-          label:
-            sideNavMenuItems
-              ?.find((i) => i?.code === navbarCodes.subjects)
-              ?.children?.find((i) => i?.href === pathname)?.label || "Fan",
-          href: pathname,
-          isCurrent: true,
-        },
+
+        ...(target && pathname !== paths.private.subjects.base
+          ? [
+              {
+                label: target?.label,
+                href: pathname,
+                isCurrent: true,
+              },
+            ]
+          : []),
       ]}
     />
   );
