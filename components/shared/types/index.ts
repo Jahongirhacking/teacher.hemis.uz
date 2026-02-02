@@ -2,6 +2,7 @@
 // components/common/DataTable/types.ts
 import { ReactNode } from "react";
 import { TABLE_INDEX_NAME } from "../DataTable";
+import { EmptyProps } from "../Empty";
 
 type INDEX_NAME = typeof TABLE_INDEX_NAME;
 
@@ -25,6 +26,7 @@ export interface DataTableProps<T> {
   rowKey: keyof T | ((record: T) => string);
   pagination?: Pagination | false;
   total?: number;
+  emptyProps?: EmptyProps;
 }
 
 export enum ThemeColor {

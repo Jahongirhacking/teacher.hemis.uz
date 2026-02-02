@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import Image, { ImageProps } from "next/image";
 
-interface EmptyProps {
+export interface EmptyProps {
   description?: string;
-  image?: ImageProps;
+  image?: Partial<ImageProps>;
   className?: string;
 }
 

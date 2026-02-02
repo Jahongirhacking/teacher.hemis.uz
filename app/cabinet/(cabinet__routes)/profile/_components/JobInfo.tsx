@@ -1,9 +1,10 @@
-import ProfileGeneralCard from "./ProfileGeneralCard";
+import Flex from "@/components/shared/Flex";
+import ProfileGeneralCard from "./GeneralCard";
 
 const ProfileJobInfo = () => {
   return (
     <ProfileGeneralCard title="Mehnat ma’lumotlari">
-      <div className="flex flex-col gap-4 job-info">
+      <Flex vertical gap={4} className="job-info">
         <JobItem
           positionName="Tashkilot"
           companyName="Muhammad al-Xorazmiy nomidagi Toshkent Axborot Texnologiyalari Universiteti"
@@ -12,23 +13,23 @@ const ProfileJobInfo = () => {
           positionName="Bo’linma"
           companyName="Axborot xavfsizligi kafedrasi"
         />
-      </div>
+      </Flex>
     </ProfileGeneralCard>
   );
 };
 
 const JobItem = (props: { positionName?: string; companyName?: string }) => (
-  <div className="flex items-center gap-5 job-info__job-item">
-    <span className="w-[10px] h-[10px] min-w-[10px] bg-[var(--card-foreground)] rounded-full job-item__badge relative" />
-    <div className="flex flex-col gap-2">
+  <Flex align="center" gap={5} className="card__list-item">
+    <span className="w-[10px] h-[10px] min-w-[10px] bg-[var(--card-foreground)] rounded-full item__badge relative" />
+    <Flex vertical gap={2}>
       <b className="text-[var(--card-foreground)]">
         {props?.positionName || "-"}
       </b>
       <span className="text-[var(--secondary-foreground)]">
         {props?.companyName || "-"}
       </span>
-    </div>
-  </div>
+    </Flex>
+  </Flex>
 );
 
 export default ProfileJobInfo;

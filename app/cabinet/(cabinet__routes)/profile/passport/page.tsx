@@ -2,13 +2,20 @@ import Flex from "@/components/shared/Flex";
 import { Button } from "@/components/ui/button";
 import { getProfileAction } from "@/lib/actions/profile.action";
 import { ArrowDownToLineIcon } from "lucide-react";
-import ProfileContactCard from "../_components/ProfileContact";
-import ProfileJobInfo from "../_components/ProfileJobInfo";
-import ProfileLangCertificates from "../_components/ProfileLangCertificates";
+import ProfileAcademicInfo from "../_components/AcademicInfo";
+import ProfileAcademicWorks from "../_components/AcademicWorks";
+import ProfileChoice from "../_components/ChoiceInfo";
+import ProfileContactCard from "../_components/ContactInfo";
+import ProfileInternshipInfo from "../_components/InternshipInfo";
+import ProfileJobInfo from "../_components/JobInfo";
+import ProfileLangCertificates from "../_components/LangCertificates";
+import ProfilePassportInfo from "../_components/PassportInfo";
+import ProfilePrivateWorkPlan from "../_components/PrivateWorkPlan";
+import ProfileSkillImprovement from "../_components/SkillImprovement";
 
 const ProfilePassportPage = async () => {
   const profile = (await getProfileAction())?.data;
-  console.log(profile);
+  const employee = profile?.teacher?.employee;
 
   return (
     <div className="flex flex-col gap-5">
@@ -21,7 +28,9 @@ const ProfilePassportPage = async () => {
         </Button>
       </div>
       <ProfileContactCard
-        full_name={profile?.teacher?.full_name}
+        full_name={
+          profile?.teacher?.employee?.full_name || profile?.teacher?.full_name
+        }
         email={profile?.teacher?.email}
         telephone={profile?.teacher?.telephone}
         image={profile?.teacher?.image}
@@ -31,9 +40,23 @@ const ProfilePassportPage = async () => {
         <Flex vertical gap={4} className="flex-1">
           <ProfileJobInfo />
           <ProfileLangCertificates />
+          <ProfileChoice />
+          <ProfileSkillImprovement />
+          <ProfileInternshipInfo />
+          <ProfileAcademicWorks />
         </Flex>
 
-        <div className="flex flex-col gap-4 w-[336px]"></div>
+        <Flex vertical gap={4} className="w-[336px]">
+          <ProfilePassportInfo
+            birthDate={employee?.birth_date}
+            gender={employee?.gender}
+            nationality={employee?.nationality}
+            passportNumber={employee?.passport_number}
+            pinfl={employee?.passport_pin}
+          />
+          <ProfileAcademicInfo />
+          <ProfilePrivateWorkPlan />
+        </Flex>
       </div>
     </div>
   );

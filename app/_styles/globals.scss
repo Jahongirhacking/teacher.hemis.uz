@@ -212,19 +212,17 @@ aside {
   }
 }
 
-.job-info {
-  .job-info__job-item {
-    .job-item__badge {
-      &::after {
-        content: "";
-        width: 16px;
-        height: 16px;
-        position: absolute;
-        top: -3px;
-        left: -3px;
-        border: 1px solid var(--card-foreground);
-        border-radius: 50%;
-      }
+.card__list-item {
+  .item__badge {
+    &::after {
+      content: "";
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      border: 1px solid var(--card-foreground);
+      border-radius: 50%;
     }
   }
 }

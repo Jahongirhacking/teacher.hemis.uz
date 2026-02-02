@@ -2,9 +2,9 @@ import { SafeImage } from "@/components/shared/SafeImage";
 import { Badge } from "@/components/ui/badge";
 import { ITeacherInfo } from "@/lib/services/auth/type";
 import Image from "next/image";
-import ProfileGeneralCard from "./ProfileGeneralCard";
+import ProfileGeneralCard from "./GeneralCard";
 
-const ProfileContact = (
+const ProfileContactInfo = (
   props: Partial<
     Pick<ITeacherInfo, "full_name" | "id" | "email" | "telephone" | "image"> & {
       address?: string;
@@ -69,4 +69,4 @@ const ContactInfo = ({
   </div>
 );
 
-export default ProfileContact;
+export default ProfileContactInfo;

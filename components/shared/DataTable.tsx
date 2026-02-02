@@ -29,6 +29,7 @@ export function DataTable<T>({
   rowKey,
   pagination,
   total,
+  emptyProps,
 }: DataTableProps<T>) {
   const searchParams = useSearchParams();
   const getRowKey = (record: T, index: number) =>
@@ -88,7 +89,11 @@ export function DataTable<T>({
                   colSpan={columns?.length}
                   className="h-24 text-center text-muted-foreground"
                 >
-                  <Empty description="Hech narsa topilmadi" className="p-20" />
+                  <Empty
+                    description="Hech narsa topilmadi"
+                    className="p-20"
+                    {...emptyProps}
+                  />
                 </TableCell>
               </TableRow>
             ) : (
