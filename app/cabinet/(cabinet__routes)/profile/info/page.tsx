@@ -25,7 +25,7 @@ const ProfileInfoPage = async () => {
       </Flex>
       <Flex gap={3}>
         <Settings className="animate-spin" />
-        Ma'lumotlar ulanish jarayonida
+        Ma&apos;lumotlar ulanish jarayonida
       </Flex>
     </Flex>
   );
