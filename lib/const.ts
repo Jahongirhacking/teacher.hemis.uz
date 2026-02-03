@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export enum SearchParams {
   ActiveTab = "active-tab",
   PaginationPage = "page",
@@ -26,6 +27,19 @@ export enum CookieItems {
   ServerUrl = "server_url",
 }
 
+function normalizeParams(params?: object) {
+  if (!params) return {};
+  return Object.keys(params)
+    .sort()
+    .reduce(
+      (acc, key) => {
+        acc[key] = params[key] ?? null;
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
+}
+
 export const cachedQueryKeys = {
   subjectTopics: (semester?: string, subject_id?: string) => [
     "subject-topics",
@@ -33,6 +47,7 @@ export const cachedQueryKeys = {
     subject_id ?? null,
   ],
   scheduleDate: (date?: string) => ["subject-topics", date ?? null],
+  filters: (params: object) => ["filters", normalizeParams(params)],
 };
 
 export const DEFAULT_PAGINATION = {

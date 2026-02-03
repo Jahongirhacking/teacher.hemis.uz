@@ -34,3 +34,7 @@ export interface IParamsSchema<T> {
 export interface IBodySchema<T> {
   body: T;
 }
+
+export interface IBodySchema<T> {
+  body: T;
+}

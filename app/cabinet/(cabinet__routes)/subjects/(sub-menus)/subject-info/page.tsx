@@ -2,6 +2,7 @@ import { CustomDrawer } from "@/components/shared/CustomDrawer";
 import { Button } from "@/components/ui/button";
 import { getSubjectInfoAction } from "@/lib/actions/subject.action";
 import { SearchParams, SearchParamsKeys } from "@/lib/const";
+import { SubjectFilters } from "@/lib/services/subject/type";
 import { ListFilterIcon } from "lucide-react";
 import FilterDropdown from "../../_components/FilterDropdown";
 import SubjectInfoTable from "../../_components/tables/SubjectInfoTable";
@@ -22,7 +23,9 @@ const SubjectInfoPage = async ({ searchParams }) => {
         <h3 className="text-[var(--header-primary-foreground)] font-bold text-[18px]">
           Fanlar ro’yxati
         </h3>
-        <FilterDropdown>
+        <FilterDropdown
+          types={[SubjectFilters.EducationYears, SubjectFilters.Semesters, SubjectFilters.Groups, SubjectFilters.Subjects]}
+        >
           <Button variant={"secondary"}>
             <ListFilterIcon /> Filter
           </Button>

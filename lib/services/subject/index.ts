@@ -6,6 +6,7 @@ import { fetcher } from "../api";
 import {
   IBaseDataRes,
   IBaseDataWithMeta,
+  IBodySchema,
   IPaginationParams,
   IParamsSchema,
   IServerSideOptions,
@@ -13,6 +14,8 @@ import {
 import {
   ICurriculum,
   IEducationYear,
+  IFiltersForm,
+  IFiltersRes,
   IGroup,
   ISchedule,
   ISemester,
@@ -22,6 +25,7 @@ import {
   ISubjectTopic,
   ITaskType,
   ITraining,
+  SubjectFilters,
 } from "./type";
 
 export const getSubjectTopic = async ({
@@ -126,6 +130,22 @@ export const getSchedulesByDate = async ({
       start_date: params?.date,
       end_date: params?.date,
     },
+    ...options,
+  });
+};
+
+export const batchSubjectFilters = async ({
+  body,
+  ...options
+}: IServerSideOptions &
+  IBodySchema<
+    {
+      types?: SubjectFilters[];
+    } & IFiltersForm
+  >) => {
+  return fetcher<IBaseDataRes<IFiltersRes>>(`filters/batch`, {
+    method: "POST",
+    body,
     ...options,
   });
 };

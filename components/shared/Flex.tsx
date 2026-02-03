@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
 type FlexProps = {
@@ -38,14 +39,13 @@ const Flex = ({
 
   return (
     <div
-      className={`
+      className={cn(`
         flex
         ${vertical ? "flex-col" : "flex-row"}
         ${justifyMap[justify]}
         ${alignMap[align]}
         gap-${gap}
-        ${className}
-      `}
+      `, className)}
     >
       {children}
     </div>

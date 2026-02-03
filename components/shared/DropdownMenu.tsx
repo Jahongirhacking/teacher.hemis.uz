@@ -16,21 +16,29 @@ export interface DropdownMenuProps {
   align?: "start" | "center" | "end";
 }
 
-const CustomDropDownMenu = (props: DropdownMenuProps) => {
+const CustomDropDownMenu = ({
+  triggerButton,
+  itemsRender,
+  extraRender,
+  className,
+  align,
+  open,
+  onOpenChange
+}: DropdownMenuProps & { open?: boolean; onOpenChange?: (val: boolean) => void }) => {
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild className="select-none">
-        {props?.triggerButton}
+        {triggerButton}
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className={cn("min-w-[100px]", props?.className)}
-        align={props?.align || "end"}
+        className={cn("min-w-[100px]", className)}
+        align={align || "end"}
       >
-        <DropdownMenuGroup>{props?.itemsRender()}</DropdownMenuGroup>
-        {props?.extraRender && (
+        <DropdownMenuGroup>{itemsRender?.()}</DropdownMenuGroup>
+        {extraRender && (
           <>
             <Separator className="my-3" />
-            {props?.extraRender()}
+            {extraRender()}
           </>
         )}
       </DropdownMenuContent>

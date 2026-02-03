@@ -35,11 +35,16 @@ export interface ISubjectTopic {
 export interface IGroup {
   id: number;
   name: string;
+  specialty_id?: number;
+  specialty_name?: string;
 }
 
 export interface ICurriculum {
   id: number;
   name: string;
+  education_year?: string;
+  specialty_id?: number;
+  specialty_name?: string;
 }
 
 export interface ISubject {
@@ -48,15 +53,15 @@ export interface ISubject {
   code: string;
 }
 
-export interface ISemester {
+export interface IBaseName {
   code: string;
   name: string;
+  active?: boolean;
+  position?: number;
 }
 
-export interface IEducationYear {
-  code: string;
-  name: string;
-}
+export type ISemester = IBaseName;
+export type IEducationYear = IBaseName;
 
 export interface ISubjectInfo {
   curriculum: ICurriculum;
@@ -78,10 +83,7 @@ export interface ILanguage {
   name: string;
 }
 
-export interface ITrainingType {
-  code: string;
-  name: string;
-}
+export type ITrainingType = IBaseName;
 
 export interface IExamType {
   code: string;
@@ -148,4 +150,39 @@ export interface ISchedule {
   day_name: string;
   formatted_date: string;
   classes: IClass[];
+}
+
+export enum SubjectFilters {
+  EducationYears = "education_years",
+  Semesters = "semesters",
+  Groups = "groups",
+  Subjects = "subjects",
+  Curriculums = "curriculums",
+  TrainingTypes = "training_types",
+}
+
+export const ALL_SUBJECT_FILTERS = [
+  SubjectFilters.EducationYears,
+  SubjectFilters.Curriculums,
+  SubjectFilters.Semesters,
+  SubjectFilters.TrainingTypes,
+  SubjectFilters.Groups,
+  SubjectFilters.Subjects,
+];
+
+export interface IFiltersRes {
+  [SubjectFilters.EducationYears]: IEducationYear[];
+  [SubjectFilters.Semesters]: ISemester[];
+  [SubjectFilters.Groups]: IGroup[];
+  [SubjectFilters.Subjects]: ISubject[];
+  [SubjectFilters.Curriculums]: ICurriculum[];
+  [SubjectFilters.TrainingTypes]: ITrainingType[];
+}
+
+export interface IFiltersForm {
+  education_year?: IEducationYear["code"];
+  semester?: ISemester["code"];
+  curriculum_id?: ICurriculum["id"];
+  group_id?: IGroup["id"];
+  subject_id?: ISubject["id"];
 }

@@ -5,7 +5,7 @@ import { ArrowDownToLineIcon } from "lucide-react";
 import ProfileAcademicInfo from "../_components/AcademicInfo";
 import ProfileAcademicWorks from "../_components/AcademicWorks";
 import ProfileChoice from "../_components/ChoiceInfo";
-import ProfileContactCard from "../_components/ContactInfo";
+import ProfileContactInfo from "../_components/ContactInfo";
 import ProfileInternshipInfo from "../_components/InternshipInfo";
 import ProfileJobInfo from "../_components/JobInfo";
 import ProfileLangCertificates from "../_components/LangCertificates";
@@ -18,16 +18,16 @@ const ProfilePassportPage = async () => {
   const employee = profile?.teacher?.employee;
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex justify-between">
+    <Flex vertical gap={5} className="w-full">
+      <Flex justify="between" className="w-full">
         <h2 className="font-bold text-[18px] text-[var(--header-primary-foreground)] leading-[36px]">
           O’qituvchi passporti
         </h2>
         <Button>
           <ArrowDownToLineIcon /> Yuklab olish
         </Button>
-      </div>
-      <ProfileContactCard
+      </Flex>
+      <ProfileContactInfo
         full_name={
           profile?.teacher?.employee?.full_name || profile?.teacher?.full_name
         }
@@ -36,7 +36,7 @@ const ProfilePassportPage = async () => {
         image={profile?.teacher?.image}
         id={profile?.teacher?.id}
       />
-      <div className="flex gap-4 w-full">
+      <Flex gap={4} className="w-full">
         <Flex vertical gap={4} className="flex-1 w-full">
           <div className="w-full [@media(max-width:1150px)]:block hidden">
             <ProfilePassportInfo
@@ -78,8 +78,8 @@ const ProfilePassportPage = async () => {
           <ProfileAcademicInfo />
           <ProfilePrivateWorkPlan />
         </Flex>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 

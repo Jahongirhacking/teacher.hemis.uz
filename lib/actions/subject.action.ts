@@ -2,6 +2,7 @@
 
 import { handlePrivateRequest } from ".";
 import {
+  batchSubjectFilters,
   getSchedulesByDate,
   getSubjectInfo,
   getSubjectTasks,
@@ -50,6 +51,18 @@ export const getSchedulesByDateAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getSchedulesByDate({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const batchSubjectFiltersAction = async (
+  props: Parameters<typeof batchSubjectFilters>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      batchSubjectFilters({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);

@@ -29,8 +29,8 @@ const ScheduleCalendar = () => {
 
   return (
     <Card className="flex-1 p-4">
-      <div className="flex flex-wrap justify-center items-start [@media(min-width:1440px)]:flex-nowrap gap-4">
-        <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-wrap justify-center items-center [@media(min-width:1440px)]:flex-nowrap gap-4">
+        <div className="flex flex-col gap-6 w-full max-w-[650px]">
           <div className="flex justify-between items-center flex-wrap gap-2">
             <h3 className="text-[var(--primay-text)] font-bold">
               Dars jadvali
@@ -56,8 +56,9 @@ const ScheduleCalendar = () => {
               </>
             ) : (
               <Empty
-                className="[&>img]:max-w-[240px]"
+                className="[&>img]:max-w-[180px]"
                 description="Ushbu sanada darslar mavjud emas"
+                image={{ src: '/images/empty-schedule.svg' }}
               />
             )}
           </div>
