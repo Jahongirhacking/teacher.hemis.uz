@@ -71,9 +71,9 @@ export async function fetcher<T>(
       credentials: "include",
     });
 
-    if (process.env.NODE_ENV === "development") {
-      console.log(url, options, "debug");
-    }
+    // if (process.env.NODE_ENV === "development") {
+    console.log(url, options, res, "debug");
+    // }
 
     if (!res.ok) {
       const error = await res.json().catch(() => ({ message: res.statusText }));
@@ -84,6 +84,9 @@ export async function fetcher<T>(
     }
 
     const data = await res.json();
+    // if (process.env.NODE_ENV === "development") {
+    console.log(data, "debug");
+    // }
     return { data, headers: res.headers };
   };
 

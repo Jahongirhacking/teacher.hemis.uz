@@ -58,7 +58,7 @@ const ScheduleCalendar = () => {
               <Empty
                 className="[&>img]:max-w-[180px]"
                 description="Ushbu sanada darslar mavjud emas"
-                image={{ src: '/images/empty-schedule.svg' }}
+                image={{ src: "/images/empty-schedule.svg" }}
               />
             )}
           </div>

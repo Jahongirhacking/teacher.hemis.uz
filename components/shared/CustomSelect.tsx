@@ -37,7 +37,7 @@ interface CustomSelectProps {
 }
 
 export enum SelectSpecialKeys {
-  Empty = '__empty__'
+  Empty = "__empty__",
 }
 
 const CustomSelect = ({
@@ -64,7 +64,9 @@ const CustomSelect = ({
     <Select
       value={stringValue}
       onValueChange={(val) => {
-        onValueChange?.(val === "" || val === SelectSpecialKeys.Empty ? undefined : val);
+        onValueChange?.(
+          val === "" || val === SelectSpecialKeys.Empty ? undefined : val,
+        );
       }}
       disabled={disabled || loading} // 🔥 MUHIM
     >
@@ -105,20 +107,20 @@ const CustomSelect = ({
       <SelectContent className="max-h-60 overflow-auto">
         {groupedOptions
           ? groupedOptions.map((group) => (
-            <SelectGroup key={group.label}>
-              <SelectLabel>{group.label}</SelectLabel>
-              {group.options.map((opt) => (
-                <SelectItem key={opt.value} value={String(opt.value)}>
-                  {opt.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          ))
+              <SelectGroup key={group.label}>
+                <SelectLabel>{group.label}</SelectLabel>
+                {group.options.map((opt) => (
+                  <SelectItem key={opt.value} value={String(opt.value)}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            ))
           : options.map((opt) => (
-            <SelectItem key={opt.value} value={String(opt.value)}>
-              {opt.label}
-            </SelectItem>
-          ))}
+              <SelectItem key={opt.value} value={String(opt.value)}>
+                {opt.label}
+              </SelectItem>
+            ))}
       </SelectContent>
     </Select>
   );

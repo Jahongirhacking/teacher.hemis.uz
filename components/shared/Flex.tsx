@@ -39,13 +39,16 @@ const Flex = ({
 
   return (
     <div
-      className={cn(`
+      className={cn(
+        `
         flex
         ${vertical ? "flex-col" : "flex-row"}
         ${justifyMap[justify]}
         ${alignMap[align]}
         gap-${gap}
-      `, className)}
+      `,
+        className,
+      )}
     >
       {children}
     </div>

@@ -23,8 +23,11 @@ const CustomDropDownMenu = ({
   className,
   align,
   open,
-  onOpenChange
-}: DropdownMenuProps & { open?: boolean; onOpenChange?: (val: boolean) => void }) => {
+  onOpenChange,
+}: DropdownMenuProps & {
+  open?: boolean;
+  onOpenChange?: (val: boolean) => void;
+}) => {
   return (
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild className="select-none">

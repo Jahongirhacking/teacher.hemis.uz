@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import CustomSelect, { SelectSpecialKeys } from "@/components/shared/CustomSelect";
+import CustomSelect, {
+  SelectSpecialKeys,
+} from "@/components/shared/CustomSelect";
 import CustomDropDownMenu, {
   DropdownMenuProps,
 } from "@/components/shared/DropdownMenu";
@@ -49,14 +51,14 @@ const FilterDropdown = ({
   const { data: filterWrappedData, isFetching } = useQuery({
     queryKey: cachedQueryKeys.filters(values),
     queryFn: () => batchSubjectFiltersAction({ body: { ...values, types } }),
-    placeholderData: (prev) => prev
+    placeholderData: (prev) => prev,
   });
   const filterData = filterWrappedData?.data;
 
   const handleFormSubmit = (data: IFiltersForm) => {
     router.replace(`${pathname}?${getSearchParamString(data)}`);
     setOpen(false);
-  }
+  };
 
   return (
     <CustomDropDownMenu
@@ -101,12 +103,15 @@ const FilterDropdown = ({
                             options={
                               filterData?.[key]?.length
                                 ? [...(filterData?.[key] || [])]
-                                  ?.sort(FilterMap?.[key]?.sortFn)
-                                  ?.map?.(FilterMap?.[key]?.render as any)
-                                : [{
-                                  label: "Ma'lumot bo'sh",
-                                  value: SelectSpecialKeys.Empty
-                                }]}
+                                    ?.sort(FilterMap?.[key]?.sortFn)
+                                    ?.map?.(FilterMap?.[key]?.render as any)
+                                : [
+                                    {
+                                      label: "Ma'lumot bo'sh",
+                                      value: SelectSpecialKeys.Empty,
+                                    },
+                                  ]
+                            }
                             placeholder={FilterMap?.[key]?.placeholder}
                             value={field?.value}
                             onValueChange={field?.onChange}
@@ -118,7 +123,16 @@ const FilterDropdown = ({
                   ))}
               </Flex>
               <Flex gap={2} align="center" justify="end" className="w-full">
-                <Button variant={'ghost'} type="button" onClick={(e) => { e.preventDefault(); setOpen(false) }}>Yopish</Button>
+                <Button
+                  variant={"ghost"}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpen(false);
+                  }}
+                >
+                  Yopish
+                </Button>
                 <Button type="submit">Filtrlash</Button>
               </Flex>
             </Flex>

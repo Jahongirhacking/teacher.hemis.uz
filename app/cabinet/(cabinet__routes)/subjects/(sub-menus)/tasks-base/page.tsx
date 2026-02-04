@@ -23,7 +23,12 @@ const CourseTasksPage = async ({ searchParams }) => {
           Topshiriqlar ro’yxati
         </h3>
         <FilterDropdown
-          types={[SubjectFilters.EducationYears, SubjectFilters.Semesters, SubjectFilters.Groups, SubjectFilters.Subjects]}
+          types={[
+            SubjectFilters.EducationYears,
+            SubjectFilters.Semesters,
+            SubjectFilters.Groups,
+            SubjectFilters.Subjects,
+          ]}
         >
           <Button variant={"secondary"}>
             <ListFilterIcon /> Filter
