@@ -1,8 +1,8 @@
 "use client";
 
-import { signInAction } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { signInAction } from "@/lib/actions/auth.action";
 import paths from "@/lib/paths";
 import { Loader, LogIn } from "lucide-react";
 import Image from "next/image";
@@ -22,10 +22,15 @@ export default function LoginForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log('Form start...');
+
     const formData = new FormData(e.currentTarget);
+    console.log(formData, 'formData');
     startTransition(async () => {
       try {
+        console.log('sign in...');
         const result = await signInAction(formData);
+        console.log(result, 'result form');
         toast.dismiss();
         if (result?.success) {
           toast.success("Muvaffaqiyatli kirildi!");
