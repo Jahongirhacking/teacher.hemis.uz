@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signInAction } from "@/lib/actions/auth.action";
 import paths from "@/lib/paths";
+import { useMutation } from "@tanstack/react-query";
 import { Loader, LogIn } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FormEvent, useTransition } from "react";
+import { FormEvent } from "react";
 import { toast } from "sonner";
 
 enum FormItems {
@@ -17,31 +18,37 @@ enum FormItems {
 
 export default function LoginForm() {
   const router = useRouter();
-  const [pending, startTransition] = useTransition();
+  const { mutate: handleLoginMutate, isPending } = useMutation({
+    mutationFn: async (formData: FormData) => signInAction(formData),
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log('Form start...');
-
+    console.log("Form start...");
     const formData = new FormData(e.currentTarget);
-    console.log(formData, 'formData');
-    startTransition(async () => {
-      try {
-        console.log('sign in...');
-        const result = await signInAction(formData);
-        console.log(result, 'result form');
+    console.log(
+      formData.get(FormItems.Login),
+      formData.get(FormItems.Password),
+      "formData in form",
+    );
+    handleLoginMutate(formData, {
+      onSuccess: (result) => {
         toast.dismiss();
+        console.log(result, "result form");
         if (result?.success) {
           toast.success("Muvaffaqiyatli kirildi!");
-          router.replace(paths.private.dashboard); // non-urgent
-        } else if (result?.error) {
-          toast.error(String(result?.error));
+          router.replace(paths.private.dashboard);
+        } else {
+          toast.error(result?.error);
         }
-      } catch (err) {
+      },
+      onError: (err) => {
+        toast.dismiss();
         console.error(err);
-        toast.error((err as { message: string })?.message);
-      }
+        toast.error(
+          (err as { message: string })?.message || "Tizimga kirishda xatolik",
+        );
+      },
     });
   };
 
@@ -78,8 +85,8 @@ export default function LoginForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" disabled={pending}>
-            {pending ? <Loader className="animate-spin" /> : <LogIn />} Kirish
+          <Button type="submit" disabled={isPending}>
+            {isPending ? <Loader className="animate-spin" /> : <LogIn />} Kirish
           </Button>
           <a href="#">
             <Button className="w-full">
