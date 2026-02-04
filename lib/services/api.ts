@@ -48,8 +48,10 @@ export async function fetcher<T>(
   path: string,
   { server, isPrivate, ...options }: FetchOptions & IServerSideOptions = {},
 ): Promise<FetchResult<T>> {
+  console.log(path, server, isPrivate, options, "fetcher oprtions");
   const token = options.token || (await getAccessToken());
   const baseUrl = await getBaseUrl(isPrivate);
+  console.log(baseUrl, "baseUrl");
   if (!baseUrl)
     return {
       success: false,
@@ -58,6 +60,7 @@ export async function fetcher<T>(
     };
 
   const url = `${baseUrl}/${path}`;
+  console.log(url, "baseUrl/path");
 
   const actualFetch = async (tok?: string) => {
     const res = await fetch(url, {
@@ -91,7 +94,9 @@ export async function fetcher<T>(
   };
 
   try {
+    console.log("fetching...");
     const result = await actualFetch(token);
+    console.log(result, "result");
     return { success: true, ...result };
   } catch (err: any) {
     if (err.status === 401 && !server) {
