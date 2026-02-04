@@ -52,10 +52,12 @@ export const cachedQueryKeys = {
 
 export const DEFAULT_PAGINATION = {
   page: 1,
-  size: 10,
+  size: 20,
 };
 
 export enum TIME_FORMAT {
   Server = "YYYY-MM-DD",
+  ServerWithTime = "YYYY-MM-DD HH:mm:ss",
   Client = "DD.MM.YYYY",
+  ClientWithTime = "DD.MM.YYYY HH:mm:ss",
 }

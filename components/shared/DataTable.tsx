@@ -100,7 +100,7 @@ export function DataTable<T>({
               paginatedData?.map((record, rowIndex) => (
                 <TableRow
                   key={getRowKey(record, rowIndex)}
-                  className="hover:bg-[var(--background)]"
+                  className="hover:bg-[var(--card-shadow)]"
                 >
                   {columns?.map((col, colIndex) => {
                     const value = col?.dataIndex

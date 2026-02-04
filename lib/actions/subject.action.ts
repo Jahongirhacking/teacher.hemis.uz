@@ -7,6 +7,8 @@ import {
   getSubjectInfo,
   getSubjectTasks,
   getSubjectTopic,
+  getTeacherResources,
+  getTeacherResourceWithId,
 } from "../services/subject";
 
 export const getSubjectTopicAction = async (
@@ -63,6 +65,30 @@ export const batchSubjectFiltersAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       batchSubjectFilters({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getTeacherResourcesAction = async (
+  props: Parameters<typeof getTeacherResources>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getTeacherResources({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getTeacherResourceWithIdAction = async (
+  props: Parameters<typeof getTeacherResourceWithId>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getTeacherResourceWithId({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);

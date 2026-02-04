@@ -24,17 +24,10 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form start...");
     const formData = new FormData(e.currentTarget);
-    console.log(
-      formData.get(FormItems.Login),
-      formData.get(FormItems.Password),
-      "formData in form",
-    );
     handleLoginMutate(formData, {
       onSuccess: (result) => {
         toast.dismiss();
-        console.log(result, "result form");
         if (result?.success) {
           toast.success("Muvaffaqiyatli kirildi!");
           router.replace(paths.private.dashboard);

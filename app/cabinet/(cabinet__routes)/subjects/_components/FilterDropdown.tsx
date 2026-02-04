@@ -23,8 +23,8 @@ import {
 } from "@/lib/services/subject/type";
 import { getSearchParamString } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
-import { ReactElement, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
 enum FilterItem {
@@ -43,6 +43,7 @@ const FilterDropdown = ({
   align?: DropdownMenuProps["align"];
   types?: SubjectFilters[];
 }) => {
+  const searchParams = useSearchParams();
   const { control, reset, handleSubmit } = useForm<IFiltersForm>();
   const values = useWatch({ control });
   const router = useRouter();
@@ -59,6 +60,18 @@ const FilterDropdown = ({
     router.replace(`${pathname}?${getSearchParamString(data)}`);
     setOpen(false);
   };
+
+  const formValuesFromUrl = useMemo<IFiltersForm>(() => {
+    const obj: Partial<IFiltersForm> = {};
+    searchParams.forEach((value, key) => {
+      obj[key as any] = value;
+    });
+    return obj as IFiltersForm;
+  }, [searchParams]);
+
+  useEffect(() => {
+    reset(formValuesFromUrl);
+  }, [formValuesFromUrl, reset]);
 
   return (
     <CustomDropDownMenu

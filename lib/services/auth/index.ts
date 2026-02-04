@@ -5,7 +5,6 @@ import { IBaseDataRes, IServerSideOptions } from "../type";
 import { ITeacherInfo, LoginPayload, LoginResponse } from "./type";
 
 export const login = async (data: LoginPayload) => {
-  console.log(data, "calling fetcher with body...");
   return fetcher<IBaseDataRes<LoginResponse>>(`auth/login`, {
     method: "POST",
     body: data,

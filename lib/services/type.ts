@@ -38,3 +38,12 @@ export interface IBodySchema<T> {
 export interface IBodySchema<T> {
   body: T;
 }
+
+export interface IFileProps {
+  name: string;
+  path: string;
+  size: string;
+  type: string;
+  order: string;
+  base_url: string;
+}

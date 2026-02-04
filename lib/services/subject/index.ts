@@ -24,6 +24,7 @@ import {
   ISubjectTask,
   ISubjectTopic,
   ITaskType,
+  ITeacherResource,
   ITraining,
   SubjectFilters,
 } from "./type";
@@ -146,6 +147,37 @@ export const batchSubjectFilters = async ({
   return fetcher<IBaseDataRes<IFiltersRes>>(`filters/batch`, {
     method: "POST",
     body,
+    ...options,
+  });
+};
+
+export const getTeacherResources = async ({
+  params,
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    {
+      subject_id?: ISubject["id"];
+      curriculum_subject_id?: ISubject["curriculum_subject_id"];
+      resource_type?: string;
+      active?: boolean;
+    } & IPaginationParams
+  >) => {
+  return fetcher<IBaseDataRes<ITeacherResource[]> & IBaseDataWithMeta>(
+    `resources?${getSearchParamString(params)}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getTeacherResourceWithId = async ({
+  params,
+  ...options
+}: IServerSideOptions & IParamsSchema<{ id: ITeacherResource["id"] }>) => {
+  return fetcher<IBaseDataRes<ITeacherResource>>(`resources/${params?.id}`, {
+    method: "GET",
     ...options,
   });
 };

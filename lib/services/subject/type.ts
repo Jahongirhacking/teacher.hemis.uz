@@ -1,3 +1,5 @@
+import { IFileProps } from "../type";
+
 export interface IEducationType {
   code: string;
   name: string;
@@ -51,6 +53,7 @@ export interface ISubject {
   id: number;
   name: string;
   code: string;
+  curriculum_subject_id?: number;
 }
 
 export interface IBaseName {
@@ -185,4 +188,37 @@ export interface IFiltersForm {
   curriculum_id?: ICurriculum["id"];
   group_id?: IGroup["id"];
   subject_id?: ISubject["id"];
+}
+
+export interface IResourceItem {
+  id: number;
+  resource_type: {
+    code: string;
+  };
+  comment: string;
+  files: IFileProps[];
+  url: string;
+  has_files: boolean;
+  has_url: boolean;
+  created_at: string;
+}
+
+export interface ITeacherResource {
+  id: number;
+  title: string;
+  comment: string | null;
+  subject: ISubject;
+  curriculum: ICurriculum;
+  resource_type: string | null;
+  language: ILanguage[];
+  files: IFileProps[] | null;
+  files_count: number;
+  url: string | null;
+  urls_count: number;
+  items: IResourceItem[];
+  items_count: number;
+  position: number;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
 }
