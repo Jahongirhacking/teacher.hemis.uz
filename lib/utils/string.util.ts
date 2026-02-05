@@ -1,0 +1,103 @@
+function isCyrillic(input: string): boolean {
+  // Regex to match any Cyrillic character
+  const cyrillicRegex = /[\u0400-\u04FF]/;
+  return cyrillicRegex.test(input);
+}
+
+function cyrillicToUzbekLatin(input: string): string {
+  const mapping: Record<string, string> = {
+    А: "A",
+    а: "a",
+    Б: "B",
+    б: "b",
+    В: "V",
+    в: "v",
+    Г: "G",
+    г: "g",
+    Д: "D",
+    д: "d",
+    Е: "E",
+    е: "e",
+    Ё: "Yo",
+    ё: "yo",
+    Ж: "J",
+    ж: "j",
+    З: "Z",
+    з: "z",
+    И: "I",
+    и: "i",
+    Й: "Y",
+    й: "y",
+    К: "K",
+    к: "k",
+    Л: "L",
+    л: "l",
+    М: "M",
+    м: "m",
+    Н: "N",
+    н: "n",
+    О: "O",
+    о: "o",
+    П: "P",
+    п: "p",
+    Р: "R",
+    р: "r",
+    С: "S",
+    с: "s",
+    Т: "T",
+    т: "t",
+    У: "U",
+    у: "u",
+    Ф: "F",
+    ф: "f",
+    Х: "X",
+    х: "x",
+    Ц: "S",
+    ц: "s",
+    Ч: "Ch",
+    ч: "ch",
+    Ш: "Sh",
+    ш: "sh",
+    Щ: "Sh",
+    щ: "sh",
+    Ъ: "",
+    ъ: "",
+    Ы: "I",
+    ы: "i",
+    Ь: "",
+    ь: "",
+    Э: "E",
+    э: "e",
+    Ю: "Yu",
+    ю: "yu",
+    Я: "Ya",
+    я: "ya",
+    Ў: "Oʻ",
+    ў: "oʻ",
+    Қ: "Q",
+    қ: "q",
+    Ғ: "Gʻ",
+    ғ: "gʻ",
+    Ҳ: "H",
+    ҳ: "h",
+  };
+
+  return input
+    .split("")
+    .map((char) => mapping[char] || char)
+    .join("");
+}
+
+export const convertIfCyrillic = (input: string): string => {
+  if (isCyrillic(input)) {
+    return cyrillicToUzbekLatin(input);
+  }
+  return input; // Return the original string if no Cyrillic characters are found
+};
+
+export const keepOnlyLatinLettersAndWhitespace = (input: string): string => {
+  // Regex to match Latin letters (a-z, A-Z) and whitespace
+  const latinNumberWhitespaceRegex = /[a-zA-Z0-9\s]/g;
+  // Extract and join matched characters
+  return input.match(latinNumberWhitespaceRegex)?.join("") || "";
+};

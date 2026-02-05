@@ -182,13 +182,29 @@ export interface IFiltersRes {
   [SubjectFilters.TrainingTypes]: ITrainingType[];
 }
 
-export interface IFiltersForm {
-  education_year?: IEducationYear["code"];
-  semester?: ISemester["code"];
-  curriculum_id?: ICurriculum["id"];
-  group_id?: IGroup["id"];
-  subject_id?: ISubject["id"];
+export enum FilterItem {
+  EducationYear = "education_year",
+  Semester = "semester",
+  Group = "group_id",
+  Curriculum = "curriculum_id",
+  Subject = "subject_id",
 }
+
+export interface IFiltersForm {
+  [FilterItem.EducationYear]?: IEducationYear["code"];
+  [FilterItem.Semester]?: ISemester["code"];
+  [FilterItem.Curriculum]?: ICurriculum["id"];
+  [FilterItem.Group]?: IGroup["id"];
+  [FilterItem.Subject]?: ISubject["id"];
+}
+
+export const ALL_FILTER_KEYS = [
+  FilterItem.Curriculum,
+  FilterItem.EducationYear,
+  FilterItem.Group,
+  FilterItem.Semester,
+  FilterItem.Subject,
+];
 
 export interface IResourceItem {
   id: number;

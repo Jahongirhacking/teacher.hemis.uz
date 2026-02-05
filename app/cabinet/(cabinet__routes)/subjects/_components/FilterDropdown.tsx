@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import CustomSelect, {
-  SelectSpecialKeys,
-} from "@/components/shared/CustomSelect";
+import CustomSelect from "@/components/shared/CustomSelect";
 import CustomDropDownMenu, {
   DropdownMenuProps,
 } from "@/components/shared/DropdownMenu";
@@ -13,7 +11,9 @@ import { Separator } from "@/components/ui/separator";
 import { batchSubjectFiltersAction } from "@/lib/actions/subject.action";
 import { cachedQueryKeys } from "@/lib/const";
 import {
+  ALL_FILTER_KEYS,
   ALL_SUBJECT_FILTERS,
+  FilterItem,
   ICurriculum,
   IEducationYear,
   IFiltersForm,
@@ -27,14 +27,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
-enum FilterItem {
-  EducationYear = "education_year",
-  Semester = "semester",
-  Group = "group_id",
-  Curriculum = "curriculum_id",
-  Subject = "subject_id",
-}
-
 const FilterDropdown = ({
   children,
   types = ALL_SUBJECT_FILTERS,
@@ -44,7 +36,7 @@ const FilterDropdown = ({
   types?: SubjectFilters[];
 }) => {
   const searchParams = useSearchParams();
-  const { control, reset, handleSubmit } = useForm<IFiltersForm>();
+  const { control, reset, handleSubmit, getValues } = useForm<IFiltersForm>();
   const values = useWatch({ control });
   const router = useRouter();
   const pathname = usePathname();
@@ -63,8 +55,8 @@ const FilterDropdown = ({
 
   const formValuesFromUrl = useMemo<IFiltersForm>(() => {
     const obj: Partial<IFiltersForm> = {};
-    searchParams.forEach((value, key) => {
-      obj[key as any] = value;
+    ALL_FILTER_KEYS.forEach((filterKey) => {
+      obj[filterKey as string] = searchParams.get(filterKey) || "";
     });
     return obj as IFiltersForm;
   }, [searchParams]);
@@ -87,7 +79,6 @@ const FilterDropdown = ({
                 className="hover:text-[rgba(var(--destructive-rgba),0.6)] underline text-[var(--destructive)]"
                 onClick={(e) => {
                   e.preventDefault();
-                  reset();
                   router.replace(pathname);
                 }}
               >
@@ -113,18 +104,10 @@ const FilterDropdown = ({
                         render={({ field }) => (
                           <CustomSelect
                             allowClear
-                            options={
-                              filterData?.[key]?.length
-                                ? [...(filterData?.[key] || [])]
-                                    ?.sort(FilterMap?.[key]?.sortFn)
-                                    ?.map?.(FilterMap?.[key]?.render as any)
-                                : [
-                                    {
-                                      label: "Ma'lumot bo'sh",
-                                      value: SelectSpecialKeys.Empty,
-                                    },
-                                  ]
-                            }
+                            showSearch
+                            options={[...(filterData?.[key] || [])]
+                              ?.sort(FilterMap?.[key]?.sortFn)
+                              ?.map?.(FilterMap?.[key]?.render as any)}
                             placeholder={FilterMap?.[key]?.placeholder}
                             value={field?.value}
                             onValueChange={field?.onChange}

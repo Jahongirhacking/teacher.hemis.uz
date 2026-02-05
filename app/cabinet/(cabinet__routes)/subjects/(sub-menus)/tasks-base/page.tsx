@@ -31,7 +31,7 @@ const CourseTasksPage = async ({ searchParams }) => {
           ]}
         >
           <Button variant={"secondary"}>
-            <ListFilterIcon /> Filter
+            <ListFilterIcon /> Filtr
           </Button>
         </FilterDropdown>
       </div>
