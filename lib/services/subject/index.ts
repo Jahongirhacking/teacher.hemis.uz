@@ -13,6 +13,7 @@ import {
 } from "../type";
 import {
   ICurriculum,
+  ICurriculumSubject,
   IEducationYear,
   IFiltersForm,
   IFiltersRes,
@@ -23,11 +24,15 @@ import {
   ISubjectInfo,
   ISubjectTask,
   ISubjectTopic,
+  ISubjectWithResources,
   ITaskType,
   ITeacherResource,
   ITraining,
+  ITrainingType,
   SubjectFilters,
 } from "./type";
+
+// Subject Topic
 
 export const getSubjectTopic = async ({
   params: { page, per_page, ...params },
@@ -39,7 +44,7 @@ export const getSubjectTopic = async ({
       subject_id?: ISubject["id"];
     }
   >) => {
-  return fetcher<IBaseDataRes<ISubjectTopic[]> & IBaseDataWithMeta>(
+  return fetcher<IBaseDataRes<ICurriculumSubject[]> & IBaseDataWithMeta>(
     `subject-topics?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
     {
       method: "GET",
@@ -47,6 +52,28 @@ export const getSubjectTopic = async ({
     },
   );
 };
+
+export const getSubjectTopicWithId = async ({
+  params: { topicContainerId, page, per_page, ...params },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    IPaginationParams & {
+      topicContainerId: ICurriculumSubject["id"];
+      training_type?: ITrainingType["code"];
+      active?: boolean;
+    }
+  >) => {
+  return fetcher<IBaseDataRes<ISubjectTopic>>(
+    `subject-topics/${topicContainerId}?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+// Subject Info
 
 export const getSubjectInfo = async ({
   params: { page, per_page, ...params },
@@ -70,6 +97,18 @@ export const getSubjectInfo = async ({
   );
 };
 
+export const getSubjects = async ({ ...options }: IServerSideOptions) => {
+  return fetcher<IBaseDataRes<ISubjectWithResources[]> & IBaseDataWithMeta>(
+    `subjects`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+// Subject Tasks
+
 export const getSubjectTasks = async ({
   params: { page, per_page, ...params },
   ...options
@@ -92,6 +131,8 @@ export const getSubjectTasks = async ({
     },
   );
 };
+
+// Schedules
 
 export const getSchedulesByRange = async ({
   params,
@@ -135,6 +176,8 @@ export const getSchedulesByDate = async ({
   });
 };
 
+// Filters
+
 export const batchSubjectFilters = async ({
   body,
   ...options
@@ -150,6 +193,8 @@ export const batchSubjectFilters = async ({
     ...options,
   });
 };
+
+// Resources
 
 export const getTeacherResources = async ({
   params,
@@ -180,4 +225,23 @@ export const getTeacherResourceWithId = async ({
     method: "GET",
     ...options,
   });
+};
+
+export const getSubjectsWithResources = async ({
+  params,
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    {
+      subject_id?: ISubject["id"];
+      education_year?: IEducationYear["code"];
+    } & IPaginationParams
+  >) => {
+  return fetcher<IBaseDataRes<ISubjectWithResources[]> & IBaseDataWithMeta>(
+    `resources/subjects?${getSearchParamString(params)}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
 };

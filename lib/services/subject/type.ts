@@ -19,7 +19,7 @@ export interface ITraining {
   is_complete: boolean;
 }
 
-export interface ISubjectTopic {
+export interface ICurriculumSubject {
   id: number;
   curriculum_id: number;
   curriculum_name: string;
@@ -32,6 +32,45 @@ export interface ISubjectTopic {
   topic_count: number;
   active_topic_count: number;
   trainings: ITraining[];
+}
+
+export interface ISubjectTopicItem {
+  id: number;
+  name: string;
+  translated_name: string;
+  full_name: string;
+  curriculum_id: number;
+  subject_id: number;
+  semester: string;
+  training_type: string;
+  training_type_name: string;
+  department_id: number;
+  position: number | null;
+  topic_load: number;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ITrainingTypeStat {
+  training_type: string;
+  training_type_name: string;
+  topic_count: number;
+  total_load: number;
+}
+
+export interface ISubjectTopicStats {
+  total_topics: number;
+  active_topics: number;
+  total_load: number;
+  by_training_type: ITrainingTypeStat[];
+}
+
+export interface ISubjectTopic {
+  curriculum_subject: ICurriculumSubject;
+  items: ISubjectTopicItem[];
+  total: number;
+  stats: ISubjectTopicStats;
 }
 
 export interface IGroup {
@@ -47,6 +86,7 @@ export interface ICurriculum {
   education_year?: string;
   specialty_id?: number;
   specialty_name?: string;
+  faculty: string;
 }
 
 export interface ISubject {
@@ -237,4 +277,15 @@ export interface ITeacherResource {
   active: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface ISubjectWithResources {
+  id: number;
+  subject: ISubject;
+  curriculum: ICurriculum;
+  education_year: IEducationYear["code"];
+  semester: ISemester;
+  training_type: ITrainingType | null;
+  resources_count: number;
+  created_at: string;
 }

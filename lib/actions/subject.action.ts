@@ -5,11 +5,15 @@ import {
   batchSubjectFilters,
   getSchedulesByDate,
   getSubjectInfo,
+  getSubjectsWithResources,
   getSubjectTasks,
   getSubjectTopic,
+  getSubjectTopicWithId,
   getTeacherResources,
   getTeacherResourceWithId,
 } from "../services/subject";
+
+// Subject Topic
 
 export const getSubjectTopicAction = async (
   props: Parameters<typeof getSubjectTopic>[0],
@@ -23,6 +27,20 @@ export const getSubjectTopicAction = async (
   }
 };
 
+export const getSubjectTopicWithIdAction = async (
+  props: Parameters<typeof getSubjectTopicWithId>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSubjectTopicWithId({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Subject Info
+
 export const getSubjectInfoAction = async (
   props: Parameters<typeof getSubjectInfo>[0],
 ) => {
@@ -34,6 +52,8 @@ export const getSubjectInfoAction = async (
     console.error(err);
   }
 };
+
+// Subject Tasks
 
 export const getSubjectTasksAction = async (
   props: Parameters<typeof getSubjectTasks>[0],
@@ -47,6 +67,8 @@ export const getSubjectTasksAction = async (
   }
 };
 
+// Schedules
+
 export const getSchedulesByDateAction = async (
   props: Parameters<typeof getSchedulesByDate>[0],
 ) => {
@@ -59,6 +81,8 @@ export const getSchedulesByDateAction = async (
   }
 };
 
+// Filters
+
 export const batchSubjectFiltersAction = async (
   props: Parameters<typeof batchSubjectFilters>[0],
 ) => {
@@ -70,6 +94,8 @@ export const batchSubjectFiltersAction = async (
     console.error(err);
   }
 };
+
+// Resources
 
 export const getTeacherResourcesAction = async (
   props: Parameters<typeof getTeacherResources>[0],
@@ -89,6 +115,18 @@ export const getTeacherResourceWithIdAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getTeacherResourceWithId({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getSubjectsWithResourcesAction = async (
+  props: Parameters<typeof getSubjectsWithResources>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSubjectsWithResources({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);

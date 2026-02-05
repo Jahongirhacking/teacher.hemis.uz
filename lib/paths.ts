@@ -21,6 +21,10 @@ export const paths = {
       passport: `${privatePath}/profile/passport`,
     },
   },
+  reservedKeys: {
+    create: "create",
+    edit: "edit",
+  },
 };
 
 export default paths;

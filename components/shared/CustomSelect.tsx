@@ -166,31 +166,31 @@ const CustomSelect = ({
 
         {groupedOptions
           ? filteredGroupedOptions?.map((group) => (
-            <SelectGroup key={group.label}>
-              <SelectLabel>{group.label}</SelectLabel>
-              {group.options.map((opt, idx) => (
-                <SelectItem
-                  key={opt?.value || idx}
-                  value={String(opt?.value)}
-                >
-                  {opt?.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          ))
+              <SelectGroup key={group.label}>
+                <SelectLabel>{group.label}</SelectLabel>
+                {group.options.map((opt, idx) => (
+                  <SelectItem
+                    key={opt?.value || idx}
+                    value={String(opt?.value)}
+                  >
+                    {opt?.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            ))
           : (filteredOptions?.length
-            ? [...filteredOptions]
-            : [
-              {
-                label: "Ma'lumot topilmadi",
-                value: SelectSpecialKeys.Empty,
-              },
-            ]
-          ).map((opt, idx) => (
-            <SelectItem key={opt?.value || idx} value={String(opt?.value)}>
-              {opt?.label}
-            </SelectItem>
-          ))}
+              ? [...filteredOptions]
+              : [
+                  {
+                    label: "Ma'lumot topilmadi",
+                    value: SelectSpecialKeys.Empty,
+                  },
+                ]
+            ).map((opt, idx) => (
+              <SelectItem key={opt?.value || idx} value={String(opt?.value)}>
+                {opt?.label}
+              </SelectItem>
+            ))}
       </SelectContent>
     </Select>
   );

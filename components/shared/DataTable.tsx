@@ -63,7 +63,7 @@ export function DataTable<T>({
   }));
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       <div className="rounded-[8px] bg-[var(--card)] overflow-hidden border border-[var(--border)]">
         <Table>
           <TableHeader className="bg-[var(--card-header)]">

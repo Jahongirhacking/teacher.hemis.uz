@@ -23,6 +23,7 @@ import {
 } from "@/lib/services/subject/type";
 import { getSearchParamString } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { ListFilterIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -36,7 +37,7 @@ const FilterDropdown = ({
   types?: SubjectFilters[];
 }) => {
   const searchParams = useSearchParams();
-  const { control, reset, handleSubmit, getValues } = useForm<IFiltersForm>();
+  const { control, reset, handleSubmit } = useForm<IFiltersForm>();
   const values = useWatch({ control });
   const router = useRouter();
   const pathname = usePathname();
@@ -137,6 +138,22 @@ const FilterDropdown = ({
       )}
       triggerButton={children}
     />
+  );
+};
+
+export const FilterButton = ({
+  types,
+  filtersCount,
+}: {
+  types: SubjectFilters[];
+  filtersCount: number;
+}) => {
+  return (
+    <FilterDropdown types={types}>
+      <Button variant={"secondary"}>
+        <ListFilterIcon /> Filtr {!!filtersCount && `(${filtersCount})`}
+      </Button>
+    </FilterDropdown>
   );
 };
 
