@@ -228,6 +228,7 @@ export enum FilterItem {
   Group = "group_id",
   Curriculum = "curriculum_id",
   Subject = "subject_id",
+  TrainingType = "training_types",
 }
 
 export interface IFiltersForm {
@@ -244,6 +245,7 @@ export const ALL_FILTER_KEYS = [
   FilterItem.Group,
   FilterItem.Semester,
   FilterItem.Subject,
+  FilterItem.TrainingType,
 ];
 
 export interface IResourceItem {

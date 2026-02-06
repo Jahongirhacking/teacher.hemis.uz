@@ -12,6 +12,7 @@ const SubjectTopicsPage = async ({ searchParams }) => {
     params: {
       page: Number(params?.[SearchParams.PaginationPage]),
       per_page: Number(params?.[SearchParams.PaginationSize]),
+      ...params,
     },
   });
 

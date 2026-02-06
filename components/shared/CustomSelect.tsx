@@ -15,7 +15,7 @@ import {
   keepOnlyLatinLettersAndWhitespace,
 } from "@/lib/utils/string.util";
 import { Loader2, X } from "lucide-react";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 
 export interface Option {
   value: string | number;
@@ -80,20 +80,16 @@ const CustomSelect = ({
     [search],
   );
 
-  const filteredOptions = useMemo(() => {
-    if (!search) return options;
-    return options.filter(filterOption || customFilterOption);
-  }, [options, search, customFilterOption, filterOption]);
-
-  const filteredGroupedOptions = useMemo(() => {
-    if (!search) return groupedOptions;
-    return groupedOptions
-      ?.map((group) => ({
-        ...group,
-        options: group.options.filter(filterOption || customFilterOption),
-      }))
-      .filter((group) => group.options.length > 0);
-  }, [groupedOptions, search, customFilterOption, filterOption]);
+  const filterOptionFn = useCallback(
+    (option: Option): boolean => {
+      if (!search) return true;
+      if (filterOption) {
+        return filterOption(option);
+      }
+      return customFilterOption(option);
+    },
+    [customFilterOption, filterOption, search],
+  );
 
   const stringValue =
     value === undefined || value === null ? "" : String(value);
@@ -108,6 +104,8 @@ const CustomSelect = ({
     <Select
       value={stringValue}
       onValueChange={(val) => {
+        if (loading || disabled) return;
+        console.log(`${value} -> ${val}`, placeholder, "val changed");
         onValueChange?.(
           val === "" || val === SelectSpecialKeys.Empty ? undefined : val,
         );
@@ -145,7 +143,6 @@ const CustomSelect = ({
         </div>
       </SelectTrigger>
 
-      {/* ⛔ dropdown ochilmaydi loading payti */}
       <SelectContent
         className="max-h-60 overflow-auto"
         side="bottom"
@@ -156,8 +153,12 @@ const CustomSelect = ({
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => e.stopPropagation()}
-              onPointerDown={(e) => e.stopPropagation()}
+              onKeyDown={(e) => {
+                e.stopPropagation();
+              }}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+              }}
               placeholder={searchPlaceholder ?? "Qidirish..."}
               className="w-full rounded-md border px-2 py-1 text-sm outline-none"
             />
@@ -165,7 +166,7 @@ const CustomSelect = ({
         )}
 
         {groupedOptions
-          ? filteredGroupedOptions?.map((group) => (
+          ? groupedOptions?.map((group) => (
               <SelectGroup key={group.label}>
                 <SelectLabel>{group.label}</SelectLabel>
                 {group.options.map((opt, idx) => (
@@ -178,16 +179,22 @@ const CustomSelect = ({
                 ))}
               </SelectGroup>
             ))
-          : (filteredOptions?.length
-              ? [...filteredOptions]
-              : [
-                  {
-                    label: "Ma'lumot topilmadi",
-                    value: SelectSpecialKeys.Empty,
-                  },
-                ]
+          : (loading && !!value
+              ? [{ value, label: placeholder }]
+              : options?.length
+                ? [...options]
+                : [
+                    {
+                      label: "Ma'lumot topilmadi",
+                      value: SelectSpecialKeys.Empty,
+                    },
+                  ]
             ).map((opt, idx) => (
-              <SelectItem key={opt?.value || idx} value={String(opt?.value)}>
+              <SelectItem
+                key={opt?.value || idx}
+                value={String(opt?.value)}
+                className={cn(!filterOptionFn(opt) && "hidden")}
+              >
                 {opt?.label}
               </SelectItem>
             ))}

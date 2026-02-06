@@ -27,17 +27,14 @@ export enum CookieItems {
   ServerUrl = "server_url",
 }
 
-function normalizeParams(params?: object) {
-  if (!params) return {};
-  return Object.keys(params)
-    .sort()
-    .reduce(
-      (acc, key) => {
-        acc[key] = params[key] ?? null;
-        return acc;
-      },
-      {} as Record<string, any>,
-    );
+function normalizeParams(
+  params?: Record<string, string | number | boolean | null | undefined>,
+) {
+  if (!params) return [];
+
+  return Object.entries(params)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, value]) => `${key}:${value ?? "null"}`);
 }
 
 export const cachedQueryKeys = {
@@ -47,7 +44,10 @@ export const cachedQueryKeys = {
     subject_id ?? null,
   ],
   scheduleDate: (date?: string) => ["subject-topics", date ?? null],
-  filters: (params: object) => ["filters", normalizeParams(params)],
+  filters: (params: Record<string, any>) => [
+    "filters",
+    ...normalizeParams(params),
+  ],
 };
 
 export const DEFAULT_PAGINATION = {
