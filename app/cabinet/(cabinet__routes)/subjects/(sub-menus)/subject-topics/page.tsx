@@ -1,4 +1,5 @@
-import { FilterButton } from "@/app/cabinet/(cabinet__routes)/subjects/_components/FilterDropdown";
+import { FilterButton } from "@/app/cabinet/(cabinet__routes)/subjects/_components/filters/FilterDropdown";
+import Empty from "@/components/shared/Empty";
 import Flex from "@/components/shared/Flex";
 import { Badge } from "@/components/ui/badge";
 import { getSubjectTopicAction } from "@/lib/actions/subject.action";
@@ -29,15 +30,14 @@ const SubjectTopicsPage = async ({ searchParams }) => {
             Fanlar ro’yxati
           </h3>
           <Badge variant={"secondary"} className="rounded-[6px]">
-            Jami fanlar: {topicsData?.meta?.total || 0}
+            Jami fanlar: {(topicsData?.success && topicsData?.meta?.total) || 0}
           </Badge>
         </Flex>
         <Flex gap={2} className="ml-auto">
           <FilterButton
             types={[
-              SubjectFilters.EducationYears,
+              SubjectFilters.Curriculums,
               SubjectFilters.Semesters,
-              SubjectFilters.Groups,
               SubjectFilters.Subjects,
             ]}
             filtersCount={Object.keys(params)?.length || 0}
@@ -45,10 +45,14 @@ const SubjectTopicsPage = async ({ searchParams }) => {
         </Flex>
       </Flex>
 
-      <SubjectTopicsTable
-        dataSource={topicsData?.data}
-        total={topicsData?.meta?.total}
-      />
+      {topicsData?.success ? (
+        <SubjectTopicsTable
+          dataSource={topicsData?.data}
+          total={topicsData?.meta?.total}
+        />
+      ) : (
+        <Empty />
+      )}
     </Flex>
   );
 };

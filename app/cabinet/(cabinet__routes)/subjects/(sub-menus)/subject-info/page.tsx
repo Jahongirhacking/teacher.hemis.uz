@@ -1,10 +1,11 @@
 import { CustomDrawer } from "@/components/shared/CustomDrawer";
+import Empty from "@/components/shared/Empty";
 import { Button } from "@/components/ui/button";
 import { getSubjectInfoAction } from "@/lib/actions/subject.action";
 import { SearchParams, SearchParamsKeys } from "@/lib/const";
 import { SubjectFilters } from "@/lib/services/subject/type";
 import { ListFilterIcon } from "lucide-react";
-import FilterDropdown from "../../_components/FilterDropdown";
+import FilterDropdown from "../../_components/filters/FilterDropdown";
 import SubjectInfoTable from "../../_components/tables/SubjectInfoTable";
 import SubjectDetails from "./_components/SubjectDetails";
 
@@ -37,10 +38,14 @@ const SubjectInfoPage = async ({ searchParams }) => {
         </FilterDropdown>
       </div>
 
-      <SubjectInfoTable
-        dataSource={subjects?.data}
-        total={subjects?.meta?.total}
-      />
+      {subjects?.success ? (
+        <SubjectInfoTable
+          dataSource={subjects?.data}
+          total={subjects?.meta?.total}
+        />
+      ) : (
+        <Empty />
+      )}
 
       <CustomDrawer
         drawerKey={SearchParamsKeys.SubjectInfo}

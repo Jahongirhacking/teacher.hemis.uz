@@ -4,12 +4,17 @@ import { DataTable } from "@/components/shared/DataTable";
 import { DataTableProps } from "@/components/shared/types";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import paths from "@/lib/paths";
 import { ISubjectTopicItem } from "@/lib/services/subject/type";
 import { MoreVerticalIcon } from "lucide-react";
+import Link from "next/link";
 
-const TopicDetailsTable = (
-  props: Partial<DataTableProps<ISubjectTopicItem>>,
-) => {
+const TopicDetailsTable = ({
+  topicContainerId,
+  ...props
+}: Partial<DataTableProps<ISubjectTopicItem>> & {
+  topicContainerId: number | string;
+}) => {
   return (
     <DataTable
       rowKey={() => "id"}
@@ -22,8 +27,12 @@ const TopicDetailsTable = (
         {
           title: "Mavzu nomi",
           dataIndex: "name",
-          render: (i) => (
-            <b className="text-[var(--primary)] font-medium">{i}</b>
+          render: (i, topic) => (
+            <Link
+              href={`${paths.private.subjects.subjectTopics}/${topicContainerId}/edit/${topic?.id}`}
+            >
+              <b className="text-[var(--primary)] font-medium">{i}</b>
+            </Link>
           ),
         },
         {

@@ -40,9 +40,15 @@ const getAccessToken = async (): Promise<string | undefined> => {
   return cookieStore.get(CookieItems.AccessToken)?.value;
 };
 
+export type FetchResultWithError = {
+  success: false;
+  reason: "unauthorized" | "other";
+  error?: any;
+};
+
 export type FetchResult<T> =
   | { success: true; data: T; headers: Headers; credentials?: string }
-  | { success: false; reason: "unauthorized" | "other"; error?: any };
+  | FetchResultWithError;
 
 export async function fetcher<T>(
   path: string,

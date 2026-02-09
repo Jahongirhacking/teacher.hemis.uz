@@ -38,16 +38,16 @@ function normalizeParams(
 }
 
 export const cachedQueryKeys = {
-  subjectTopics: (semester?: string, subject_id?: string) => [
+  subjectTopics: (params: Record<string, any>) => [
     "subject-topics",
-    semester ?? null,
-    subject_id ?? null,
+    ...normalizeParams(params),
   ],
   scheduleDate: (date?: string) => ["subject-topics", date ?? null],
   filters: (params: Record<string, any>) => [
     "filters",
     ...normalizeParams(params),
   ],
+  selectFilters: (name: string) => ["select", name],
 };
 
 export const DEFAULT_PAGINATION = {

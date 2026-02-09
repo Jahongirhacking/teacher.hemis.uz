@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { DEFAULT_PAGINATION } from "@/lib/const";
+import { ICreateTopicBody } from "@/lib/schemas/subject.schema";
 import { getSearchParamString } from "@/lib/utils";
 import { fetcher } from "../api";
 import {
@@ -59,7 +61,7 @@ export const getSubjectTopicWithId = async ({
 }: IServerSideOptions &
   IParamsSchema<
     IPaginationParams & {
-      topicContainerId: ICurriculumSubject["id"];
+      topicContainerId: ICurriculumSubject["id"] | string;
       training_type?: ITrainingType["code"];
       active?: boolean;
     }
@@ -68,6 +70,49 @@ export const getSubjectTopicWithId = async ({
     `subject-topics/${topicContainerId}?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
     {
       method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const createSubjectTopic = async ({
+  params: { topicContainerId },
+  body,
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    topicContainerId: ICurriculumSubject["id"] | string;
+  }> &
+  IBodySchema<ICreateTopicBody>) => {
+  return fetcher<IBaseDataRes<ISubjectTopic>>(
+    `subject-topics/${topicContainerId}/topics`,
+    {
+      method: "POST",
+      body: {
+        active: true,
+        ...body,
+      },
+      ...options,
+    },
+  );
+};
+
+export const editSubjectTopic = async ({
+  params: { topicId },
+  body,
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    topicId: number | string;
+  }> &
+  IBodySchema<ICreateTopicBody>) => {
+  return fetcher<IBaseDataRes<ISubjectTopic>>(
+    `subject-topics/topics/${topicId}`,
+    {
+      method: "PUT",
+      body: {
+        ...body,
+      },
       ...options,
     },
   );
@@ -190,6 +235,21 @@ export const batchSubjectFilters = async ({
   return fetcher<IBaseDataRes<IFiltersRes>>(`filters/batch`, {
     method: "POST",
     body,
+    ...options,
+  });
+};
+
+export const getSubjectFilterByType = async ({
+  params: { filterType },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    {
+      filterType?: SubjectFilters;
+    } & IFiltersForm
+  >) => {
+  return fetcher<IBaseDataRes<any[]>>(`filters/${filterType}`, {
+    method: "GET",
     ...options,
   });
 };

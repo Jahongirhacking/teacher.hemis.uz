@@ -1,11 +1,12 @@
+import Empty from "@/components/shared/Empty";
 import Flex from "@/components/shared/Flex";
 import { getProfileAction } from "@/lib/actions/profile.action";
 import { Settings } from "lucide-react";
 import ProfileContactInfo from "../_components/ContactInfo";
 
 const ProfileInfoPage = async () => {
-  const profile = (await getProfileAction())?.data;
-  const employee = profile?.teacher?.employee;
+  const profileData = await getProfileAction();
+  const employee = profileData?.success && profileData?.data?.teacher?.employee;
 
   return (
     <Flex vertical align="center" gap={5} className="w-full">
@@ -15,13 +16,19 @@ const ProfileInfoPage = async () => {
         </h2>
       </Flex>
       <Flex vertical className="w-full max-w-[783px]">
-        <ProfileContactInfo
-          full_name={employee?.full_name || profile?.teacher?.full_name}
-          email={profile?.teacher?.email}
-          telephone={profile?.teacher?.telephone}
-          image={profile?.teacher?.image}
-          id={profile?.teacher?.id}
-        />
+        {profileData?.success && employee ? (
+          <ProfileContactInfo
+            full_name={
+              employee?.full_name || profileData?.data?.teacher?.full_name
+            }
+            email={profileData?.data?.teacher?.email}
+            telephone={profileData?.data?.teacher?.telephone}
+            image={profileData?.data?.teacher?.image}
+            id={profileData?.data?.teacher?.id}
+          />
+        ) : (
+          <Empty />
+        )}
       </Flex>
       <Flex gap={3}>
         <Settings className="animate-spin" />

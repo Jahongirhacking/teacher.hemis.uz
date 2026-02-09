@@ -1,3 +1,4 @@
+import Empty from "@/components/shared/Empty";
 import { getSubjectInfoAction } from "@/lib/actions/subject.action";
 import { ISubject } from "@/lib/services/subject/type";
 
@@ -12,7 +13,11 @@ const SubjectDetails = async ({
 
   return (
     <div className="flex flex-col">
-      {subjectDetail?.data?.[0]?.subject?.name}
+      {subjectDetail?.success ? (
+        <h2>{subjectDetail?.data?.[0]?.subject?.name}</h2>
+      ) : (
+        <Empty />
+      )}
     </div>
   );
 };

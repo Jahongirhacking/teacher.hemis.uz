@@ -228,7 +228,7 @@ export enum FilterItem {
   Group = "group_id",
   Curriculum = "curriculum_id",
   Subject = "subject_id",
-  TrainingType = "training_types",
+  TrainingType = "training_type",
 }
 
 export interface IFiltersForm {

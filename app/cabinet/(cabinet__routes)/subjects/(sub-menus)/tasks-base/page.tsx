@@ -3,7 +3,7 @@ import { getSubjectTasksAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
 import { SubjectFilters } from "@/lib/services/subject/type";
 import { ListFilterIcon } from "lucide-react";
-import FilterDropdown from "../../_components/FilterDropdown";
+import FilterDropdown from "../../_components/filters/FilterDropdown";
 import TasksBaseTable from "../../_components/tables/TasksBaseTable";
 
 const CourseTasksPage = async ({ searchParams }) => {
@@ -36,7 +36,10 @@ const CourseTasksPage = async ({ searchParams }) => {
         </FilterDropdown>
       </div>
 
-      <TasksBaseTable dataSource={tasks?.data} total={tasks?.meta?.total} />
+      <TasksBaseTable
+        dataSource={(tasks?.success && tasks?.data) || []}
+        total={(tasks?.success && tasks?.meta?.total) || 0}
+      />
     </div>
   );
 };

@@ -1,14 +1,14 @@
+import SubjectActionContainer from "@/app/cabinet/(cabinet__routes)/subjects/_components/ActionContainer";
+import EduInfoTable from "@/app/cabinet/(cabinet__routes)/subjects/_components/tables/EduInfoTable";
 import {
   getSubjectFilterByTypeAction,
   getSubjectTopicWithIdAction,
 } from "@/lib/actions/subject.action";
 import { SubjectFilters } from "@/lib/services/subject/type";
-import SubjectActionContainer from "../../../../_components/ActionContainer";
-import EduInfoTable from "../../../../_components/tables/EduInfoTable";
-import CreateTopicForm from "../../_components/CreateTopicForm";
+import EditTopicForm from "../../../_components/EditTopicForm";
 
-const CreateTopicItemPage = async ({ params }) => {
-  const { topicContainerId } = await params;
+const EditTopicPage = async ({ params }) => {
+  const { topicContainerId, topicId } = await params;
   const trainingTypesDataFetch = getSubjectFilterByTypeAction({
     params: { filterType: SubjectFilters.TrainingTypes },
   });
@@ -20,9 +20,8 @@ const CreateTopicItemPage = async ({ params }) => {
     subjectTopicFetch,
   ]);
   const trainingTypes = trainingTypesData?.success && trainingTypesData?.data;
-
   return (
-    <SubjectActionContainer title="Mavzu yaratish">
+    <SubjectActionContainer title="Mavzuni tahrirlash">
       <EduInfoTable
         dataSource={[
           {
@@ -34,12 +33,13 @@ const CreateTopicItemPage = async ({ params }) => {
         ]}
         pagination={false}
       />
-      <CreateTopicForm
+      <EditTopicForm
         trainingTypes={trainingTypes || []}
-        id={topicContainerId}
+        topicContainerId={topicContainerId}
+        topicId={topicId}
       />
     </SubjectActionContainer>
   );
 };
 
-export default CreateTopicItemPage;
+export default EditTopicPage;

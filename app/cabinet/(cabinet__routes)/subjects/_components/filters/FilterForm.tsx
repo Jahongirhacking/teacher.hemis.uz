@@ -45,7 +45,7 @@ const FilterForm = ({
     queryFn: () => batchSubjectFiltersAction({ body: { ...values, types } }),
     placeholderData: (prev) => prev,
   });
-  const filterData = filterWrappedData?.data;
+  const filterData = filterWrappedData?.success && filterWrappedData?.data;
 
   const handleFormSubmit = (data: IFiltersForm) => {
     router.replace(`${pathname}?${getSearchParamString(data)}`);

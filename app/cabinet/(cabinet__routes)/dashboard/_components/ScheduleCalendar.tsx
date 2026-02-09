@@ -29,7 +29,7 @@ const ScheduleCalendar = () => {
 
   return (
     <Card className="flex-1 p-4">
-      <div className="flex flex-wrap justify-center items-center [@media(min-width:1440px)]:flex-nowrap gap-4">
+      <div className="flex flex-wrap justify-center items-start [@media(min-width:1440px)]:flex-nowrap gap-4">
         <div className="flex flex-col gap-6 w-full max-w-[650px]">
           <div className="flex justify-between items-center flex-wrap gap-2">
             <h3 className="text-[var(--primay-text)] font-bold">
@@ -43,7 +43,8 @@ const ScheduleCalendar = () => {
               <Repeat count={3}>
                 <Skeleton active className="w-full h-15 !rounded-md" />
               </Repeat>
-            ) : schedulesData?.data?.[0]?.classes?.length ? (
+            ) : schedulesData?.success &&
+              schedulesData?.data?.[0]?.classes?.length ? (
               <>
                 {schedulesData?.data?.[0]?.classes?.map((subjectClass) => (
                   <DayStatistics

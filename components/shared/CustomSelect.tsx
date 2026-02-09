@@ -15,7 +15,8 @@ import {
   keepOnlyLatinLettersAndWhitespace,
 } from "@/lib/utils/string.util";
 import { Loader2, X } from "lucide-react";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 export interface Option {
   value: string | number;
@@ -61,10 +62,22 @@ const CustomSelect = ({
   filterOption,
 }: CustomSelectProps) => {
   const [search, setSearch] = useState("");
+  const [debouncedSearch] = useDebounce(search, 200);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleOpenChange = (open: boolean) => {
+    if (open && showSearch) {
+      // dropdown render bo‘lgandan keyin focus
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    }
+  };
+
   const customFilterOption = useCallback(
     (opt: Option) => {
       const translatedInputValue = keepOnlyLatinLettersAndWhitespace(
-        convertIfCyrillic(search),
+        convertIfCyrillic(debouncedSearch),
       );
       const translatedOptionLabel = keepOnlyLatinLettersAndWhitespace(
         convertIfCyrillic(opt?.label as string),
@@ -77,18 +90,18 @@ const CustomSelect = ({
         true,
       );
     },
-    [search],
+    [debouncedSearch],
   );
 
   const filterOptionFn = useCallback(
     (option: Option): boolean => {
-      if (!search) return true;
+      if (!debouncedSearch) return true;
       if (filterOption) {
         return filterOption(option);
       }
       return customFilterOption(option);
     },
-    [customFilterOption, filterOption, search],
+    [customFilterOption, filterOption, debouncedSearch],
   );
 
   const stringValue =
@@ -105,11 +118,11 @@ const CustomSelect = ({
       value={stringValue}
       onValueChange={(val) => {
         if (loading || disabled) return;
-        console.log(`${value} -> ${val}`, placeholder, "val changed");
         onValueChange?.(
           val === "" || val === SelectSpecialKeys.Empty ? undefined : val,
         );
       }}
+      onOpenChange={handleOpenChange} // 🔑 shu joy
       disabled={disabled || loading} // 🔥 MUHIM
     >
       <SelectTrigger
@@ -151,6 +164,7 @@ const CustomSelect = ({
         {showSearch && (
           <div className="sticky top-[-6px] bg-background p-2 z-10">
             <input
+              ref={inputRef}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => {
@@ -181,9 +195,10 @@ const CustomSelect = ({
             ))
           : (loading && !!value
               ? [{ value, label: placeholder }]
-              : options?.length
+              : options?.filter(filterOptionFn)?.length
                 ? [...options]
                 : [
+                    ...options,
                     {
                       label: "Ma'lumot topilmadi",
                       value: SelectSpecialKeys.Empty,
@@ -193,7 +208,11 @@ const CustomSelect = ({
               <SelectItem
                 key={opt?.value || idx}
                 value={String(opt?.value)}
-                className={cn(!filterOptionFn(opt) && "hidden")}
+                className={cn(
+                  !filterOptionFn(opt) &&
+                    opt?.value !== SelectSpecialKeys.Empty &&
+                    "hidden",
+                )}
               >
                 {opt?.label}
               </SelectItem>

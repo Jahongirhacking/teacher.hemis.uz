@@ -3,7 +3,10 @@
 import { handlePrivateRequest } from ".";
 import {
   batchSubjectFilters,
+  createSubjectTopic,
+  editSubjectTopic,
   getSchedulesByDate,
+  getSubjectFilterByType,
   getSubjectInfo,
   getSubjectsWithResources,
   getSubjectTasks,
@@ -36,6 +39,32 @@ export const getSubjectTopicWithIdAction = async (
     );
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const createSubjectTopicAction = async (
+  props: Parameters<typeof createSubjectTopic>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      createSubjectTopic({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
+export const editSubjectTopicAction = async (
+  props: Parameters<typeof editSubjectTopic>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      editSubjectTopic({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+    return err;
   }
 };
 
@@ -89,6 +118,18 @@ export const batchSubjectFiltersAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       batchSubjectFilters({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getSubjectFilterByTypeAction = async (
+  props: Parameters<typeof getSubjectFilterByType>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSubjectFilterByType({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);
