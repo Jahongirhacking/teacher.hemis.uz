@@ -1,10 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import SubjectActionContainer from "@/app/cabinet/(cabinet__routes)/subjects/_components/ActionContainer";
 import EduInfoTable from "@/app/cabinet/(cabinet__routes)/subjects/_components/tables/EduInfoTable";
 import {
   getSubjectFilterByTypeAction,
-  getSubjectTopicWithIdAction,
+  getSubjectTopicItemAction,
 } from "@/lib/actions/subject.action";
-import { SubjectFilters } from "@/lib/services/subject/type";
+import { FetchResultWithError } from "@/lib/services/api";
+import {
+  ISubjectTopicItemRes,
+  SubjectFilters,
+} from "@/lib/services/subject/type";
+import { IBaseDataRes } from "@/lib/services/type";
 import EditTopicForm from "../../../_components/EditTopicForm";
 
 const EditTopicPage = async ({ params }) => {
@@ -12,31 +18,37 @@ const EditTopicPage = async ({ params }) => {
   const trainingTypesDataFetch = getSubjectFilterByTypeAction({
     params: { filterType: SubjectFilters.TrainingTypes },
   });
-  const subjectTopicFetch = getSubjectTopicWithIdAction({
-    params: { topicContainerId, page: 1, per_page: 1 },
-  });
-  const [trainingTypesData, subjectTopic] = await Promise.all([
+  const subjectTopicItemFetch: Promise<
+    IBaseDataRes<ISubjectTopicItemRes> | FetchResultWithError
+  > = getSubjectTopicItemAction({
+    params: { topicId },
+  }) as any;
+
+  const [trainingTypes, subjectTopicItem] = await Promise.all([
     trainingTypesDataFetch,
-    subjectTopicFetch,
+    subjectTopicItemFetch,
   ]);
-  const trainingTypes = trainingTypesData?.success && trainingTypesData?.data;
+
   return (
     <SubjectActionContainer title="Mavzuni tahrirlash">
       <EduInfoTable
         dataSource={[
           {
             subject:
-              (subjectTopic?.success &&
-                subjectTopic?.data?.curriculum_subject?.subject_name) ||
+              (subjectTopicItem?.success &&
+                subjectTopicItem?.data?.curriculum_subject?.subject_name) ||
               "-",
           },
         ]}
         pagination={false}
       />
       <EditTopicForm
-        trainingTypes={trainingTypes || []}
+        trainingTypes={(trainingTypes?.success && trainingTypes?.data) || []}
         topicContainerId={topicContainerId}
         topicId={topicId}
+        subjectTopicItem={
+          (subjectTopicItem?.success && subjectTopicItem?.data?.topic) || null
+        }
       />
     </SubjectActionContainer>
   );

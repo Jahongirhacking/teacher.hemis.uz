@@ -2,7 +2,10 @@
 "use server";
 
 import { DEFAULT_PAGINATION } from "@/lib/const";
-import { ICreateTopicBody } from "@/lib/schemas/subject.schema";
+import {
+  ICreateResourceBody,
+  ICreateTopicBody,
+} from "@/lib/schemas/subject.schema";
 import { getSearchParamString } from "@/lib/utils";
 import { fetcher } from "../api";
 import {
@@ -20,12 +23,16 @@ import {
   IFiltersForm,
   IFiltersRes,
   IGroup,
+  ILanguage,
   ISchedule,
   ISemester,
+  IStudyResourceOptions,
+  IStudyResourceSubjectOptions,
   ISubject,
   ISubjectInfo,
   ISubjectTask,
   ISubjectTopic,
+  ISubjectTopicItemRes,
   ISubjectWithResources,
   ITaskType,
   ITeacherResource,
@@ -97,6 +104,23 @@ export const createSubjectTopic = async ({
   );
 };
 
+export const getSubjectTopicItem = async ({
+  params: { topicId },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    topicId: number | string;
+  }>) => {
+  return fetcher<IBaseDataRes<ISubjectTopicItemRes>>(
+    `subject-topics/topics/${topicId}`,
+    {
+      method: "GET",
+      cache: "no-store",
+      ...options,
+    },
+  );
+};
+
 export const editSubjectTopic = async ({
   params: { topicId },
   body,
@@ -116,6 +140,19 @@ export const editSubjectTopic = async ({
       ...options,
     },
   );
+};
+
+export const deleteSubjectTopicItem = async ({
+  params: { topicId },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    topicId: number | string;
+  }>) => {
+  return fetcher<IBaseDataRes<void>>(`subject-topics/topics/${topicId}`, {
+    method: "DELETE",
+    ...options,
+  });
 };
 
 // Subject Info
@@ -263,13 +300,12 @@ export const getTeacherResources = async ({
   IParamsSchema<
     {
       subject_id?: ISubject["id"];
-      curriculum_subject_id?: ISubject["curriculum_subject_id"];
-      resource_type?: string;
+      language?: ILanguage["code"];
       active?: boolean;
     } & IPaginationParams
   >) => {
   return fetcher<IBaseDataRes<ITeacherResource[]> & IBaseDataWithMeta>(
-    `resources?${getSearchParamString(params)}`,
+    `study-resources?${getSearchParamString(params)}`,
     {
       method: "GET",
       ...options,
@@ -281,10 +317,13 @@ export const getTeacherResourceWithId = async ({
   params,
   ...options
 }: IServerSideOptions & IParamsSchema<{ id: ITeacherResource["id"] }>) => {
-  return fetcher<IBaseDataRes<ITeacherResource>>(`resources/${params?.id}`, {
-    method: "GET",
-    ...options,
-  });
+  return fetcher<IBaseDataRes<ITeacherResource>>(
+    `study-resources/${params?.id}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
 };
 
 export const getSubjectsWithResources = async ({
@@ -299,6 +338,61 @@ export const getSubjectsWithResources = async ({
   >) => {
   return fetcher<IBaseDataRes<ISubjectWithResources[]> & IBaseDataWithMeta>(
     `resources/subjects?${getSearchParamString(params)}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const createResource = async ({
+  body,
+  ...options
+}: IServerSideOptions & IBodySchema<ICreateResourceBody>) => {
+  return fetcher<IBaseDataRes<ISubjectWithResources[]> & IBaseDataWithMeta>(
+    `study-resources`,
+    {
+      method: "POST",
+      body,
+      ...options,
+    },
+  );
+};
+
+export const editResource = async ({
+  body,
+  params: { resourceId },
+  ...options
+}: IServerSideOptions &
+  IBodySchema<ICreateResourceBody> &
+  IParamsSchema<{ resourceId: number | string }>) => {
+  return fetcher<IBaseDataRes<ISubjectWithResources[]> & IBaseDataWithMeta>(
+    `study-resources/${resourceId}`,
+    {
+      method: "PUT",
+      body,
+      ...options,
+    },
+  );
+};
+
+export const getStudyResourceSubjectOptions = async ({
+  ...options
+}: IServerSideOptions) => {
+  return fetcher<IBaseDataRes<IStudyResourceSubjectOptions>>(
+    `study-resources/subjects/filter-options`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getStudyResourceOptions = async ({
+  ...options
+}: IServerSideOptions) => {
+  return fetcher<IBaseDataRes<IStudyResourceOptions>>(
+    `study-resources/filter-options`,
     {
       method: "GET",
       ...options,

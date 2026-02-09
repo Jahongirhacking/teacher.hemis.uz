@@ -13,6 +13,11 @@ export enum SearchParamsKeys {
   SubjectInfo = "subject-info",
 }
 
+export enum ModalKeys {
+  DeleteTopic = "delete-topic",
+  TopicId = "topic-id",
+}
+
 export enum FilterParams {
   Activity = "activity-type",
 }

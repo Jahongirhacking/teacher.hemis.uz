@@ -73,6 +73,11 @@ export interface ISubjectTopic {
   stats: ISubjectTopicStats;
 }
 
+export interface ISubjectTopicItemRes {
+  curriculum_subject: ICurriculumSubject;
+  topic: ISubjectTopicItem;
+}
+
 export interface IGroup {
   id: number;
   name: string;
@@ -202,6 +207,7 @@ export enum SubjectFilters {
   Subjects = "subjects",
   Curriculums = "curriculums",
   TrainingTypes = "training_types",
+  Languages = "languages",
 }
 
 export const ALL_SUBJECT_FILTERS = [
@@ -211,6 +217,7 @@ export const ALL_SUBJECT_FILTERS = [
   SubjectFilters.TrainingTypes,
   SubjectFilters.Groups,
   SubjectFilters.Subjects,
+  SubjectFilters.Languages,
 ];
 
 export interface IFiltersRes {
@@ -264,21 +271,55 @@ export interface IResourceItem {
 export interface ITeacherResource {
   id: number;
   title: string;
-  comment: string | null;
-  subject: ISubject;
-  curriculum: ICurriculum;
-  resource_type: string | null;
-  language: ILanguage[];
-  files: IFileProps[] | null;
-  files_count: number;
-  url: string | null;
-  urls_count: number;
-  items: IResourceItem[];
-  items_count: number;
+  comment: string;
+  _subject: number;
+  _employee: number;
+  language: string[];
+  files: IFileProps[];
+  active: boolean;
+  updated_at: string;
+  created_at: string;
+  assignments_count: number;
+  subject: ISubjectDetail;
+  employee: IEmployee;
+}
+
+export interface IEmployee {
+  id: number;
+  employee_id_number: string;
+  first_name: string;
+  second_name: string;
+  third_name: string;
+  birth_date: string;
+  _gender: string;
+  passport_number: string;
+  passport_pin: string;
+  _academic_degree: string;
+  _academic_rank: string;
+  specialty: string;
+  image: string;
   position: number;
   active: boolean;
-  created_at: string;
+  _translations: Record<string, string>;
   updated_at: string;
+  created_at: string;
+  _admin: number;
+  telephone: string;
+  email: string;
+  home_address: string;
+  _citizenship: string;
+  _uid: string;
+  _sync: boolean;
+  year_of_enter: number;
+  _qid: string | null;
+  _sync_diff: string;
+  _sync_date: string;
+  _sync_status: string;
+  passport_date: string;
+  _country: string;
+  _province: string;
+  _district: string;
+  _nationality: string;
 }
 
 export interface ISubjectWithResources {
@@ -290,4 +331,48 @@ export interface ISubjectWithResources {
   training_type: ITrainingType | null;
   resources_count: number;
   created_at: string;
+}
+
+export interface IEducationTypeDetail extends IEducationType {
+  position: number;
+  active: boolean;
+  _parent: null;
+  _translations: string;
+  _options: string;
+  updated_at: string;
+  created_at: string;
+}
+
+export interface ISemesterDetail extends ISemester {
+  _parent: null;
+  _translations: Record<string, string>;
+  _options: Record<string, number>;
+  updated_at: string;
+  created_at: string;
+}
+
+export interface ISubjectDetail extends ISubject {
+  _subject_group: string;
+  _education_type: string;
+  position: number | null;
+  active: boolean;
+  _translations: Record<string, string>;
+  updated_at: string;
+  created_at: string;
+  in_curriculum: boolean;
+  name_uz: string;
+  name_ru: string;
+  name_en: string;
+}
+
+export interface IStudyResourceSubjectOptions {
+  education_types: IEducationTypeDetail[];
+  education_years: string[];
+  semesters: ISemesterDetail[];
+  subjects: ISubjectDetail[];
+}
+
+export interface IStudyResourceOptions {
+  subjects?: ISubjectDetail[];
+  languages: ILanguage[];
 }

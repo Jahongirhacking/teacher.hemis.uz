@@ -3,16 +3,18 @@ import Flex from "@/components/shared/Flex";
 import { Button } from "@/components/ui/button";
 import { getProfileAction } from "@/lib/actions/profile.action";
 import { ArrowDownToLineIcon } from "lucide-react";
-import ProfileAcademicInfo from "../_components/AcademicInfo";
-import ProfileAcademicWorks from "../_components/AcademicWorks";
-import ProfileChoice from "../_components/ChoiceInfo";
-import ProfileContactInfo from "../_components/ContactInfo";
-import ProfileInternshipInfo from "../_components/InternshipInfo";
-import ProfileJobInfo from "../_components/JobInfo";
-import ProfileLangCertificates from "../_components/LangCertificates";
-import ProfilePassportInfo from "../_components/PassportInfo";
-import ProfilePrivateWorkPlan from "../_components/PrivateWorkPlan";
-import ProfileSkillImprovement from "../_components/SkillImprovement";
+import {
+  ProfileAcademicInfo,
+  ProfileAcademicWorks,
+  ProfileChoice,
+  ProfileContactInfo,
+  ProfileInternshipInfo,
+  ProfileJobInfo,
+  ProfileLangCertificates,
+  ProfilePassportInfo,
+  ProfilePrivateWorkPlan,
+  ProfileSkillImprovement,
+} from "../_components";
 
 const ProfilePassportPage = async () => {
   const profile = await getProfileAction();
@@ -31,10 +33,7 @@ const ProfilePassportPage = async () => {
       {profile?.success && employee ? (
         <>
           <ProfileContactInfo
-            full_name={
-              profile?.data?.teacher?.employee?.full_name ||
-              profile?.data?.teacher?.full_name
-            }
+            full_name={employee?.full_name || profile?.data?.teacher?.full_name}
             email={profile?.data?.teacher?.email}
             telephone={profile?.data?.teacher?.telephone}
             image={profile?.data?.teacher?.image}
@@ -45,8 +44,8 @@ const ProfilePassportPage = async () => {
               <div className="w-full [@media(max-width:1150px)]:block hidden">
                 <ProfilePassportInfo
                   birthDate={employee?.birth_date}
-                  gender={employee?.gender}
-                  nationality={employee?.nationality}
+                  gender={employee?.gender?.name}
+                  nationality={employee?.nationality?.name}
                   passportNumber={employee?.passport_number}
                   pinfl={employee?.passport_pin}
                 />
@@ -74,8 +73,8 @@ const ProfilePassportPage = async () => {
             >
               <ProfilePassportInfo
                 birthDate={employee?.birth_date}
-                gender={employee?.gender}
-                nationality={employee?.nationality}
+                gender={employee?.gender?.name}
+                nationality={employee?.nationality?.name}
                 passportNumber={employee?.passport_number}
                 pinfl={employee?.passport_pin}
               />

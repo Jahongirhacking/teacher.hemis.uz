@@ -1,0 +1,10 @@
+export { default as ProfileAcademicInfo } from "../_components/AcademicInfo";
+export { default as ProfileAcademicWorks } from "../_components/AcademicWorks";
+export { default as ProfileChoice } from "../_components/ChoiceInfo";
+export { default as ProfileContactInfo } from "../_components/ContactInfo";
+export { default as ProfileInternshipInfo } from "../_components/InternshipInfo";
+export { default as ProfileJobInfo } from "../_components/JobInfo";
+export { default as ProfileLangCertificates } from "../_components/LangCertificates";
+export { default as ProfilePassportInfo } from "../_components/PassportInfo";
+export { default as ProfilePrivateWorkPlan } from "../_components/PrivateWorkPlan";
+export { default as ProfileSkillImprovement } from "../_components/SkillImprovement";

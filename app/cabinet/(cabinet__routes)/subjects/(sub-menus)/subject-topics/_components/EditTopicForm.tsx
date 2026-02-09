@@ -10,10 +10,11 @@ import { editSubjectTopicAction } from "@/lib/actions/subject.action";
 import paths from "@/lib/paths";
 import { ICreateTopicBody } from "@/lib/schemas/subject.schema";
 import { FetchResult } from "@/lib/services/api";
-import { ITrainingType } from "@/lib/services/subject/type";
+import { ISubjectTopicItem, ITrainingType } from "@/lib/services/subject/type";
 import { useMutation } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -27,18 +28,28 @@ const EditTopicForm = ({
   topicContainerId,
   topicId,
   trainingTypes = [],
+  subjectTopicItem,
 }: {
   topicContainerId: string;
   topicId: string;
   trainingTypes?: ITrainingType[];
+  subjectTopicItem?: ISubjectTopicItem | null;
 }) => {
   const { handleSubmit, control, reset } = useForm<IFormValues>({
     defaultValues: {
-      trainingType: "",
-      name: "",
-      acload: 0,
+      trainingType: subjectTopicItem?.training_type || "",
+      name: subjectTopicItem?.name || "",
+      acload: subjectTopicItem?.topic_load || 0,
     },
   });
+
+  useEffect(() => {
+    reset({
+      trainingType: subjectTopicItem?.training_type || "",
+      name: subjectTopicItem?.name || "",
+      acload: subjectTopicItem?.topic_load || 0,
+    });
+  }, [subjectTopicItem, reset]);
 
   const { mutate: createTopic, isPending } = useMutation<
     FetchResult<any>,
@@ -67,7 +78,6 @@ const EditTopicForm = ({
             return;
           }
           toast.success("Mavzu muvaffaqiyatli tahrirlandi!");
-          handleClearForm();
         },
         onError: (err) => {
           toast.dismiss();
@@ -78,10 +88,6 @@ const EditTopicForm = ({
         },
       },
     );
-  };
-
-  const handleClearForm = () => {
-    reset();
   };
 
   return (

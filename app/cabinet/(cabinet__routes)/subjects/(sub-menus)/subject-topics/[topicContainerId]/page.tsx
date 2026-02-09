@@ -11,6 +11,7 @@ import Link from "next/link";
 import { SelectFilterType } from "../../../_components/filters/FilterSelect";
 import EduInfoTable from "../../../_components/tables/EduInfoTable";
 import TopicDetailsTable from "../../../_components/tables/TopicDetailsTable";
+import DeleteTopicModal from "../_components/modals/DeleteTopic";
 
 const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
   const { topicContainerId } = await routeParams;
@@ -25,7 +26,7 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
   });
 
   return (
-    <Flex vertical gap={4} className="w-full">
+    <Flex vertical gap={4} className="w-full items-center">
       <Flex
         align="center"
         gap={2}
@@ -81,6 +82,7 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
       ) : (
         <Empty />
       )}
+      <DeleteTopicModal />
     </Flex>
   );
 };

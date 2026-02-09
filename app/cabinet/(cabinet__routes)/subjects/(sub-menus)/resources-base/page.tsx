@@ -1,9 +1,12 @@
+import Flex from "@/components/shared/Flex";
 import { Button } from "@/components/ui/button";
 import { getTeacherResourcesAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
+import paths from "@/lib/paths";
 import { SubjectFilters } from "@/lib/services/subject/type";
-import { ListFilterIcon } from "lucide-react";
-import FilterDropdown from "../../_components/filters/FilterDropdown";
+import { PlusSquare } from "lucide-react";
+import Link from "next/link";
+import { FilterButton } from "../../_components/filters/FilterDropdown";
 import ResourcesBaseTable from "../../_components/tables/ResourcesBaseTable";
 
 const ResourcesBasePage = async ({ searchParams }) => {
@@ -22,11 +25,16 @@ const ResourcesBasePage = async ({ searchParams }) => {
         <h3 className="text-[var(--header-primary-foreground)] font-bold text-[18px]">
           Resurslar ro’yxati
         </h3>
-        <FilterDropdown types={[SubjectFilters.Subjects]}>
-          <Button variant={"secondary"}>
-            <ListFilterIcon /> Filtr
-          </Button>
-        </FilterDropdown>
+        <Flex gap={2} align="center" className="flex-wrap">
+          <FilterButton types={[SubjectFilters.Subjects]} />
+          <Link
+            href={`${paths.private.subjects.resourcesBase}/${paths.reservedKeys.create}`}
+          >
+            <Button>
+              <PlusSquare /> Yaratish
+            </Button>
+          </Link>
+        </Flex>
       </div>
 
       <ResourcesBaseTable

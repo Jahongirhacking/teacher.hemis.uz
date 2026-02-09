@@ -5,10 +5,12 @@ import CustomDropDownMenu, {
 } from "@/components/shared/DropdownMenu";
 import { Button } from "@/components/ui/button";
 import {
+  ALL_FILTER_KEYS,
   ALL_SUBJECT_FILTERS,
   SubjectFilters,
 } from "@/lib/services/subject/type";
 import { ListFilterIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { ReactElement, useState } from "react";
 import FilterForm from "./FilterForm";
 
@@ -39,13 +41,13 @@ const FilterDropdown = ({
   );
 };
 
-export const FilterButton = ({
-  types,
-  filtersCount,
-}: {
-  types: SubjectFilters[];
-  filtersCount: number;
-}) => {
+export const FilterButton = ({ types }: { types: SubjectFilters[] }) => {
+  const searchParams = useSearchParams();
+  const filtersCount = ALL_FILTER_KEYS.reduce(
+    (acc, curr) => acc + Number(searchParams.has(curr)),
+    0,
+  );
+
   return (
     <FilterDropdown types={types}>
       <Button variant={"secondary"}>

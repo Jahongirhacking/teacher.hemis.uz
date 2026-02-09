@@ -3,14 +3,20 @@
 import { handlePrivateRequest } from ".";
 import {
   batchSubjectFilters,
+  createResource,
   createSubjectTopic,
+  deleteSubjectTopicItem,
+  editResource,
   editSubjectTopic,
   getSchedulesByDate,
+  getStudyResourceOptions,
+  getStudyResourceSubjectOptions,
   getSubjectFilterByType,
   getSubjectInfo,
   getSubjectsWithResources,
   getSubjectTasks,
   getSubjectTopic,
+  getSubjectTopicItem,
   getSubjectTopicWithId,
   getTeacherResources,
   getTeacherResourceWithId,
@@ -55,12 +61,38 @@ export const createSubjectTopicAction = async (
   }
 };
 
+export const getSubjectTopicItemAction = async (
+  props: Parameters<typeof getSubjectTopicItem>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSubjectTopicItem({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
 export const editSubjectTopicAction = async (
   props: Parameters<typeof editSubjectTopic>[0],
 ) => {
   try {
     return handlePrivateRequest((serverProps) =>
       editSubjectTopic({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
+export const deleteSubjectTopicItemAction = async (
+  props: Parameters<typeof deleteSubjectTopicItem>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      deleteSubjectTopicItem({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);
@@ -168,6 +200,54 @@ export const getSubjectsWithResourcesAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getSubjectsWithResources({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const createResourceAction = async (
+  props: Parameters<typeof createResource>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      createResource({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const editResourceAction = async (
+  props: Parameters<typeof editResource>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      editResource({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getStudyResourceOptionsAction = async (
+  props: Parameters<typeof getStudyResourceOptions>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getStudyResourceOptions({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getStudyResourceSubjectOptionsAction = async (
+  props: Parameters<typeof getStudyResourceSubjectOptions>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getStudyResourceSubjectOptions({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);

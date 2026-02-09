@@ -1,13 +1,19 @@
 "use client";
 
 import { DataTable } from "@/components/shared/DataTable";
+import CustomDropDownMenu from "@/components/shared/DropdownMenu";
+import Flex from "@/components/shared/Flex";
 import { DataTableProps } from "@/components/shared/types";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { ModalKeys, SearchParams } from "@/lib/const";
 import paths from "@/lib/paths";
 import { ISubjectTopicItem } from "@/lib/services/subject/type";
+import { getSearchParamString } from "@/lib/utils";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { MoreVerticalIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const TopicDetailsTable = ({
   topicContainerId,
@@ -15,6 +21,9 @@ const TopicDetailsTable = ({
 }: Partial<DataTableProps<ISubjectTopicItem>> & {
   topicContainerId: number | string;
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   return (
     <DataTable
       rowKey={() => "id"}
@@ -66,12 +75,53 @@ const TopicDetailsTable = ({
         {
           title: "Amallar",
           render: (_, topic) => (
-            <Button
-              variant={"secondary"}
-              onClick={() => console.log(topic?.id)}
-            >
-              <MoreVerticalIcon />
-            </Button>
+            <CustomDropDownMenu
+              triggerButton={
+                <Button
+                  variant={"secondary"}
+                  onClick={() => console.log(topic?.id)}
+                >
+                  <MoreVerticalIcon />
+                </Button>
+              }
+              itemsRender={() => (
+                <Flex vertical gap={2} className="p-2 min-w-[150px]">
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href={`${paths.private.subjects.subjectTopics}/${topicContainerId}/edit/${topic?.id}`}
+                      className="w-full block hover:bg-[var(--background)]"
+                    >
+                      <CustomDropDownMenu.ItemLabel
+                        label={
+                          <span className="!text-[var(--secondary-foreground)] font-normal text-[14px] py-[10px] px-3 block">
+                            Tahrirlash
+                          </span>
+                        }
+                      />
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Button
+                      onClick={() => {
+                        router.push(
+                          `${paths.private.subjects.subjectTopics}/${topicContainerId}?${getSearchParamString({ ...searchParams, [SearchParams.Modal]: ModalKeys.DeleteTopic, [ModalKeys.TopicId]: topic?.id })}`,
+                        );
+                      }}
+                      variant="secondary"
+                      className="w-full p-0 text-left flex justify-start border-none hover:bg-[var(--background)]"
+                    >
+                      <CustomDropDownMenu.ItemLabel
+                        label={
+                          <span className="!text-[var(--secondary-foreground)] font-normal text-[14px] py-[10px] px-3">
+                            O’chirish
+                          </span>
+                        }
+                      />
+                    </Button>
+                  </DropdownMenuItem>
+                </Flex>
+              )}
+            />
           ),
         },
       ]}

@@ -162,7 +162,7 @@ const CustomSelect = ({
         position="popper"
       >
         {showSearch && (
-          <div className="sticky top-[-6px] bg-background p-2 z-10">
+          <div className="sticky top-[-6px] bg-background p-2 z-10 mb-2">
             <input
               ref={inputRef}
               value={search}

@@ -46,9 +46,14 @@ export type FetchResultWithError = {
   error?: any;
 };
 
-export type FetchResult<T> =
-  | { success: true; data: T; headers: Headers; credentials?: string }
-  | FetchResultWithError;
+export type FetchResultWithSuccess<T> = {
+  success: true;
+  data: T;
+  headers: Headers;
+  credentials?: string;
+};
+
+export type FetchResult<T> = FetchResultWithSuccess<T> | FetchResultWithError;
 
 export async function fetcher<T>(
   path: string,

@@ -14,6 +14,15 @@ export interface Teacher {
   employee: Employee;
   language: string;
 }
+export interface INationality {
+  name: string;
+  code: string;
+}
+
+export interface IGender {
+  name: string;
+  code: string;
+}
 
 export interface Employee {
   id: number;
@@ -28,8 +37,8 @@ export interface Employee {
   passport_number: string;
   passport_pin: string;
   image: string;
-  gender: string | null;
-  nationality: string | null;
+  gender: IGender;
+  nationality: INationality;
   active: boolean;
 }
 

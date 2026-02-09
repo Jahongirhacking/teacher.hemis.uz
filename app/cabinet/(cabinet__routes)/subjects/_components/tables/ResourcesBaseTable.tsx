@@ -5,9 +5,11 @@ import { DataTableProps } from "@/components/shared/types";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { TIME_FORMAT } from "@/lib/const";
+import paths from "@/lib/paths";
 import { ITeacherResource } from "@/lib/services/subject/type";
 import { Trash2 } from "lucide-react";
 import moment from "moment";
+import Link from "next/link";
 
 const ResourcesBaseTable = (
   props: Partial<DataTableProps<ITeacherResource>>,
@@ -24,8 +26,14 @@ const ResourcesBaseTable = (
         {
           title: "Resurs nomi",
           dataIndex: "title",
-          render: (resourceName) => (
-            <b className="text-[var(--primary)] font-medium">{resourceName}</b>
+          render: (resourceName, resource) => (
+            <Link
+              href={`${paths.private.subjects.resourcesBase}/${paths.reservedKeys.edit}/${resource?.id}`}
+            >
+              <b className="text-[var(--primary)] font-medium">
+                {resourceName}
+              </b>
+            </Link>
           ),
         },
         {
@@ -42,17 +50,17 @@ const ResourcesBaseTable = (
           dataIndex: "language",
           render: (lang: ITeacherResource["language"]) => (
             <span className="text-[14px] text-[var(--secondary-foreground)]">
-              {lang?.map((l) => l?.name)?.join(", ")}
+              {lang?.map((l) => l)?.join(", ")}
             </span>
           ),
         },
         {
           title: "Fayllar soni",
-          dataIndex: "files_count",
-          render: (files_count: ITeacherResource["files_count"]) =>
-            files_count ? (
+          dataIndex: "files",
+          render: (files: ITeacherResource["files"]) =>
+            files?.length ? (
               <span className="text-[14px] text-[#2578E7]">
-                {`${files_count}ta fayl`}
+                {`${files?.length}ta fayl`}
               </span>
             ) : (
               "—"
@@ -60,15 +68,7 @@ const ResourcesBaseTable = (
         },
         {
           title: "URL soni",
-          dataIndex: "urls_count",
-          render: (urls_count: ITeacherResource["urls_count"]) =>
-            urls_count ? (
-              <span className="text-[14px] text-[#2578E7]">
-                {`${urls_count}ta URL`}
-              </span>
-            ) : (
-              "—"
-            ),
+          render: () => "—",
         },
         {
           title: "Sana",

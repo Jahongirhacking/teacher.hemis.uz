@@ -40,7 +40,6 @@ const SubjectTopicsPage = async ({ searchParams }) => {
               SubjectFilters.Semesters,
               SubjectFilters.Subjects,
             ]}
-            filtersCount={Object.keys(params)?.length || 0}
           />
         </Flex>
       </Flex>

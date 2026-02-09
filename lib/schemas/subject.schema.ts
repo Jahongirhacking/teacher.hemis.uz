@@ -15,3 +15,15 @@ export const createTopicSchema = z.object({
 });
 
 export type ICreateTopicBody = z.infer<typeof createTopicSchema>;
+
+// resources
+export const createResourceSchema = z.object({
+  title: z.string(),
+  comment: z.string(),
+  subject_id: z.number(),
+  language: z.array(z.string()),
+  files: z.array(z.any()).optional(),
+  active: z.boolean().optional(),
+});
+
+export type ICreateResourceBody = z.infer<typeof createResourceSchema>;
