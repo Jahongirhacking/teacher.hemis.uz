@@ -1,6 +1,5 @@
 import Empty from "@/components/shared/Empty";
 import Flex from "@/components/shared/Flex";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getSubjectTopicWithIdAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
@@ -9,6 +8,7 @@ import { FilterItem, SubjectFilters } from "@/lib/services/subject/type";
 import { PlusSquare } from "lucide-react";
 import Link from "next/link";
 import { SelectFilterType } from "../../../_components/filters/FilterSelect";
+import SubjectMainContainer from "../../../_components/MainContainer";
 import EduInfoTable from "../../../_components/tables/EduInfoTable";
 import TopicDetailsTable from "../../../_components/tables/TopicDetailsTable";
 import DeleteTopicModal from "../_components/modals/DeleteTopic";
@@ -26,22 +26,10 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
   });
 
   return (
-    <Flex vertical gap={4} className="w-full items-center">
-      <Flex
-        align="center"
-        gap={2}
-        justify="between"
-        className="w-full flex-wrap"
-      >
-        <Flex gap={2} align="center">
-          <h3 className="text-[var(--header-primary-foreground)] font-bold text-[18px]">
-            Mavzular ro’yxati
-          </h3>
-          <Badge
-            variant={"secondary"}
-            className="rounded-[6px]"
-          >{`Jami mavzular: ${(topicsData?.success && topicsData?.data?.total) || 0}`}</Badge>
-        </Flex>
+    <SubjectMainContainer
+      title="Mavzular ro’yxati"
+      badgeText={`Jami mavzular: ${(topicsData?.success && topicsData?.data?.total) || 0}`}
+      extra={
         <Flex gap={2} justify="end" align="center" className="ml-auto">
           <SelectFilterType
             filterType={SubjectFilters.TrainingTypes}
@@ -56,8 +44,8 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
             </Button>
           </Link>
         </Flex>
-      </Flex>
-
+      }
+    >
       {topicsData?.success ? (
         <Flex vertical gap={4} className="w-full">
           <EduInfoTable
@@ -83,7 +71,7 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
         <Empty />
       )}
       <DeleteTopicModal />
-    </Flex>
+    </SubjectMainContainer>
   );
 };
 

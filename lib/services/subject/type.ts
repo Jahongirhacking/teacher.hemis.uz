@@ -376,3 +376,59 @@ export interface IStudyResourceOptions {
   subjects?: ISubjectDetail[];
   languages: ILanguage[];
 }
+
+export interface ISubjectResources {
+  id: number;
+  subject: ISubject;
+  curriculum: ICurriculum;
+  faculty?: {
+    id: number | null;
+    name: string | null;
+  };
+  education_type: IEducationType;
+  education_year: string;
+  semester: ISemester;
+  lesson_count: number;
+  resources_count: number;
+}
+
+export interface ISubjectResourceDetails {
+  id: number;
+  title: string | null;
+  description: string | null;
+  resource_type: number;
+  file_path: string | null;
+  file_size: number | null;
+  file_type: string | null;
+  url: string | null;
+  topic_id: number | null;
+  downloads_count: number;
+  created_at: string;
+}
+
+export interface ISubjectTaskItem {
+  id: number;
+  subject: ISubject;
+  curriculum: ICurriculum;
+  training_type: ITrainingType;
+  groups: string[];
+  students_count: number;
+  semester: string;
+  education_year: string;
+  education_lang: ILanguage;
+  tasks_count: number;
+  sent_students_count: number;
+  not_sent_students_count: number;
+}
+
+export interface IPagination {
+  total: number;
+  per_page: number;
+  current_page: number;
+  last_page: number;
+}
+
+export interface ISubjectTaskStats {
+  items: ISubjectTaskItem[];
+  pagination: IPagination;
+}

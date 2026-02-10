@@ -19,19 +19,25 @@ import {
 import {
   ICurriculum,
   ICurriculumSubject,
+  IEducationType,
   IEducationYear,
   IFiltersForm,
   IFiltersRes,
   IGroup,
   ILanguage,
+  IResourceItem,
   ISchedule,
   ISemester,
   IStudyResourceOptions,
   IStudyResourceSubjectOptions,
   ISubject,
   ISubjectInfo,
+  ISubjectResourceDetails,
+  ISubjectResources,
   ISubjectTask,
+  ISubjectTaskStats,
   ISubjectTopic,
+  ISubjectTopicItem,
   ISubjectTopicItemRes,
   ISubjectWithResources,
   ITaskType,
@@ -207,6 +213,25 @@ export const getSubjectTasks = async ({
   >) => {
   return fetcher<IBaseDataRes<ISubjectTask[]> & IBaseDataWithMeta>(
     `subject-tasks/tasks?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getTaskSubjectList = async ({
+  params: { page, per_page, ...params },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    IPaginationParams & {
+      education_year?: IEducationYear["code"];
+      semester?: ISemester["code"];
+    }
+  >) => {
+  return fetcher<IBaseDataRes<ISubjectTaskStats>>(
+    `subject-tasks/subjects?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
     {
       method: "GET",
       ...options,
@@ -393,6 +418,45 @@ export const getStudyResourceOptions = async ({
 }: IServerSideOptions) => {
   return fetcher<IBaseDataRes<IStudyResourceOptions>>(
     `study-resources/filter-options`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getSubjectResources = async ({
+  params: { page, per_page, ...params },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    {
+      education_type?: IEducationType["code"];
+      education_year?: IEducationYear["code"];
+      semester?: ISemester["code"];
+      subject_id?: ISubject["id"];
+    } & IPaginationParams
+  >) => {
+  return fetcher<IBaseDataRes<ISubjectResources[]> & IBaseDataWithMeta>(
+    `subject-resources/subjects?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getResourcesWithSubjectId = async ({
+  params: { subject_id, ...params },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    subject_id?: ISubject["id"] | string;
+    type?: IResourceItem["resource_type"];
+    topic_id?: ISubjectTopicItem["id"];
+  }>) => {
+  return fetcher<IBaseDataRes<ISubjectResourceDetails[]>>(
+    `subjects/${subject_id}/resources?${getSearchParamString(params)}`,
     {
       method: "GET",
       ...options,
