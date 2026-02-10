@@ -94,9 +94,12 @@ const SubjectResourcesTable = (
   );
 };
 
-export const ResourceDetailsTable = (
-  props: Partial<DataTableProps<ITeacherResource>>,
-) => {
+export const ResourceDetailsTable = ({
+  subjectId,
+  ...props
+}: Partial<DataTableProps<ITeacherResource>> & {
+  subjectId: number | string;
+}) => {
   return (
     <DataTable
       rowKey={() => "id"}
@@ -111,7 +114,7 @@ export const ResourceDetailsTable = (
           dataIndex: "title",
           render: (resourceName, resource) => (
             <Link
-              href={`${paths.private.subjects.resourcesBase}/${paths.reservedKeys.edit}/${resource?.id}`}
+              href={`${paths.private.subjects.subjectResources}/${subjectId}/${paths.reservedKeys.edit}/${resource?.id}`}
             >
               <b className="text-[var(--primary)] font-medium">
                 {resourceName}

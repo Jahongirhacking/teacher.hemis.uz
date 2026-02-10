@@ -19,6 +19,7 @@ export interface IBaseDataWithMeta {
 export interface IServerSideOptions {
   server?: boolean;
   isPrivate?: boolean;
+  fromTeacherPath?: boolean;
 }
 
 export interface IPaginationParams {

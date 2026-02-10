@@ -54,6 +54,7 @@ const SubjectResourcesListPage = async ({ params }) => {
           <ResourceDetailsTable
             dataSource={subjectResources?.data}
             total={subjectResources?.meta?.total}
+            subjectId={subjectId}
           />
         </Flex>
       ) : (

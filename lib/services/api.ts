@@ -24,8 +24,11 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
-export const getBaseUrl = async (isPrivate: boolean = false) => {
-  const postfix = "api/v1/teacher";
+export const getBaseUrl = async (
+  isPrivate: boolean = false,
+  fromTeacherPath: boolean = false,
+) => {
+  const postfix = `api/v1${fromTeacherPath ? "/teacher" : ""}`;
   const cookieStore = await cookies();
   const serverUrl = cookieStore.get(CookieItems.ServerUrl);
   if (!serverUrl?.value) {
@@ -57,10 +60,15 @@ export type FetchResult<T> = FetchResultWithSuccess<T> | FetchResultWithError;
 
 export async function fetcher<T>(
   path: string,
-  { server, isPrivate, ...options }: FetchOptions & IServerSideOptions = {},
+  {
+    server,
+    isPrivate,
+    fromTeacherPath = true,
+    ...options
+  }: FetchOptions & IServerSideOptions = {},
 ): Promise<FetchResult<T>> {
   const token = options.token || (await getAccessToken());
-  const baseUrl = await getBaseUrl(isPrivate);
+  const baseUrl = await getBaseUrl(isPrivate, fromTeacherPath);
   if (!baseUrl)
     return {
       success: false,
@@ -85,6 +93,8 @@ export async function fetcher<T>(
     if (process.env.NODE_ENV === "development") {
       console.log(url, options, "debug");
     }
+
+    console.log(res, "res 1");
 
     if (!res.ok) {
       const error = await res.json().catch(() => ({ message: res.statusText }));
