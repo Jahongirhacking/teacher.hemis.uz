@@ -10,6 +10,11 @@ export interface IDepartment {
   name: string;
 }
 
+export interface IFaculty {
+  id: number;
+  name: string;
+}
+
 export interface ITraining {
   training_type: string;
   training_type_name: string;
@@ -26,12 +31,14 @@ export interface ICurriculumSubject {
   subject_id: number;
   subject_name: string;
   subject_code: string;
-  semester: string;
+  semester: ISemester;
+  education_year: IEducationYear;
   education_type: IEducationType;
   department: IDepartment;
   topic_count: number;
   active_topic_count: number;
   trainings: ITraining[];
+  faculty: IFaculty;
 }
 
 export interface ISubjectTopicItem {
@@ -119,6 +126,7 @@ export interface ISubjectInfo {
   education_type: IEducationType;
   trainings: ITraining[];
   groups: IGroup[];
+  faculty: IFaculty;
 }
 
 export interface ITaskType {
@@ -275,6 +283,7 @@ export interface ITeacherResource {
   _subject: number;
   _employee: number;
   language: string[];
+  language_details: ILanguage[];
   files: IFileProps[];
   active: boolean;
   updated_at: string;

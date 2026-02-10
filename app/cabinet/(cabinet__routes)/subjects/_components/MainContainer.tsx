@@ -33,7 +33,11 @@ const SubjectMainContainer = ({
             </Badge>
           )}
         </Flex>
-        {extra}
+        {!!extra && (
+          <Flex gap={2} justify="end" align="center" className="ml-auto">
+            {extra}
+          </Flex>
+        )}
       </Flex>
 
       {children}

@@ -43,17 +43,17 @@ const SubjectInfoTable = (props: Partial<DataTableProps<ISubjectInfo>>) => {
                 {topic?.curriculum?.name}
               </b>
               <span className="text-[14px] text-[var(--secondary-foreground)]">
-                -
+                {topic?.faculty?.name}
               </span>
             </div>
           ),
         },
         {
           title: "Ta’lim turi",
-          render: () => (
+          render: (_, record) => (
             <div className="flex flex-col">
               <b className="font-medium text-[14px] text-[var(--card-foreground)]">
-                -
+                {record?.education_type?.name}
               </b>
               <span className="text-[14px] text-[var(--secondary-foreground)]">
                 -

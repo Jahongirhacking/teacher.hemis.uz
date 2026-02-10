@@ -142,9 +142,15 @@ export const ResourceDetailsTable = (
         {
           title: "Til",
           dataIndex: "language",
-          render: (lang: ITeacherResource["language"]) => (
+          render: (lang: ITeacherResource["language"], record) => (
             <span className="text-[14px] text-[var(--secondary-foreground)]">
-              {lang?.map((l) => l)?.join(", ")}
+              {lang
+                ?.map(
+                  (l) =>
+                    record?.language_details?.find((lang) => lang?.code === l)
+                      ?.name,
+                )
+                ?.join(", ")}
             </span>
           ),
         },

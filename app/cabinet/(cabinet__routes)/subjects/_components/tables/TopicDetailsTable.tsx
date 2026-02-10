@@ -13,7 +13,7 @@ import { getSearchParamString } from "@/lib/utils";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { MoreVerticalIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const TopicDetailsTable = ({
   topicContainerId,
@@ -23,6 +23,7 @@ const TopicDetailsTable = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   return (
     <DataTable
@@ -104,7 +105,7 @@ const TopicDetailsTable = ({
                     <Button
                       onClick={() => {
                         router.push(
-                          `${paths.private.subjects.subjectTopics}/${topicContainerId}?${getSearchParamString({ ...searchParams, [SearchParams.Modal]: ModalKeys.DeleteTopic, [ModalKeys.TopicId]: topic?.id })}`,
+                          `${pathname}?${getSearchParamString({ ...searchParams, [SearchParams.Modal]: ModalKeys.DeleteTopic, [ModalKeys.ModalId]: topic?.id })}`,
                         );
                       }}
                       variant="secondary"

@@ -5,26 +5,26 @@ import Flex from "@/components/shared/Flex";
 import useModal from "@/components/shared/hooks/useModal";
 import Modal from "@/components/shared/Modal";
 import { Button } from "@/components/ui/button";
-import { deleteSubjectTopicItemAction } from "@/lib/actions/subject.action";
+import { deleteResourceItemAction } from "@/lib/actions/subject.action";
 import { ModalKeys } from "@/lib/const";
 import { FetchResult } from "@/lib/services/api";
 import { IBaseDataRes } from "@/lib/services/type";
 import { useMutation } from "@tanstack/react-query";
 import { Loader, Trash2 } from "lucide-react";
 
-const DeleteTopicModal = () => {
-  const { mutate: deleteTopic, isPending } = useMutation({
+const DeleteResourceModal = () => {
+  const { mutate: deleteResource, isPending } = useMutation({
     mutationFn: async (
-      topicId: string | number,
+      resourceId: string | number,
     ): Promise<FetchResult<IBaseDataRes<void>>> =>
-      deleteSubjectTopicItemAction({ params: { topicId } }) as any,
+      deleteResourceItemAction({ params: { resourceId } }) as any,
   });
   const { handleCloseModal, handleDelete } = useModal({
-    onDelete: deleteTopic,
+    onDelete: deleteResource,
   });
 
   return (
-    <Modal modalKey={ModalKeys.DeleteTopic}>
+    <Modal modalKey={ModalKeys.DeleteResource}>
       <Flex vertical gap={6} align="center">
         <span className="bg-[var(--destructive)] p-[14px] rounded-[8px]">
           <Trash2 className="text-white" />
@@ -34,7 +34,7 @@ const DeleteTopicModal = () => {
             O’chirishni tasdiqlash
           </h3>
           <p className="text-[var(--secondary-foreground)] font-medium">
-            Faylni o’chirishni tasdiqlaysizmi?
+            Resursni o’chirishni tasdiqlaysizmi?
           </p>
         </Flex>
         <Flex gap={2} className="flex-wrap">
@@ -55,4 +55,4 @@ const DeleteTopicModal = () => {
   );
 };
 
-export default DeleteTopicModal;
+export default DeleteResourceModal;

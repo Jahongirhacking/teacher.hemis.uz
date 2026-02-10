@@ -1,4 +1,3 @@
-import Flex from "@/components/shared/Flex";
 import { Button } from "@/components/ui/button";
 import { getTeacherResourcesAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
@@ -7,7 +6,9 @@ import { SubjectFilters } from "@/lib/services/subject/type";
 import { PlusSquare } from "lucide-react";
 import Link from "next/link";
 import { FilterButton } from "../../_components/filters/FilterDropdown";
+import SubjectMainContainer from "../../_components/MainContainer";
 import ResourcesBaseTable from "../../_components/tables/ResourcesBaseTable";
+import DeleteResourceModal from "./_components/modals/DeleteResource";
 
 const ResourcesBasePage = async ({ searchParams }) => {
   const params = await searchParams;
@@ -18,14 +19,14 @@ const ResourcesBasePage = async ({ searchParams }) => {
       per_page: Number(params?.[SearchParams.PaginationSize]),
     },
   });
+  const total = (tasks?.success && tasks?.meta?.total) || 0;
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 justify-between">
-        <h3 className="text-[var(--header-primary-foreground)] font-bold text-[18px]">
-          Resurslar ro’yxati
-        </h3>
-        <Flex gap={2} align="center" className="flex-wrap">
+    <SubjectMainContainer
+      title="Resurslar ro’yxati"
+      badgeText={`Jami resurslar: ${total}`}
+      extra={
+        <>
           <FilterButton types={[SubjectFilters.Subjects]} />
           <Link
             href={`${paths.private.subjects.resourcesBase}/${paths.reservedKeys.create}`}
@@ -34,14 +35,15 @@ const ResourcesBasePage = async ({ searchParams }) => {
               <PlusSquare /> Yaratish
             </Button>
           </Link>
-        </Flex>
-      </div>
-
+        </>
+      }
+    >
       <ResourcesBaseTable
         dataSource={(tasks?.success && tasks?.data) || []}
-        total={(tasks?.success && tasks?.meta?.total) || 0}
+        total={total}
       />
-    </div>
+      <DeleteResourceModal />
+    </SubjectMainContainer>
   );
 };
 

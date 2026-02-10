@@ -38,7 +38,7 @@ const SubjectTopicsTable = (
                 {topic?.curriculum_name}
               </b>
               <span className="text-[14px] text-[var(--secondary-foreground)]">
-                -
+                {topic?.faculty?.name}
               </span>
             </div>
           ),
@@ -48,10 +48,10 @@ const SubjectTopicsTable = (
           render: (_, topic: ICurriculumSubject) => (
             <div className="flex flex-col">
               <b className="font-medium text-[14px] text-[var(--card-foreground)]">
-                -
+                {topic?.education_year?.name}
               </b>
               <span className="text-[14px] text-[var(--secondary-foreground)]">
-                {topic?.semester}
+                {topic?.semester?.name}
               </span>
             </div>
           ),

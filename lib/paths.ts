@@ -14,6 +14,7 @@ export const paths = {
       subjectTopics: `${privatePath}/subjects/subject-topics`,
       resourcesBase: `${privatePath}/subjects/resources-base`,
       tasksAssessment: `${privatePath}/subjects/tasks-assessment`,
+      tests: `${privatePath}/subjects/tests`,
     },
     settings: `${privatePath}/settings`,
     profile: {

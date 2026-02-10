@@ -5,6 +5,7 @@ import {
   batchSubjectFilters,
   createResource,
   createSubjectTopic,
+  deleteResourceItem,
   deleteSubjectTopicItem,
   editResource,
   editSubjectTopic,
@@ -16,6 +17,7 @@ import {
   getSubjectInfo,
   getSubjectResources,
   getSubjectsWithResources,
+  getSubjectTaskOptions,
   getSubjectTasks,
   getSubjectTopic,
   getSubjectTopicItem,
@@ -137,6 +139,18 @@ export const getTaskSubjectListAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getTaskSubjectList({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getSubjectTaskOptionsAction = async (
+  props: Parameters<typeof getSubjectTaskOptions>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSubjectTaskOptions({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);
@@ -290,5 +304,18 @@ export const getResourcesWithSubjectIdAction = async (
     );
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const deleteResourceItemAction = async (
+  props: Parameters<typeof deleteResourceItem>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      deleteResourceItem({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+    return err;
   }
 };

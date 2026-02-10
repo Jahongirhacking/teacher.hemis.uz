@@ -14,8 +14,9 @@ export enum SearchParamsKeys {
 }
 
 export enum ModalKeys {
+  ModalId = "modal-id",
   DeleteTopic = "delete-topic",
-  TopicId = "topic-id",
+  DeleteResource = "delete-resource",
 }
 
 export enum FilterParams {

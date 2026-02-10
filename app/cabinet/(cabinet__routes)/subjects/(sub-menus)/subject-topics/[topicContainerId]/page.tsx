@@ -30,7 +30,7 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
       title="Mavzular ro’yxati"
       badgeText={`Jami mavzular: ${(topicsData?.success && topicsData?.data?.total) || 0}`}
       extra={
-        <Flex gap={2} justify="end" align="center" className="ml-auto">
+        <>
           <SelectFilterType
             filterType={SubjectFilters.TrainingTypes}
             paramKey={FilterItem.TrainingType}
@@ -43,7 +43,7 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
               <PlusSquare /> Yaratish
             </Button>
           </Link>
-        </Flex>
+        </>
       }
     >
       {topicsData?.success ? (
@@ -54,7 +54,7 @@ const SubjectTopicsPage = async ({ searchParams, params: routeParams }) => {
                 eduType:
                   topicsData?.data?.curriculum_subject?.education_type?.name,
                 educationYear: "-",
-                semester: topicsData?.data?.curriculum_subject?.semester,
+                semester: topicsData?.data?.curriculum_subject?.semester?.name,
                 subject: topicsData?.data?.curriculum_subject?.subject_name,
               },
             ]}

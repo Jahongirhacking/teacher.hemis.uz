@@ -239,6 +239,26 @@ export const getTaskSubjectList = async ({
   );
 };
 
+export enum SubjectTaskOptions {
+  TaskTypes = "task-types",
+}
+
+export const getSubjectTaskOptions = async ({
+  params: { optionType },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    optionType: SubjectTaskOptions;
+  }>) => {
+  return fetcher<IBaseDataRes<Record<string, string>>>(
+    `subject-tasks/options/${optionType}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
 // Schedules
 
 export const getSchedulesByRange = async ({
@@ -462,4 +482,17 @@ export const getResourcesWithSubjectId = async ({
       ...options,
     },
   );
+};
+
+export const deleteResourceItem = async ({
+  params: { resourceId },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    resourceId: number | string;
+  }>) => {
+  return fetcher<IBaseDataRes<void>>(`study-resources/${resourceId}`, {
+    method: "DELETE",
+    ...options,
+  });
 };

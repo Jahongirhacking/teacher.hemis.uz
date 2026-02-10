@@ -19,14 +19,12 @@ const SubjectResourcesListPage = async ({ params }) => {
     },
   });
 
-  console.log(subjectResources);
-
   return (
     <SubjectMainContainer
       title="Resurslar ro’yxati"
       badgeText={`Jami mavzular: ${(subjectResources?.success && subjectResources?.meta?.total) || 0}`}
       extra={
-        <Flex gap={2} justify="end" align="center" className="ml-auto">
+        <>
           <FilterButton
             types={[
               SubjectFilters.EducationYears,
@@ -35,7 +33,7 @@ const SubjectResourcesListPage = async ({ params }) => {
               SubjectFilters.Languages,
             ]}
           />
-        </Flex>
+        </>
       }
     >
       {subjectResources?.success ? (

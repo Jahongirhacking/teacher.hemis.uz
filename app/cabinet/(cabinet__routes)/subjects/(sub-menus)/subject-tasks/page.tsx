@@ -20,14 +20,16 @@ const SubjectTasksPage = async ({ searchParams }) => {
       title="Fanlar ro’yxati"
       badgeText={`Jami topshiriqlar: ${(taskSubjects?.success && taskSubjects?.data?.pagination?.total) || 0}`}
       extra={
-        <FilterButton
-          types={[
-            SubjectFilters.EducationYears,
-            SubjectFilters.Semesters,
-            SubjectFilters.Groups,
-            SubjectFilters.Subjects,
-          ]}
-        />
+        <>
+          <FilterButton
+            types={[
+              SubjectFilters.EducationYears,
+              SubjectFilters.Semesters,
+              SubjectFilters.Groups,
+              SubjectFilters.Subjects,
+            ]}
+          />
+        </>
       }
     >
       <SubjectTasksTable

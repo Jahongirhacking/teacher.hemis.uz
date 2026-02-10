@@ -4,16 +4,22 @@ import { DataTable } from "@/components/shared/DataTable";
 import { DataTableProps } from "@/components/shared/types";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { TIME_FORMAT } from "@/lib/const";
+import { ModalKeys, SearchParams, TIME_FORMAT } from "@/lib/const";
 import paths from "@/lib/paths";
 import { ITeacherResource } from "@/lib/services/subject/type";
+import { getSearchParamString } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const ResourcesBaseTable = (
   props: Partial<DataTableProps<ITeacherResource>>,
 ) => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   return (
     <DataTable
       rowKey={() => "id"}
@@ -48,9 +54,15 @@ const ResourcesBaseTable = (
         {
           title: "Til",
           dataIndex: "language",
-          render: (lang: ITeacherResource["language"]) => (
+          render: (lang: ITeacherResource["language"], record) => (
             <span className="text-[14px] text-[var(--secondary-foreground)]">
-              {lang?.map((l) => l)?.join(", ")}
+              {lang
+                ?.map(
+                  (l) =>
+                    record?.language_details?.find((lang) => lang?.code === l)
+                      ?.name,
+                )
+                ?.join(", ")}
             </span>
           ),
         },
@@ -91,7 +103,11 @@ const ResourcesBaseTable = (
           render: (_, record: ITeacherResource) => (
             <Button
               variant={"secondary"}
-              onClick={() => console.log(record?.id)}
+              onClick={() => {
+                router.push(
+                  `${pathname}?${getSearchParamString({ ...searchParams, [SearchParams.Modal]: ModalKeys.DeleteResource, [ModalKeys.ModalId]: record?.id })}`,
+                );
+              }}
             >
               <Trash2 />
             </Button>
