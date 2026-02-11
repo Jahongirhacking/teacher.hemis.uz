@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { uploadedFileSchema } from "./file.schema";
 
 export const createTopicSchema = z.object({
   name: z.string(),
@@ -22,7 +23,7 @@ export const createResourceSchema = z.object({
   comment: z.string(),
   subject_id: z.number(),
   language: z.array(z.string()),
-  files: z.array(z.any()).optional(),
+  files: z.array(uploadedFileSchema).optional(),
   active: z.boolean().optional(),
 });
 

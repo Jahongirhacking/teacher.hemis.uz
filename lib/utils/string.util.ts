@@ -101,3 +101,12 @@ export const keepOnlyLatinLettersAndWhitespace = (input: string): string => {
   // Extract and join matched characters
   return input.match(latinNumberWhitespaceRegex)?.join("") || "";
 };
+
+export const truncateString = (str: string, limit: number = 100) => {
+  if (!str) return "";
+  if (str.length > limit) {
+    return str.slice(0, limit) + "...";
+  } else {
+    return str;
+  }
+};

@@ -1,6 +1,6 @@
+import { IUploadedFile } from "@/lib/schemas/file.schema";
 import { fetcher } from "../api";
 import { IBaseDataRes, IBodySchema, IServerSideOptions } from "../type";
-import { IUploadedFile } from "./type";
 
 export const uploadFiles = async ({
   body,
@@ -11,6 +11,7 @@ export const uploadFiles = async ({
     body,
     ...options,
     fromTeacherPath: false,
+    withMetaHeader: false,
   });
 };
 
@@ -22,9 +23,7 @@ export const uploadFile = async ({
     method: "POST",
     body,
     ...options,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
     fromTeacherPath: false,
+    withMetaHeader: false,
   });
 };

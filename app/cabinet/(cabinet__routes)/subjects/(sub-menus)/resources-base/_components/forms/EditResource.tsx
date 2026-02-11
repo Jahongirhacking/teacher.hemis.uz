@@ -3,11 +3,11 @@
 import CustomSelect from "@/components/shared/CustomSelect";
 import { FileUploader } from "@/components/shared/FileUploader";
 import Flex from "@/components/shared/Flex";
-import useFileUpload from "@/components/shared/hooks/useFileUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import paths from "@/lib/paths";
+import { UploadFolderName, UploadModuleName } from "@/lib/services/file/type";
 import { ITeacherResource } from "@/lib/services/subject/type";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
@@ -18,7 +18,6 @@ const EditResourceForm = ({
   resourceItem: ITeacherResource;
 }) => {
   const { handleSubmit, control } = useForm();
-  const { files, setFiles } = useFileUpload();
   console.log(resourceItem);
 
   const handleEditResource = async (data: object) => {
@@ -74,11 +73,17 @@ const EditResourceForm = ({
               />
             </label>
 
-            <FileUploader
-              moduleName="study_resources"
-              folder="resources-base"
-              files={files}
-              setFiles={setFiles}
+            <Controller
+              name="files"
+              control={control}
+              render={({ field }) => (
+                <FileUploader
+                  moduleName={UploadModuleName.StudyResources}
+                  folder={UploadFolderName.ResourcesBase}
+                  files={field?.value || []}
+                  setFiles={field?.onChange}
+                />
+              )}
             />
           </Flex>
         </Flex>
