@@ -93,7 +93,9 @@ export async function fetcher<T>(
         ...(tok ? { Authorization: `Bearer ${tok}` } : {}),
         ...(options.headers || {}),
       },
-      body: options.body || undefined,
+      body:
+        (withMetaHeader ? JSON.stringify(options?.body) : options?.body) ||
+        undefined,
       credentials: "include",
     });
 

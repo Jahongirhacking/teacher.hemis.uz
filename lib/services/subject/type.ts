@@ -1,3 +1,4 @@
+import { ISubmitFile } from "@/lib/schemas/file.schema";
 import { IFileProps } from "../type";
 
 export interface IEducationType {
@@ -284,7 +285,7 @@ export interface ITeacherResource {
   _employee: number;
   language: string[];
   language_details: ILanguage[];
-  files: IFileProps[];
+  files: ISubmitFile[];
   active: boolean;
   updated_at: string;
   created_at: string;

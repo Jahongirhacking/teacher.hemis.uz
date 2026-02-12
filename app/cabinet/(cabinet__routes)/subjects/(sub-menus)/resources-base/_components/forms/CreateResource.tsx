@@ -2,19 +2,30 @@
 
 import CustomMultiSelect from "@/components/shared/CustomMultiSelect";
 import CustomSelect from "@/components/shared/CustomSelect";
+import { FileUploader } from "@/components/shared/FileUploader";
 import Flex from "@/components/shared/Flex";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createResourceAction } from "@/lib/actions/subject.action";
 import paths from "@/lib/paths";
+import {
+  IClientFile,
+  clientFileSchema,
+  submitFileSchema,
+} from "@/lib/schemas/file.schema";
 import { ICreateResourceBody } from "@/lib/schemas/subject.schema";
+import { UploadFolderName, UploadModuleName } from "@/lib/services/file/type";
 import { ILanguage, ISubject } from "@/lib/services/subject/type";
 import { useMutation } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+type ClientFormProps = Omit<ICreateResourceBody, "files"> & {
+  files: IClientFile[];
+};
 
 const CreateResourceForm = ({
   subjectList = [],
@@ -23,7 +34,7 @@ const CreateResourceForm = ({
   subjectList?: ISubject[];
   languageList?: ILanguage[];
 }) => {
-  const { handleSubmit, control, reset } = useForm<ICreateResourceBody>({
+  const { handleSubmit, control, reset } = useForm<ClientFormProps>({
     defaultValues: {
       title: "",
       comment: "",
@@ -32,11 +43,15 @@ const CreateResourceForm = ({
 
   const { mutate: createResource, isPending } = useMutation({
     mutationFn: async (body: ICreateResourceBody) =>
-      createResourceAction({ body: { ...body, files: [] } }),
+      createResourceAction({ body }),
   });
 
-  const handleCreateResource = async (data: ICreateResourceBody) => {
-    createResource(data, {
+  const handleCreateResource = async (data: ClientFormProps) => {
+    const parsedData: ICreateResourceBody = {
+      ...data,
+      files: data?.files?.map((f) => submitFileSchema.parse(f)),
+    };
+    createResource(parsedData, {
       onSuccess: (result) => {
         toast.dismiss();
         if (!result?.success) {
@@ -137,6 +152,20 @@ const CreateResourceForm = ({
               )}
             />
           </label>
+
+          <Controller
+            name="files"
+            control={control}
+            render={({ field }) => (
+              <FileUploader<IClientFile>
+                transformerSchema={clientFileSchema}
+                files={field.value || []}
+                setFiles={field.onChange}
+                moduleName={UploadModuleName.StudyResources}
+                folder={UploadFolderName.ResourcesBase}
+              />
+            )}
+          />
         </Flex>
 
         <Flex gap={2} justify="end" align="center" className="flex-wrap w-full">

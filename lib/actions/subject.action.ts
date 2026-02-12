@@ -1,6 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { handlePrivateRequest } from ".";
+import paths from "../paths";
 import {
   batchSubjectFilters,
   createResource,
@@ -251,9 +253,13 @@ export const editResourceAction = async (
   props: Parameters<typeof editResource>[0],
 ) => {
   try {
-    return handlePrivateRequest((serverProps) =>
+    const res = await handlePrivateRequest((serverProps) =>
       editResource({ ...serverProps, ...props }),
     );
+    if (res?.success) {
+      revalidatePath(`${paths.private.subjects.subjectResources}`, "layout");
+    }
+    return res;
   } catch (err) {
     console.error(err);
   }

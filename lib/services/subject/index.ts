@@ -353,6 +353,7 @@ export const getTeacherResources = async ({
     `study-resources?${getSearchParamString(params)}`,
     {
       method: "GET",
+      cache: "no-store",
       ...options,
     },
   );
@@ -366,6 +367,7 @@ export const getTeacherResourceWithId = async ({
     `study-resources/${params?.id}`,
     {
       method: "GET",
+      cache: "no-store",
       ...options,
     },
   );
@@ -417,6 +419,7 @@ export const editResource = async ({
       method: "PUT",
       body,
       ...options,
+      cache: "no-store",
     },
   );
 };

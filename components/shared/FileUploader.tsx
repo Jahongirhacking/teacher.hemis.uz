@@ -1,25 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { uploadFileAction } from "@/lib/actions/file.action";
-import { IUploadedFile } from "@/lib/schemas/file.schema";
+import {
+  clientFileSchema,
+  FileStatus,
+  IClientFile,
+  IUploadedFile,
+} from "@/lib/schemas/file.schema";
 import { UploadFolderName, UploadModuleName } from "@/lib/services/file/type";
-import { truncateString } from "@/lib/utils/string.util";
+import { cn } from "@/lib/utils";
+import { getFileExtensionName, getFileSize } from "@/lib/utils/file.util";
 import { useMutation } from "@tanstack/react-query";
 import { LoaderCircleIcon, XIcon } from "lucide-react";
-import React, { Dispatch, FC, ReactNode, SetStateAction, useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 import { toast } from "sonner";
+import { ZodType } from "zod";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import Flex from "./Flex";
 
-export interface FileUploaderProps {
-  files: IUploadedFile[];
-  setFiles: Dispatch<SetStateAction<IUploadedFile[]>>;
+export interface FileUploaderProps<T extends IClientFile> {
+  files: T[];
+  transformerSchema?: ZodType<T & any, IUploadedFile>;
+  setFiles: (arg: T[]) => void;
   moduleName?: UploadModuleName;
   folder: UploadFolderName;
   renderFiles?: (args: {
-    files: IUploadedFile[];
-    handleDelete?: (id: IUploadedFile["id"]) => void;
+    files: T[];
+    handleDelete?: (id: T) => void;
   }) => ReactNode;
   renderButton?: (args: {
     onClickUpload: (e?: Event) => void;
@@ -28,7 +37,7 @@ export interface FileUploaderProps {
   renderLoader?: () => ReactNode;
 }
 
-export const FileUploader: FC<FileUploaderProps> = ({
+export const FileUploader = <T extends IClientFile>({
   files,
   setFiles,
   folder,
@@ -36,7 +45,8 @@ export const FileUploader: FC<FileUploaderProps> = ({
   renderFiles,
   renderButton,
   renderLoader,
-}) => {
+  transformerSchema = clientFileSchema,
+}: FileUploaderProps<T>) => {
   const uploadRef = useRef<HTMLInputElement | null>(null);
   const { mutateAsync: uploadFile, isPending } = useMutation({
     mutationFn: (formData: FormData) =>
@@ -71,7 +81,16 @@ export const FileUploader: FC<FileUploaderProps> = ({
       const uploaded = await Promise.all(
         Array.from(selectedFiles).map(handleUploadFile),
       );
-      setFiles([...(files || []), ...uploaded?.filter((e) => !!e)]);
+      setFiles([
+        ...(files || []),
+        ...(uploaded || [])
+          ?.filter((file) => !!file)
+          ?.map((file) =>
+            transformerSchema
+              ? transformerSchema.parse(file)
+              : ({ ...file } as any),
+          ),
+      ]);
     } catch (err) {
       console.error(err);
     } finally {
@@ -79,8 +98,12 @@ export const FileUploader: FC<FileUploaderProps> = ({
     }
   };
 
-  const handleDelete = (id: IUploadedFile["id"]) => {
-    setFiles(files?.filter((f) => f?.id !== id));
+  const handleDelete = (file: IClientFile) => {
+    if (file?.status === FileStatus.New) {
+      setFiles(files?.filter((f) => f?.url !== file?.url));
+    } else {
+      console.log("This file is already submitted", file);
+    }
   };
 
   return (
@@ -118,24 +141,37 @@ export const FileUploader: FC<FileUploaderProps> = ({
           renderFiles?.({ files, handleDelete })
         ) : (
           <ul className="text-[14px] space-y-3 w-full">
-            {files.map((file: IUploadedFile) => (
-              <li key={file?.uuid || file?.id}>
+            {files.map((file: T, idx) => (
+              <li key={file?.url || idx}>
                 <Flex
                   align="center"
                   justify="between"
                   gap={3}
-                  className="w-full bg-[var(--card-header)] py-[10px] px-3 rounded-md"
+                  className={cn(
+                    "w-full bg-[#0066ff3b] py-[10px] px-3 rounded-md",
+                    file?.status === FileStatus.New &&
+                      "bg-[var(--card-header)]",
+                  )}
                 >
-                  <Flex gap={2} align="center" className="flex-wrap">
-                    <span>{`${truncateString(file?.original_name, 30)}`}</span>
+                  <Flex
+                    gap={2}
+                    align="center"
+                    justify="between"
+                    className="flex-wrap w-full"
+                  >
+                    <span className="line-clamp-1 max-w-none [@media(min-width:400px)]:max-w-[calc(100%-100px)]">{`${file?.name}`}</span>
                     <Badge
                       variant={"secondary"}
-                    >{`${file?.extension?.toUpperCase()} (${file?.human_size})`}</Badge>
+                    >{`${getFileExtensionName(file?.name)?.toUpperCase()} (${getFileSize(file?.size)})`}</Badge>
                   </Flex>
                   <Button
-                    onClick={() => handleDelete(file?.id)}
-                    variant={"ghost"}
-                    className="!p-1 h-7 w-7 bg-transparent"
+                    type="button"
+                    onClick={(e) => {
+                      e?.preventDefault();
+                      handleDelete(file);
+                    }}
+                    variant={"outline"}
+                    className="!p-1 h-7 w-7 bg-transparent border-none shadow-none"
                   >
                     <XIcon className="!w-5 !h-5" />
                   </Button>

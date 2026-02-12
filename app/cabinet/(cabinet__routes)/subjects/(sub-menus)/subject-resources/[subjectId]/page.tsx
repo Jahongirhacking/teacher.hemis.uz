@@ -1,21 +1,24 @@
 import Empty from "@/components/shared/Empty";
 import Flex from "@/components/shared/Flex";
 import { getTeacherResourcesAction } from "@/lib/actions/subject.action";
+import { SearchParams } from "@/lib/const";
 import { SubjectFilters } from "@/lib/services/subject/type";
 import SubjectMainContainer from "../../../_components/MainContainer";
 import { FilterButton } from "../../../_components/filters/FilterDropdown";
 import { ResourceDetailsTable } from "../../../_components/tables/SubjectResourcesTable";
 import DeleteTopicModal from "../../subject-topics/_components/modals/DeleteTopic";
 
-const SubjectResourcesListPage = async ({ params }) => {
+const SubjectResourcesListPage = async ({ params, searchParams }) => {
   const routeParams = await params;
+  const searchedParams = await searchParams;
   const { subjectId } = routeParams;
 
   const subjectResources = await getTeacherResourcesAction({
     params: {
+      ...searchedParams,
       subject_id: subjectId,
-      page: 1,
-      per_page: 1,
+      page: Number(searchedParams?.[SearchParams.PaginationPage]),
+      per_page: Number(searchedParams?.[SearchParams.PaginationSize]),
     },
   });
 

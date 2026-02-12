@@ -2,13 +2,20 @@
 
 import CustomMultiSelect from "@/components/shared/CustomMultiSelect";
 import CustomSelect from "@/components/shared/CustomSelect";
+import { FileUploader } from "@/components/shared/FileUploader";
 import Flex from "@/components/shared/Flex";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { editResourceAction } from "@/lib/actions/subject.action";
 import paths from "@/lib/paths";
+import {
+  FileStatus,
+  IClientFile,
+  submitFileSchema,
+} from "@/lib/schemas/file.schema";
 import { ICreateResourceBody } from "@/lib/schemas/subject.schema";
+import { UploadFolderName, UploadModuleName } from "@/lib/services/file/type";
 import {
   ILanguage,
   ISubject,
@@ -17,8 +24,12 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+type IFormProps = Omit<ICreateResourceBody, "files"> & { files: IClientFile[] };
 
 const EditSubjectResourceForm = ({
   subjectList = [],
@@ -29,26 +40,39 @@ const EditSubjectResourceForm = ({
   languageList?: ILanguage[];
   resourceItem: ITeacherResource;
 }) => {
-  const { handleSubmit, control } = useForm<ICreateResourceBody>({
-    defaultValues: {
-      title: resourceItem?.title || "",
-      comment: resourceItem?.comment || "",
-      language: resourceItem?.language || [],
+  const router = useRouter();
+  const defaultValues = useMemo(
+    () => ({
+      ...resourceItem,
       subject_id: resourceItem?.subject?.id,
-      files: [],
-    },
+      files: resourceItem?.files
+        ?.filter((f) => !!f)
+        ?.map((f) => ({ ...f, status: FileStatus.Submitted })),
+    }),
+    [resourceItem],
+  );
+  const { handleSubmit, control, reset } = useForm<IFormProps>({
+    defaultValues,
   });
+
+  useEffect(() => {
+    reset?.(defaultValues);
+  }, [defaultValues, reset]);
 
   const { mutate: editResource, isPending } = useMutation({
     mutationFn: async (body: ICreateResourceBody) =>
       editResourceAction({
-        body: { ...body, files: [] },
+        body,
         params: { resourceId: resourceItem?.id },
       }),
   });
 
-  const handleEditResource = async (data: ICreateResourceBody) => {
-    editResource(data, {
+  const handleEditResource = async (data: IFormProps) => {
+    const parsedData: ICreateResourceBody = {
+      ...data,
+      files: data?.files?.map((f) => submitFileSchema.parse(f)),
+    };
+    editResource(parsedData, {
       onSuccess: (result) => {
         toast.dismiss();
         if (!result?.success) {
@@ -56,6 +80,7 @@ const EditSubjectResourceForm = ({
           return;
         }
         toast.success("Mavzu muvaffaqiyatli tahrirlandi!");
+        router.refresh();
       },
       onError: (err) => {
         toast.dismiss();
@@ -139,6 +164,19 @@ const EditSubjectResourceForm = ({
               )}
             />
           </label>
+
+          <Controller
+            name="files"
+            control={control}
+            render={({ field }) => (
+              <FileUploader
+                files={field?.value || []}
+                setFiles={field?.onChange}
+                moduleName={UploadModuleName.StudyResources}
+                folder={UploadFolderName.ResourcesBase}
+              />
+            )}
+          />
         </Flex>
 
         <Flex gap={2} justify="end" align="center" className="flex-wrap w-full">
