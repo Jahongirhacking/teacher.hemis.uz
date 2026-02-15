@@ -1,6 +1,7 @@
 "use client";
 
 import CustomSelect from "@/components/shared/CustomSelect";
+import { FileUploader } from "@/components/shared/FileUploader";
 import Flex from "@/components/shared/Flex";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import paths from "@/lib/paths";
+import { UploadFolderName, UploadModuleName } from "@/lib/services/file/type";
 import { IBaseName, ILanguage, ISubject } from "@/lib/services/subject/type";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
@@ -171,6 +173,20 @@ const CreateTaskForm = ({
                   )}
                 />
               </label>
+
+              <Controller
+                name="files"
+                control={control}
+                render={({ field }) => (
+                  <FileUploader
+                    files={field.value || []}
+                    setFiles={field.onChange}
+                    moduleName={UploadModuleName.StudyResources}
+                    folder={UploadFolderName.ResourcesBase}
+                  />
+                )}
+              />
+
               <Flex gap={2} justify="end" className="w-full">
                 <Link href={paths.private.subjects.tasksBase}>
                   <Button type="button" variant="secondary">

@@ -1,9 +1,10 @@
 import { getTaskSubjectListAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
+import paths from "@/lib/paths";
 import { SubjectFilters } from "@/lib/services/subject/type";
 import SubjectMainContainer from "../../_components/MainContainer";
 import { FilterButton } from "../../_components/filters/FilterDropdown";
-import SubjectTasksTable from "../../_components/tables/SubjectTasksTable";
+import { SubjectListTable } from "../../_components/tables/SubjectTasksTable";
 
 const SubjectTasksPage = async ({ searchParams }) => {
   const params = await searchParams;
@@ -32,7 +33,8 @@ const SubjectTasksPage = async ({ searchParams }) => {
         </>
       }
     >
-      <SubjectTasksTable
+      <SubjectListTable
+        path={`${paths.private.subjects.subjectTasks}`}
         dataSource={(taskSubjects?.success && taskSubjects?.data?.items) || []}
         total={
           (taskSubjects?.success && taskSubjects?.data?.pagination?.total) || 0

@@ -4,10 +4,14 @@ import { DataTable } from "@/components/shared/DataTable";
 import Flex from "@/components/shared/Flex";
 import { DataTableProps } from "@/components/shared/types";
 import { ISubjectTaskItem } from "@/lib/services/subject/type";
+import Link from "next/link";
 
-const SubjectTasksTable = (
-  props: Partial<DataTableProps<ISubjectTaskItem>>,
-) => {
+const SubjectTasksTable = ({
+  linkPath,
+  ...props
+}: Partial<DataTableProps<ISubjectTaskItem>> & {
+  linkPath: (id?: string) => string;
+}) => {
   return (
     <DataTable
       rowKey={() => "idx"}
@@ -20,9 +24,11 @@ const SubjectTasksTable = (
         {
           title: "Fan nomi",
           render: (_, record) => (
-            <b className="text-[var(--primary)] font-medium">
-              {record?.subject?.name}
-            </b>
+            <Link href={linkPath(String(record?.subject?.id))}>
+              <b className="text-[var(--primary)] font-medium">
+                {record?.subject?.name}
+              </b>
+            </Link>
           ),
         },
         {
@@ -87,6 +93,13 @@ const SubjectTasksTable = (
       {...props}
     />
   );
+};
+
+export const SubjectListTable = ({
+  path,
+  ...props
+}: Partial<DataTableProps<ISubjectTaskItem>> & { path: string }) => {
+  return <SubjectTasksTable linkPath={(id) => `${path}/${id}`} {...props} />;
 };
 
 export default SubjectTasksTable;
