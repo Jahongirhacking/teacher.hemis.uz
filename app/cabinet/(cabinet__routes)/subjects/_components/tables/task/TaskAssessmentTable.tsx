@@ -13,6 +13,7 @@ const TaskAssessmentTable = ({
   ...props
 }: Partial<DataTableProps<ITaskAssessmentItem>> & { postfixPath?: string }) => {
   const pathname = usePathname();
+
   return (
     <DataTable
       rowKey={() => "idx"}

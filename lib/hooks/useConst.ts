@@ -9,6 +9,7 @@ export interface IMenu {
   icon?: () => JSX.Element;
   children?: IMenu[];
   code?: string;
+  hidden?: boolean;
 }
 
 export const findMenuWithPath = (
@@ -29,6 +30,7 @@ export const findMenuWithPath = (
 
 const navbarCodes = {
   subjects: paths.private.subjects.base,
+  trainings: paths.private.trainings.base,
 };
 
 const useConst = () => {
@@ -79,6 +81,7 @@ const useConst = () => {
       ],
     },
     {
+      code: navbarCodes?.trainings,
       label: "Mashg'ulotlar",
       icon: SideNavIcons.ActivitiesIcon,
       children: [

@@ -3,6 +3,7 @@ import HemisLogo from "@/components/shared/HemisLogo";
 import { Loading } from "@/components/shared/Loading";
 import { ThemeSwitchButton } from "@/components/shared/ThemeSwitch";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { CookieItems } from "@/lib/const";
 import paths from "@/lib/paths";
 import { getProfile } from "@/lib/services/auth";
@@ -17,6 +18,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import Menu from "./_components/aside/Menu";
+import CabinetBreadcrumb from "./_components/Breadcrumb";
 import BottomNav from "./_components/footer/BottomNav";
 import ProfileMenu from "./_components/header/ProfileMenu";
 import ProfileAvatar from "./_components/ProfileAvatar";
@@ -80,8 +82,15 @@ const CabinetLayout = async ({
           id="main-outlet"
           className="flex-1 py-5 px-4 pb-15 overflow-y-auto overflow-x-hidden"
         >
-          <Suspense fallback={<Loading />}>{children}</Suspense>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-4 justify-between items-center">
+              <CabinetBreadcrumb />
+            </div>
+            <Separator className="w-full h-[1px] bg-[var(--card-header)]" />
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </div>
         </section>
+
         <footer className="block md:hidden border-t-[1px]">
           <BottomNav />
         </footer>

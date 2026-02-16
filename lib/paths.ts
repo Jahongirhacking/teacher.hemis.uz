@@ -35,6 +35,7 @@ export const paths = {
     edit: "edit",
     result: "result",
     assessment: "assessment",
+    group: "group",
   },
 };
 

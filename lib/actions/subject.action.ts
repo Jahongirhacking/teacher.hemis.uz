@@ -13,6 +13,7 @@ import {
   editSubjectTopic,
   getResourcesWithSubjectId,
   getSchedulesByDate,
+  getSchedulesByRange,
   getStudentTaskSubmissionDetail,
   getStudyResourceOptions,
   getStudyResourceSubjectOptions,
@@ -219,6 +220,18 @@ export const getSchedulesByDateAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getSchedulesByDate({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getSchedulesByRangeAction = async (
+  props: Parameters<typeof getSchedulesByRange>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getSchedulesByRange({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);

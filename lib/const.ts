@@ -37,7 +37,6 @@ function normalizeParams(
   params?: Record<string, string | number | boolean | null | undefined>,
 ) {
   if (!params) return [];
-
   return Object.entries(params)
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, value]) => `${key}:${value ?? "null"}`);
@@ -54,6 +53,10 @@ export const cachedQueryKeys = {
     ...normalizeParams(params),
   ],
   selectFilters: (name: string) => ["select", name],
+  schedule: (params: Record<string, any>) => [
+    "schedule",
+    ...normalizeParams(params),
+  ],
 };
 
 export const DEFAULT_PAGINATION = {
