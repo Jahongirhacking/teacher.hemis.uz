@@ -5,6 +5,7 @@ import { DEFAULT_PAGINATION } from "@/lib/const";
 import {
   ICreateResourceBody,
   ICreateTopicBody,
+  IGradeTaskSubmissionBody,
 } from "@/lib/schemas/subject.schema";
 import { getSearchParamString } from "@/lib/utils";
 import { fetcher } from "../api";
@@ -28,6 +29,7 @@ import {
   IResourceItem,
   ISchedule,
   ISemester,
+  IStudentTaskSubmissionDetail,
   IStudyResourceOptions,
   IStudyResourceSubjectOptions,
   ISubject,
@@ -40,6 +42,8 @@ import {
   ISubjectTopicItem,
   ISubjectTopicItemRes,
   ISubjectWithResources,
+  ITaskAssessmentRes,
+  ITaskSubmissionRes,
   ITaskType,
   ITeacherResource,
   ITraining,
@@ -254,6 +258,84 @@ export const getSubjectTaskOptions = async ({
     `subject-tasks/options/${optionType}`,
     {
       method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getTaskAssessmentList = async ({
+  params: { page, per_page, ...params },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    {
+      curriculum_id?: ICurriculum["id"];
+      subject_id?: ISubject["id"];
+      semester?: ISemester["code"];
+      training_type?: ITrainingType["code"];
+      language?: ILanguage["code"];
+    } & IPaginationParams
+  >) => {
+  return fetcher<IBaseDataRes<ITaskAssessmentRes>>(
+    `task-grading/tasks?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getTaskSubmissions = async ({
+  params: { taskId, page, per_page, ...params },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<
+    IPaginationParams & {
+      taskId: number | string;
+      group_id?: IGroup["id"];
+      status?: string;
+      search?: string;
+    }
+  >) => {
+  return fetcher<IBaseDataRes<ITaskSubmissionRes>>(
+    `task-grading/tasks/${taskId}/submissions?${getSearchParamString({ ...params, page: page || DEFAULT_PAGINATION.page, per_page: per_page || DEFAULT_PAGINATION.size })}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const getStudentTaskSubmissionDetail = async ({
+  params: { submissionId },
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    submissionId: number | string;
+  }>) => {
+  return fetcher<IBaseDataRes<IStudentTaskSubmissionDetail>>(
+    `task-grading/submissions/${submissionId}`,
+    {
+      method: "GET",
+      ...options,
+    },
+  );
+};
+
+export const gradeTaskSubmission = async ({
+  params: { submissionId },
+  body,
+  ...options
+}: IServerSideOptions &
+  IParamsSchema<{
+    submissionId: number | string;
+  }> &
+  IBodySchema<IGradeTaskSubmissionBody>) => {
+  return fetcher<IBaseDataRes<void>>(
+    `task-grading/submissions/${submissionId}/grade`,
+    {
+      method: "POST",
+      body,
       ...options,
     },
   );

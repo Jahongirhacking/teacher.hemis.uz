@@ -2,7 +2,7 @@ import Flex from "@/components/shared/Flex";
 import { Badge } from "@/components/ui/badge";
 import { ReactNode } from "react";
 
-const SubjectMainContainer = ({
+const MainCabinetContainer = ({
   title,
   badgeText,
   extra,
@@ -45,4 +45,4 @@ const SubjectMainContainer = ({
   );
 };
 
-export default SubjectMainContainer;
+export default MainCabinetContainer;

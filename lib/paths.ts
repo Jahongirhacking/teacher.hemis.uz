@@ -21,10 +21,20 @@ export const paths = {
       info: `${privatePath}/profile/info`,
       passport: `${privatePath}/profile/passport`,
     },
+    trainings: {
+      base: `${privatePath}/trainings`,
+      timetable: `${privatePath}/trainings/timetable`,
+      takeLesson: `${privatePath}/trainings/take-lesson`,
+      attendanceJournal: `${privatePath}/trainings/attendance-journal`,
+      gradingJournal: `${privatePath}/trainings/grading-journal`,
+      calendarPlan: `${privatePath}/trainings/calendar-plan`,
+    },
   },
   reservedKeys: {
     create: "create",
     edit: "edit",
+    result: "result",
+    assessment: "assessment",
   },
 };
 

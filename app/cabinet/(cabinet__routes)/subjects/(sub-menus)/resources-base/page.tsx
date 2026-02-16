@@ -1,3 +1,4 @@
+import MainCabinetContainer from "@/app/cabinet/_components/MainContainer";
 import { Button } from "@/components/ui/button";
 import { getTeacherResourcesAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
@@ -6,8 +7,7 @@ import { SubjectFilters } from "@/lib/services/subject/type";
 import { PlusSquare } from "lucide-react";
 import Link from "next/link";
 import { FilterButton } from "../../_components/filters/FilterDropdown";
-import SubjectMainContainer from "../../_components/MainContainer";
-import ResourcesBaseTable from "../../_components/tables/ResourcesBaseTable";
+import ResourcesBaseTable from "../../_components/tables/resource/ResourcesBaseTable";
 import DeleteResourceModal from "./_components/modals/DeleteResource";
 
 const ResourcesBasePage = async ({ searchParams }) => {
@@ -22,7 +22,7 @@ const ResourcesBasePage = async ({ searchParams }) => {
   const total = (tasks?.success && tasks?.meta?.total) || 0;
 
   return (
-    <SubjectMainContainer
+    <MainCabinetContainer
       title="Resurslar ro’yxati"
       badgeText={`Jami resurslar: ${total}`}
       extra={
@@ -43,7 +43,7 @@ const ResourcesBasePage = async ({ searchParams }) => {
         total={total}
       />
       <DeleteResourceModal />
-    </SubjectMainContainer>
+    </MainCabinetContainer>
   );
 };
 

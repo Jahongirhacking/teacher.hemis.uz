@@ -1,13 +1,14 @@
+import MainCabinetContainer from "@/app/cabinet/_components/MainContainer";
 import {
   getSubjectInfoAction,
-  getSubjectTasksAction,
+  getTaskAssessmentListAction,
 } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
+import paths from "@/lib/paths";
 import { SubjectFilters } from "@/lib/services/subject/type";
 import { FilterButton } from "../../../_components/filters/FilterDropdown";
-import SubjectMainContainer from "../../../_components/MainContainer";
-import EduInfoTable from "../../../_components/tables/EduInfoTable";
-import TasksTable from "../../../_components/tables/TasksTable";
+import EduInfoTable from "../../../_components/tables/info/EduInfoTable";
+import TaskAssessmentTable from "../../../_components/tables/task/TaskAssessmentTable";
 
 const TasksAssessmentDetails = async ({ params, searchParams }) => {
   const { subjectId } = await params;
@@ -20,7 +21,7 @@ const TasksAssessmentDetails = async ({ params, searchParams }) => {
         per_page: 1,
       },
     }),
-    getSubjectTasksAction({
+    getTaskAssessmentListAction({
       params: {
         subject_id: subjectId,
         page: Number(filterParams?.[SearchParams.PaginationPage]),
@@ -29,11 +30,10 @@ const TasksAssessmentDetails = async ({ params, searchParams }) => {
       },
     }),
   ]);
-  const total = (tasksInfo?.success && tasksInfo?.meta?.total) || 0;
-  console.log(subjectInfo, "subject");
+  const total = (tasksInfo?.success && tasksInfo?.data?.pagination?.total) || 0;
 
   return (
-    <SubjectMainContainer
+    <MainCabinetContainer
       title="Topshiriqlar ro'yxati"
       badgeText={`Jami topshiriqlar: ${total}`}
       extra={
@@ -52,6 +52,10 @@ const TasksAssessmentDetails = async ({ params, searchParams }) => {
       <EduInfoTable
         dataSource={[
           {
+            educationYear:
+              (subjectInfo?.success &&
+                subjectInfo?.data?.[0]?.education_year?.name) ||
+              "-",
             subject:
               (subjectInfo?.success && subjectInfo?.data?.[0]?.subject?.name) ||
               "-",
@@ -62,11 +66,12 @@ const TasksAssessmentDetails = async ({ params, searchParams }) => {
           },
         ]}
       />
-      <TasksTable
-        dataSource={(tasksInfo?.success && tasksInfo?.data) || []}
+      <TaskAssessmentTable
+        postfixPath={paths.reservedKeys.result}
+        dataSource={(tasksInfo?.success && tasksInfo?.data?.items) || []}
         total={total}
       />
-    </SubjectMainContainer>
+    </MainCabinetContainer>
   );
 };
 

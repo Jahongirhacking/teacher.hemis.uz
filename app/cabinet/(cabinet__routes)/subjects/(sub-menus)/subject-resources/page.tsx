@@ -3,7 +3,7 @@ import { getSubjectResourcesAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
 import { ISubjectResources, SubjectFilters } from "@/lib/services/subject/type";
 import { FilterButton } from "../../_components/filters/FilterDropdown";
-import SubjectResourcesTable from "../../_components/tables/SubjectResourcesTable";
+import SubjectResourcesTable from "../../_components/tables/resource/SubjectResourcesTable";
 
 const SubjectListPage = async ({ searchParams }) => {
   const params = await searchParams;

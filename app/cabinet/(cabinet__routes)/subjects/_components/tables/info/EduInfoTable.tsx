@@ -11,6 +11,9 @@ const EduInfoTable = (
       educationYear?: string;
       semester?: string;
       subject?: string;
+      group?: string;
+      student?: string;
+      trainingType?: string;
     }>
   >,
 ) => {
@@ -58,11 +61,51 @@ const EduInfoTable = (
               },
             ] as any)
           : []),
+        ...(props?.dataSource?.[0]?.group
+          ? ([
+              {
+                title: "Guruh",
+                dataIndex: "group",
+                render: (item: string) => (
+                  <span className="text-[14px] text-[var(--secondary-foreground)]">
+                    {item}
+                  </span>
+                ),
+              },
+            ] as any)
+          : []),
+        ...(props?.dataSource?.[0]?.student
+          ? ([
+              {
+                title: "Talaba",
+                dataIndex: "student",
+                render: (item: string) => (
+                  <span className="text-[14px] text-[var(--secondary-foreground)]">
+                    {item}
+                  </span>
+                ),
+              },
+            ] as any)
+          : []),
         ...(props?.dataSource?.[0]?.subject
           ? ([
               {
                 title: "Fan",
                 dataIndex: "subject",
+                render: (item: string) => (
+                  <span className="text-[14px] text-[var(--secondary-foreground)]">
+                    {item}
+                  </span>
+                ),
+              },
+            ] as any)
+          : []),
+        ,
+        ...(props?.dataSource?.[0]?.trainingType
+          ? ([
+              {
+                title: "Mashg’ulot turi",
+                dataIndex: "trainingType",
                 render: (item: string) => (
                   <span className="text-[14px] text-[var(--secondary-foreground)]">
                     {item}

@@ -81,7 +81,28 @@ const useConst = () => {
     {
       label: "Mashg'ulotlar",
       icon: SideNavIcons.ActivitiesIcon,
-      children: [],
+      children: [
+        {
+          label: "Dars jadvali",
+          href: paths.private.trainings.timetable,
+        },
+        {
+          label: "Dars o'tish",
+          href: paths.private.trainings.takeLesson,
+        },
+        {
+          label: "Davomat jurnali",
+          href: paths.private.trainings.attendanceJournal,
+        },
+        {
+          label: "Baholash jurnali",
+          href: paths.private.trainings.gradingJournal,
+        },
+        {
+          label: "Kalendar reja",
+          href: paths.private.trainings.calendarPlan,
+        },
+      ],
     },
     {
       label: "Nazoratlar",

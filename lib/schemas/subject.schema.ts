@@ -28,3 +28,13 @@ export const createResourceSchema = z.object({
 });
 
 export type ICreateResourceBody = z.infer<typeof createResourceSchema>;
+
+// task
+export const gradeTaskSubmissionSchema = z.object({
+  ball: z.number(),
+  comment: z.string(),
+});
+
+export type IGradeTaskSubmissionBody = z.infer<
+  typeof gradeTaskSubmissionSchema
+>;

@@ -1,3 +1,4 @@
+import MainCabinetContainer from "@/app/cabinet/_components/MainContainer";
 import { Button } from "@/components/ui/button";
 import { getSubjectTaskOptionsAction } from "@/lib/actions/subject.action";
 import paths from "@/lib/paths";
@@ -8,7 +9,6 @@ import {
 import { SubjectFilters } from "@/lib/services/subject/type";
 import { SquarePlus } from "lucide-react";
 import Link from "next/link";
-import SubjectMainContainer from "../../../_components/MainContainer";
 import CreateTaskForm from "../_components/forms/CreateTask";
 
 const CreateTaskPage = async () => {
@@ -29,7 +29,7 @@ const CreateTaskPage = async () => {
   ]);
 
   return (
-    <SubjectMainContainer
+    <MainCabinetContainer
       title="Topshiriq yaratish"
       extra={
         <>
@@ -55,7 +55,7 @@ const CreateTaskPage = async () => {
         languageList={(languages?.success && languages?.data?.data) || []}
         subjectList={(subjects?.success && subjects?.data?.data) || []}
       />
-    </SubjectMainContainer>
+    </MainCabinetContainer>
   );
 };
 

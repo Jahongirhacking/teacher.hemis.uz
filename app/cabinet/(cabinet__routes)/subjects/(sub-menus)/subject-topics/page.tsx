@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { getSubjectTopicAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
 import { SubjectFilters } from "@/lib/services/subject/type";
-import SubjectTopicsTable from "../../_components/tables/SubjectTopicsTable";
+import SubjectTopicsTable from "../../_components/tables/topic/SubjectTopicsTable";
 
 const SubjectTopicsPage = async ({ searchParams }) => {
   const params = await searchParams;

@@ -442,3 +442,112 @@ export interface ISubjectTaskStats {
   items: ISubjectTaskItem[];
   pagination: IPagination;
 }
+
+export interface ITaskAssessmentItem {
+  id: number;
+  name: string;
+  task_type: ITaskType;
+  exam_type: IExamType;
+  max_ball: number;
+  deadline: string;
+  deadline_formatted: string;
+  question_count: number;
+  attempt_count: number;
+  active: boolean;
+  statistics: {
+    given_count: number;
+    passed_count: number;
+    rated_count: number;
+  };
+  subject: ISubject;
+  training_type: ITrainingType;
+}
+
+export interface ITaskAssessmentRes {
+  items: ITaskAssessmentItem[];
+  pagination: IPagination;
+}
+
+export interface IStudent {
+  id: number;
+  name: string;
+  student_id_number: string;
+}
+
+export interface IGroup {
+  id: number;
+  name: string;
+}
+
+export interface ITaskStatus {
+  code: string;
+  name: string;
+}
+
+export interface ITaskSubmissionItem {
+  id: number;
+  student: IStudent;
+  group: IGroup;
+  final_exam_type: string;
+  task_status: ITaskStatus;
+  mark: number | null;
+  marked_date: string | null;
+  active: boolean;
+  deadline: string;
+  deadline_formatted: string;
+  submitted_at: string | null;
+  graded_at: string | null;
+  created_at: string;
+}
+
+export interface ITaskSubmissionHeader {
+  education_year: string;
+  semester: string;
+  subject: string;
+  training_type: string;
+  task_name: string;
+}
+
+export interface ITaskSubmissionStatistics {
+  total: number;
+  given: number;
+  passed: number;
+  rated: number;
+}
+
+export interface ITaskSubmissionRes {
+  items: ITaskSubmissionItem[];
+  header: ITaskSubmissionHeader;
+  statistics: ITaskSubmissionStatistics;
+  pagination: IPagination;
+}
+
+export interface IStudentTaskSubmissionDetail {
+  id: number;
+  student: IStudent;
+  group: IGroup;
+  subject: ISubject;
+  training_type: string;
+  task: {
+    id: number;
+    name: string;
+    max_ball: number;
+    task_type: string;
+    comment: string;
+  };
+  answer: {
+    comment: string | null;
+    files: ISubmitFile[];
+    submitted_at: string | null;
+  };
+  grading: {
+    ball: number | null;
+    max_ball: number;
+    comment: string | null;
+    graded_at: string | null;
+  };
+  task_status: ITaskStatus;
+  final_exam_type: string;
+  deadline: string;
+  created_at: string;
+}

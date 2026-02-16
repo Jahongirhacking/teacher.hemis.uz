@@ -1,11 +1,11 @@
+import MainCabinetContainer from "@/app/cabinet/_components/MainContainer";
 import Empty from "@/components/shared/Empty";
 import Flex from "@/components/shared/Flex";
 import { getTeacherResourcesAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
 import { SubjectFilters } from "@/lib/services/subject/type";
-import SubjectMainContainer from "../../../_components/MainContainer";
 import { FilterButton } from "../../../_components/filters/FilterDropdown";
-import { ResourceDetailsTable } from "../../../_components/tables/SubjectResourcesTable";
+import { ResourceDetailsTable } from "../../../_components/tables/resource/SubjectResourcesTable";
 import DeleteTopicModal from "../../subject-topics/_components/modals/DeleteTopic";
 
 const SubjectResourcesListPage = async ({ params, searchParams }) => {
@@ -23,7 +23,7 @@ const SubjectResourcesListPage = async ({ params, searchParams }) => {
   });
 
   return (
-    <SubjectMainContainer
+    <MainCabinetContainer
       title="Resurslar ro’yxati"
       badgeText={`Jami mavzular: ${(subjectResources?.success && subjectResources?.meta?.total) || 0}`}
       extra={
@@ -64,7 +64,7 @@ const SubjectResourcesListPage = async ({ params, searchParams }) => {
         <Empty />
       )}
       <DeleteTopicModal />
-    </SubjectMainContainer>
+    </MainCabinetContainer>
   );
 };
 

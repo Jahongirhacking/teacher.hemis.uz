@@ -4,7 +4,7 @@ import {
 } from "@/lib/actions/subject.action";
 import { SubjectFilters } from "@/lib/services/subject/type";
 import SubjectActionContainer from "../../../../_components/ActionContainer";
-import EduInfoTable from "../../../../_components/tables/EduInfoTable";
+import EduInfoTable from "../../../../_components/tables/info/EduInfoTable";
 import CreateTopicForm from "../../_components/CreateTopicForm";
 
 const CreateTopicItemPage = async ({ params }) => {

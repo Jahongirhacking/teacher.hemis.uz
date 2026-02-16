@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import SubjectActionContainer from "@/app/cabinet/(cabinet__routes)/subjects/_components/ActionContainer";
-import EduInfoTable from "@/app/cabinet/(cabinet__routes)/subjects/_components/tables/EduInfoTable";
+import EduInfoTable from "@/app/cabinet/(cabinet__routes)/subjects/_components/tables/info/EduInfoTable";
 import {
   getSubjectFilterByTypeAction,
   getSubjectTopicItemAction,

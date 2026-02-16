@@ -1,10 +1,10 @@
+import MainCabinetContainer from "@/app/cabinet/_components/MainContainer";
 import { getTaskSubjectListAction } from "@/lib/actions/subject.action";
 import { SearchParams } from "@/lib/const";
 import paths from "@/lib/paths";
 import { SubjectFilters } from "@/lib/services/subject/type";
-import SubjectMainContainer from "../../_components/MainContainer";
 import { FilterButton } from "../../_components/filters/FilterDropdown";
-import { SubjectListTable } from "../../_components/tables/SubjectTasksTable";
+import { SubjectListTable } from "../../_components/tables/task/SubjectTasksTable";
 
 const SubjectTasksPage = async ({ searchParams }) => {
   const params = await searchParams;
@@ -17,9 +17,9 @@ const SubjectTasksPage = async ({ searchParams }) => {
   });
 
   return (
-    <SubjectMainContainer
+    <MainCabinetContainer
       title="Fanlar ro’yxati"
-      badgeText={`Jami topshiriqlar: ${(taskSubjects?.success && taskSubjects?.data?.pagination?.total) || 0}`}
+      badgeText={`Jami fanlar: ${(taskSubjects?.success && taskSubjects?.data?.pagination?.total) || 0}`}
       extra={
         <>
           <FilterButton
@@ -40,7 +40,7 @@ const SubjectTasksPage = async ({ searchParams }) => {
           (taskSubjects?.success && taskSubjects?.data?.pagination?.total) || 0
         }
       />
-    </SubjectMainContainer>
+    </MainCabinetContainer>
   );
 };
 

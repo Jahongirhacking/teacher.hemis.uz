@@ -6,7 +6,7 @@ import { SearchParams, SearchParamsKeys } from "@/lib/const";
 import { SubjectFilters } from "@/lib/services/subject/type";
 import { ListFilterIcon } from "lucide-react";
 import FilterDropdown from "../../_components/filters/FilterDropdown";
-import SubjectInfoTable from "../../_components/tables/SubjectInfoTable";
+import SubjectInfoTable from "../../_components/tables/info/SubjectInfoTable";
 import SubjectDetails from "./_components/SubjectDetails";
 
 const SubjectInfoPage = async ({ searchParams }) => {

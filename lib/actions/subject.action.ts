@@ -13,6 +13,7 @@ import {
   editSubjectTopic,
   getResourcesWithSubjectId,
   getSchedulesByDate,
+  getStudentTaskSubmissionDetail,
   getStudyResourceOptions,
   getStudyResourceSubjectOptions,
   getSubjectFilterByType,
@@ -24,9 +25,12 @@ import {
   getSubjectTopic,
   getSubjectTopicItem,
   getSubjectTopicWithId,
+  getTaskAssessmentList,
   getTaskSubjectList,
+  getTaskSubmissions,
   getTeacherResources,
   getTeacherResourceWithId,
+  gradeTaskSubmission,
 } from "../services/subject";
 
 // Subject Topic
@@ -153,6 +157,54 @@ export const getSubjectTaskOptionsAction = async (
   try {
     return handlePrivateRequest((serverProps) =>
       getSubjectTaskOptions({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getTaskAssessmentListAction = async (
+  props: Parameters<typeof getTaskAssessmentList>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getTaskAssessmentList({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getTaskSubmissionsAction = async (
+  props: Parameters<typeof getTaskSubmissions>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getTaskSubmissions({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getStudentTaskSubmissionDetailAction = async (
+  props: Parameters<typeof getStudentTaskSubmissionDetail>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      getStudentTaskSubmissionDetail({ ...serverProps, ...props }),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const gradeTaskSubmissionAction = async (
+  props: Parameters<typeof gradeTaskSubmission>[0],
+) => {
+  try {
+    return handlePrivateRequest((serverProps) =>
+      gradeTaskSubmission({ ...serverProps, ...props }),
     );
   } catch (err) {
     console.error(err);
