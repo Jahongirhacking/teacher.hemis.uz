@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open with browser: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Folder Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`app` - page, layout and inner components
+`components` - global components
+`lib` - http actions, service, utilities and hooks
 
-## Learn More
+When building a new Server Component/Page inside the `app` folder, I suggest you (to create if doesn't exist) `_components` folder in the nearest parent folder for reusable components
 
-To learn more about Next.js, take a look at the following resources:
+## Calling API - Logic
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **1. Server Side:**
+  `Server Component` ⇌ `Server Action` ⇌ `Global Fetch`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  <br />
 
-## Deploy on Vercel
+  All server actions should be placed in `/lib/actions/*.action.ts`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  ```typescript
+  export const getSubjectTopicAction = async (
+    props: Parameters<typeof getSubjectTopic>[0],
+  ) => {
+    try {
+      // Check auth
+      return handlePrivateRequest((serverProps) =>
+        // Global fetch
+        getSubjectTopic({ ...serverProps, ...props }),
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **2. Client Side:**
+  `Client Component` ⇌ `Tanstack Query` ⇌ `Server Action` ⇌ `Global Fetch`
+
+    <br />
+
+  ```typescript
+  const { mutate: createTopic, isPending } = useMutation<
+    FetchResult<any>,
+    Error,
+    ICreateTopicBody
+  >({
+    mutationFn: async (body: ICreateTopicBody): Promise<any> =>
+      createSubjectTopicAction({
+        params: { topicContainerId: id },
+        body,
+      }),
+  });
+  ```
+
+## Example Usages of Main Components
+
+**Ex. 1:** In `Cabinet` layout, all the pages have nearly the same UI (Breadcrumb, Title, Filter, Extra action, Table, etc.), so I compile them all in `MainCabinetContainer`, we can see this template in the example of `CourseTasksPage`:
+
+![Course Task Page](/public/images/docs/image-1.png)
+
+```typescript
+const CourseTasksPage = async ({ searchParams }) => {
+  const params = await searchParams;
+  const tasksFetch = getSubjectTasksAction({
+    params: {
+      ...params,
+      page: Number(params?.[SearchParams.PaginationPage]),
+      per_page: Number(params?.[SearchParams.PaginationSize]),
+    },
+  });
+  const [tasks] = await Promise.all([tasksFetch]);
+  const total = (tasks?.success && tasks.meta?.total) || 0;
+
+  return (
+    <MainCabinetContainer
+      title="Topshiriqlar ro’yxati"
+      badgeText={`Topshiriqlar soni: ${total}`}
+      extra={
+        <>
+          <FilterButton
+            types={[
+              SubjectFilters.EducationYears,
+              SubjectFilters.Semesters,
+              SubjectFilters.Groups,
+              SubjectFilters.Subjects,
+            ]}
+          />
+          <Link
+            href={`${paths.private.subjects.tasksBase}/${paths.reservedKeys.create}`}
+          >
+            <Button>
+              <PlusSquare /> Yaratish
+            </Button>
+          </Link>
+        </>
+      }
+    >
+      <TasksBaseTable
+        dataSource={(tasks?.success && tasks?.data) || []}
+        total={(tasks?.success && tasks?.meta?.total) || 0}
+      />
+    </MainCabinetContainer>
+  );
+};
+```
+
+<hr />
+
+**Ex. 2:** The next common layout is `SubjectActionContainer`, we can see this template in the example of `CreateTopicItemPage`:
+
+![Create Topic Item Page](/public/images/docs/image-2.png)
+
+```typescript
+const CreateTopicItemPage = async ({ params }) => {
+  const { topicContainerId } = await params;
+  const trainingTypesDataFetch = getSubjectFilterByTypeAction({
+    params: { filterType: SubjectFilters.TrainingTypes },
+  });
+  const subjectTopicFetch = getSubjectTopicWithIdAction({
+    params: { topicContainerId, page: 1, per_page: 1 },
+  });
+  const [trainingTypesData, subjectTopic] = await Promise.all([
+    trainingTypesDataFetch,
+    subjectTopicFetch,
+  ]);
+  const trainingTypes = trainingTypesData?.success && trainingTypesData?.data;
+
+  return (
+    <SubjectActionContainer title="Mavzu yaratish">
+      <EduInfoTable
+        dataSource={[
+          {
+            subject:
+              (subjectTopic?.success &&
+                subjectTopic?.data?.curriculum_subject?.subject_name) ||
+              "-",
+          },
+        ]}
+        pagination={false}
+      />
+      <CreateTopicForm
+        trainingTypes={trainingTypes || []}
+        id={topicContainerId}
+      />
+    </SubjectActionContainer>
+  );
+};
+```
+
+<hr />
+
+## Styles
+
+- **Theme:** `/app/_styles/globals.scss` has theme configuration for light theme: `:root {}`, and dark theme `.dark {}`
