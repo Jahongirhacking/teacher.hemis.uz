@@ -6,19 +6,32 @@ import LessonTable from "../../_components/tables/lesson/LessonTable";
 
 const TakeLessonPage = async () => {
   const schedules = await getSchedulesByRangeAction({
-    params: {
-    }
+    params: {},
   });
-  const scheduleItems = schedules?.success && schedules?.data?.reduce((acc, curr) => [...acc, ...(curr?.classes || [])], [] as IClass[]) || [];
+  const scheduleItems =
+    (schedules?.success &&
+      schedules?.data?.reduce(
+        (acc, curr) => [...acc, ...(curr?.classes || [])],
+        [] as IClass[],
+      )) ||
+    [];
   const total = scheduleItems?.length || 0;
 
   return (
     <MainCabinetContainer
       title="Dars o’tish"
       badgeText={`Jami: ${total}`}
-      extra={(
-        <FilterButton types={[SubjectFilters.EducationYears, SubjectFilters.Semesters, SubjectFilters.Groups, SubjectFilters.Subjects, SubjectFilters.TrainingTypes]} />
-      )}
+      extra={
+        <FilterButton
+          types={[
+            SubjectFilters.EducationYears,
+            SubjectFilters.Semesters,
+            SubjectFilters.Groups,
+            SubjectFilters.Subjects,
+            SubjectFilters.TrainingTypes,
+          ]}
+        />
+      }
     >
       <LessonTable
         dataSource={scheduleItems}

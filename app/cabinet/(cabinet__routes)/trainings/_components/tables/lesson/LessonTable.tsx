@@ -7,69 +7,69 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LessonTable = ({
-    postfixPath = "",
-    ...props
+  postfixPath = "",
+  ...props
 }: Partial<DataTableProps<IClass>> & {
-    postfixPath?: string;
+  postfixPath?: string;
 }) => {
-    const pathname = usePathname();
-    return (
-        <DataTable
-            rowKey={() => "idx"}
-            columns={[
-                {
-                    title: "",
-                    dataIndex: "idx",
-                    className: "w-[40px]",
-                },
-                {
-                    title: "Guruh",
-                    render: (_, record) => (
-                        <Link
-                            href={`${[pathname, postfixPath]?.filter((e) => !!e)?.join("/")}/${record?.group?.id}`}
-                        >
-                            <b className="text-[var(--primary)] font-medium">
-                                {record?.group?.name}
-                            </b>
-                        </Link>
-                    ),
-                },
-                {
-                    title: "Fanlar",
-                    render: (_, record) => (
-                        <span className="text-[14px] text-[var(--secondary-foreground)]">
-                            {record?.subject?.name || "-"}
-                        </span>
-                    ),
-                },
-                {
-                    title: "Mashg’ulot",
-                    render: (_, record) => (
-                        <span className="text-[14px] text-[var(--secondary-foreground)]">
-                            {record?.training_type?.name || "-"}
-                        </span>
-                    ),
-                },
-                {
-                    title: "Oquv yili",
-                    render: (_, record) => (
-                        <span className="text-[14px] text-[var(--secondary-foreground)]">
-                            {record?.education_year?.name ?? "-"}
-                        </span>
-                    ),
-                },
-                {
-                    title: "Semestr",
-                    render: (_, record) => (
-                        <span className="text-[14px] text-[var(--secondary-foreground)]">
-                            {record?.semester?.name ?? "-"}
-                        </span>
-                    ),
-                },
-            ]}
-            {...props}
-        />
-    );
+  const pathname = usePathname();
+  return (
+    <DataTable
+      rowKey={() => "idx"}
+      columns={[
+        {
+          title: "",
+          dataIndex: "idx",
+          className: "w-[40px]",
+        },
+        {
+          title: "Guruh",
+          render: (_, record) => (
+            <Link
+              href={`${[pathname, postfixPath]?.filter((e) => !!e)?.join("/")}/${record?.group?.id}`}
+            >
+              <b className="text-[var(--primary)] font-medium">
+                {record?.group?.name}
+              </b>
+            </Link>
+          ),
+        },
+        {
+          title: "Fanlar",
+          render: (_, record) => (
+            <span className="text-[14px] text-[var(--secondary-foreground)]">
+              {record?.subject?.name || "-"}
+            </span>
+          ),
+        },
+        {
+          title: "Mashg’ulot",
+          render: (_, record) => (
+            <span className="text-[14px] text-[var(--secondary-foreground)]">
+              {record?.training_type || "-"}
+            </span>
+          ),
+        },
+        {
+          title: "O'quv yili",
+          render: () => (
+            <span className="text-[14px] text-[var(--secondary-foreground)]">
+              {"-"}
+            </span>
+          ),
+        },
+        {
+          title: "Semestr",
+          render: (_, record) => (
+            <span className="text-[14px] text-[var(--secondary-foreground)]">
+              {record?.semester ?? "-"}
+            </span>
+          ),
+        },
+      ]}
+      {...props}
+    />
+  );
 };
 
 export default LessonTable;

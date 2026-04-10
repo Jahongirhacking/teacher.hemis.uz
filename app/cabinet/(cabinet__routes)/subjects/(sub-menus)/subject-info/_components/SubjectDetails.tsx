@@ -18,53 +18,55 @@ const SubjectDetails = async ({
       {subjectDetail?.success ? (
         <Flex vertical gap={5}>
           <DataTable
-            rowKey={'id'}
+            rowKey={"id"}
             columns={[
               {
                 title: "O'quv reja ma'lumotlari",
-                dataIndex: 'key',
+                dataIndex: "key",
               },
               {
                 title: "",
-                dataIndex: 'value',
+                dataIndex: "value",
               },
             ]}
             dataSource={[
               {
                 id: 1,
                 key: "Fan nomi",
-                value: subjectDetail?.data?.[0]?.subject?.name
+                value: subjectDetail?.data?.[0]?.subject?.name,
               },
               {
                 id: 2,
                 key: "Fakultet",
-                value: subjectDetail?.data?.[0]?.faculty?.name
+                value: subjectDetail?.data?.[0]?.faculty?.name,
               },
               {
                 id: 2,
                 key: "Semestr",
-                value: subjectDetail?.data?.[0]?.semester?.name
+                value: subjectDetail?.data?.[0]?.semester?.name,
               },
             ]}
           />
 
           <DataTable
-            rowKey={'id'}
+            rowKey={"id"}
             columns={[
               {
                 title: "Mashg'ulot",
-                dataIndex: 'trainingType',
+                dataIndex: "trainingType",
               },
               {
                 title: "Yuklama",
-                dataIndex: 'acload',
+                dataIndex: "acload",
               },
             ]}
-            dataSource={subjectDetail?.data?.[0]?.trainings?.map(training => ({
-              id: training?.training_type,
-              trainingType: training?.training_type_name,
-              acload: `${training?.academic_load} soat`
-            }))}
+            dataSource={subjectDetail?.data?.[0]?.trainings?.map(
+              (training) => ({
+                id: training?.training_type,
+                trainingType: training?.training_type_name,
+                acload: `${training?.academic_load} soat`,
+              }),
+            )}
           />
         </Flex>
       ) : (

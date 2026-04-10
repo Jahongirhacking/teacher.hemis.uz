@@ -30,7 +30,7 @@ export function DataTable<T>({
   pagination,
   total,
   emptyProps,
-  isDataPaginatedBefore = true
+  isDataPaginatedBefore = true,
 }: DataTableProps<T>) {
   const searchParams = useSearchParams();
   const getRowKey = (record: T, index: number) =>

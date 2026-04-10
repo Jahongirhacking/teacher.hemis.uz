@@ -19,7 +19,11 @@ const SubjectInfoPage = async ({ searchParams }) => {
     },
   });
   const subjectDetail = await getSubjectInfoAction({
-    params: { subject_id: params?.[SearchParamsKeys.SubjectId], page: 1, per_page: 1 },
+    params: {
+      subject_id: params?.[SearchParamsKeys.SubjectId],
+      page: 1,
+      per_page: 1,
+    },
   });
 
   return (
@@ -52,7 +56,10 @@ const SubjectInfoPage = async ({ searchParams }) => {
       )}
 
       <CustomDrawer
-        title={subjectDetail?.success && subjectDetail?.data?.[0]?.subject?.name || ''}
+        title={
+          (subjectDetail?.success && subjectDetail?.data?.[0]?.subject?.name) ||
+          ""
+        }
         drawerKey={SearchParamsKeys.SubjectInfo}
         activeKey={SearchParamsKeys.SubjectId}
       >

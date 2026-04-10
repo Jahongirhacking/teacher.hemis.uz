@@ -61,12 +61,14 @@ export function CustomDrawer({
       <DrawerContent className={`fixed z-50`}>
         {(title || description) && (
           <DrawerHeader className="border-b-1">
-            {title &&
+            {title && (
               <Flex align="center" justify="between">
                 <DrawerTitle>{title}</DrawerTitle>
-                <Button variant="secondary" onClick={onClose}><XIcon /></Button>
+                <Button variant="secondary" onClick={onClose}>
+                  <XIcon />
+                </Button>
               </Flex>
-            }
+            )}
             {description && (
               <DrawerDescription>{description}</DrawerDescription>
             )}
