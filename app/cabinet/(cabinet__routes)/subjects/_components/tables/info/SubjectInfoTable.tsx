@@ -23,7 +23,7 @@ const SubjectInfoTable = (props: Partial<DataTableProps<ISubjectInfo>>) => {
           dataIndex: "subject",
           render: (subject: ISubjectInfo["subject"]) => (
             <button
-              className="border-none text-[var(--primary)] font-medium"
+              className="border-none text-[var(--primary)] font-medium cursor-pointer"
               onClick={() =>
                 setMany({
                   [SearchParams.Drawer]: SearchParamsKeys.SubjectInfo,

@@ -17,7 +17,7 @@ import Empty from "./Empty";
 import { DataTableProps, Pagination } from "./types";
 
 const DEFAULT_PAGINATION: Pagination = {
-  pageSize: 10,
+  pageSize: 20,
   current: 1,
 };
 
@@ -30,6 +30,7 @@ export function DataTable<T>({
   pagination,
   total,
   emptyProps,
+  isDataPaginatedBefore = true
 }: DataTableProps<T>) {
   const searchParams = useSearchParams();
   const getRowKey = (record: T, index: number) =>
@@ -53,7 +54,7 @@ export function DataTable<T>({
     1;
 
   const paginatedData = (
-    pagination !== false
+    isDataPaginatedBefore
       ? dataSource
       : dataSource.slice((current - 1) * pageSize, current * pageSize)
   )?.map((d, idx) => ({

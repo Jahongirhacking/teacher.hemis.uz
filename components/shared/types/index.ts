@@ -25,6 +25,7 @@ export interface DataTableProps<T> {
   dataSource?: T[];
   rowKey: keyof T | ((record: T) => string);
   pagination?: Pagination | false;
+  isDataPaginatedBefore?: boolean;
   total?: number;
   emptyProps?: EmptyProps;
 }

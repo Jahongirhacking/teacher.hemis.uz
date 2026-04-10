@@ -8,8 +8,11 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { SearchParams } from "@/lib/const";
+import { XIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useCallback } from "react";
+import { Button } from "../ui/button";
+import Flex from "./Flex";
 
 type DrawerPlacement = "left" | "right" | "top" | "bottom";
 
@@ -57,8 +60,13 @@ export function CustomDrawer({
     >
       <DrawerContent className={`fixed z-50`}>
         {(title || description) && (
-          <DrawerHeader>
-            {title && <DrawerTitle>{title}</DrawerTitle>}
+          <DrawerHeader className="border-b-1">
+            {title &&
+              <Flex align="center" justify="between">
+                <DrawerTitle>{title}</DrawerTitle>
+                <Button variant="secondary" onClick={onClose}><XIcon /></Button>
+              </Flex>
+            }
             {description && (
               <DrawerDescription>{description}</DrawerDescription>
             )}
